@@ -1,0 +1,51 @@
+{
+  "mesas": [
+    {
+      "id": 205,
+      "numero": 205,
+      "estado": "ocupada",
+      "mesero": "JOSE LUIS BAENA LOPEZ",
+      "timestamp": "2025-06-26T10:47:00Z",
+      "orden": null
+    }
+  ],
+  "ordenes": [
+    {
+      "id": 1,
+      "mesaId": 205,
+      "items": [],
+      "subtotal": 0,
+      "impuestos": 0,
+      "total": 0,
+      "estado": "pendiente",
+      "timestamp": "2025-06-26T10:47:00Z"
+    }
+  ],
+  "estados": [
+    {
+      "id": "pendiente",
+      "nombre": "Pendiente",
+      "descripcion": "Orden creada, esperando confirmación"
+    },
+    {
+      "id": "enviada",
+      "nombre": "Enviada a Cocina", 
+      "descripcion": "Orden confirmada y enviada a cocina"
+    },
+    {
+      "id": "preparando",
+      "nombre": "Preparando",
+      "descripcion": "Cocinando los platillos"
+    },
+    {
+      "id": "servida",
+      "nombre": "Servida",
+      "descripcion": "Platillos entregados en la mesa"
+    },
+    {
+      "id": "pagada",
+      "nombre": "Pagada",
+      "descripcion": "Cuenta pagada, mesa libre"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "name": "sanborns-webapp-qr",
+  "version": "1.0.0",
+  "description": "Webapp estilo 90's para menú digital de Sanborns con jQuery + Bootstrap",
+  "main": "index.html",
+  "scripts": {
+    "dev": "live-server --port=3000 --open=/index.html",
+    "server": "json-server --watch db.json --port=3001",
+    "start": "npm run server & npm run dev",
+    "build": "echo 'Building for production...' && echo 'Build complete!'"
+  },
+  "keywords": [
+    "restaurant",
+    "menu",
+    "qr",
+    "jquery",
+    "bootstrap",
+    "90s",
+    "retro",
+    "webapp"
+  ],
+  "author": "Developer 10X",
+  "license": "MIT",
+  "devDependencies": {
+    "json-server": "^0.17.4",
+    "live-server": "^1.2.2"
+  },
+  "dependencies": {},
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
