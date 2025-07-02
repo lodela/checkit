@@ -46,7 +46,8 @@ const AppConstants = {
         VIEW_PREFERENCE: "sanborns-view-preference", 
         USER_PREFERENCES: "sanborns-user-preferences",
         LAST_VISIT: "sanborns-last-visit",
-        SESSION: "sanborns-session"
+        SESSION: "sanborns-session",
+        DRAWER_CATEGORY_SORT: "drawer-category-sort-order"
     },
     
     /* ==========================================================================

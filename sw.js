@@ -3,18 +3,22 @@
    Versión: 1.2.3-beta
    ========================================================================== */
 
-const CACHE_NAME = 'sanborns-app-v1.2.3-beta';
+const CACHE_NAME = 'sanborns-app-v1.3.0-beta';
 const urlsToCache = [
   './',
   './index.html',
   './manifest.json',
   './assets/css/main.css',
   './assets/css/retro-animations.css',
+  './assets/css/mobile-navbar.css',
+  './assets/css/drawer-menu.css',
   './assets/js/app.js',
   './assets/js/cart.js',
   './assets/js/menu.js',
   './assets/js/utils.js',
   './assets/js/mobile-navbar.js',
+  './assets/js/drawer-menu.js',
+  './assets/js/constants.js',
   './assets/js/services/data-service.js',
   './mock.json',
   './db.json',

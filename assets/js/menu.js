@@ -39,6 +39,9 @@ const MenuManager = {
                 productos: this.getTotalProducts()
             });
             
+            // Disparar evento para que otros componentes sepan que el menú está listo
+            $(document).trigger('menu:loaded', this.menuData);
+            
         } catch (error) {
             SanbornsUtils.log('Error cargando menú', 'error', error);
             SanbornsUtils.showToast('Error cargando el menú', 'error');
