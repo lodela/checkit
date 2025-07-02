@@ -59,6 +59,11 @@ const SanbornsApp = {
      * Inicializa todos los componentes
      */
     async initComponents() {
+        // Inicializar MobileTopNavbar (solo en mobile)
+        if (window.innerWidth < 768) {
+            await MobileTopNavbar.init();
+        }
+        
         // Inicializar CartManager
         CartManager.init();
         

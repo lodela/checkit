@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="512" height="512" fill="#dc3545"/>
-<g transform="translate(106, 106)">
-<path d="M150 300c82.84 0 150-67.16 150-150S232.84 0 150 0 0 67.16 0 150s67.16 150 150 150z" fill="white"/>
-<path d="M150 40c60.75 0 110 49.25 110 110s-49.25 110-110 110S40 210.75 40 150 89.25 40 150 40z" fill="#dc3545"/>
-<path d="M100 100h100v20H100zM100 140h100v20H100zM100 180h80v20H100z" fill="white"/>
-</g>
-</svg>

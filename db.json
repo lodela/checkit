@@ -1,24 +1,47 @@
 {
+  "configuraciones": {
+    "app": {
+      "version": "1.2.3-beta",
+      "nombre": "Sanborns Digital Menu"
+    },
+    "topNavbar": {
+      "colorFondo": "#dc3545",
+      "logoImagen": "sanbornsWhite.svg",
+      "scrollPixeles": 5,
+      "animacionMs": 300,
+      "alturaNavbar": 60,
+      "mostrarHamburger": true
+    }
+  },
   "mesas": [
     {
-      "id": 205,
-      "numero": 205,
+      "id": 201,
+      "numero": 201,
       "estado": "ocupada",
       "mesero": "JOSE LUIS BAENA LOPEZ",
-      "timestamp": "2025-06-26T10:47:00Z",
+      "personas": 2,
+      "adultos": 2,
+      "ninos": 0,
+      "cuentaAbierta": true,
+      "subtotal": 580.00,
+      "impuestos": 92.80,
+      "total": 672.80,
+      "propina": 0,
+      "totalConPropina": 672.80,
+      "timestamp": "2025-07-02T10:47:00Z",
       "orden": null
     }
   ],
   "ordenes": [
     {
       "id": 1,
-      "mesaId": 205,
+      "mesaId": 201,
       "items": [],
       "subtotal": 0,
       "impuestos": 0,
       "total": 0,
       "estado": "pendiente",
-      "timestamp": "2025-06-26T10:47:00Z"
+      "timestamp": "2025-07-02T10:47:00Z"
     }
   ],
   "estados": [
