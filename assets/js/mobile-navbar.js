@@ -241,22 +241,30 @@ const MobileTopNavbar = {
     
     async loadMesaData() {
         try {
-            const response = await $.get('/api/mesas/201');
-            this.mesaData = response;
-            this.updateMesaDisplay();
+            // En GitHub Pages, usar db.json para datos de mesa
+            const dbData = await DataService.request('./db.json');
+            const mesa = dbData.mesas?.[0]; // Primera mesa de la lista
+            
+            if (mesa) {
+                this.mesaData = mesa;
+                this.updateMesaDisplay();
+                return;
+            }
         } catch (error) {
-            // Usar datos mock para estructura de mesa
-            this.mesaData = {
-                numero: 201,
-                personas: 2,
-                mesero: "JOSE LUIS BAENA LOPEZ",
-                cuentaAbierta: false, // Se actualizará con datos reales del carrito
-                subtotal: 0,
-                impuestos: 0,
-                total: 0
-            };
-            this.updateMesaDisplay();
+            SanbornsUtils.log('Error cargando datos de mesa desde db.json', 'warn', error);
         }
+        
+        // Fallback: usar datos mock para estructura de mesa
+        this.mesaData = {
+            numero: 201,
+            personas: 2,
+            mesero: "JOSE LUIS BAENA LOPEZ",
+            cuentaAbierta: false, // Se actualizará con datos reales del carrito
+            subtotal: 0,
+            impuestos: 0,
+            total: 0
+        };
+        this.updateMesaDisplay();
         
         // Actualizar con datos reales del carrito
         this.updateMesaDataFromCart();
