@@ -2,7 +2,7 @@
   "configuraciones": {
     "app": {
       "version": "1.2.3-beta",
-      "nombre": "Sanborns Digital Menu"
+      "nombre": "CheckIt"
     },
     "topNavbar": {
       "colorFondo": "#dc3545",

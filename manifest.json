@@ -1,7 +1,7 @@
 {
-  "name": "Sanborns - Menú Digital",
-  "short_name": "Sanborns",
-  "description": "Webapp para menú digital de restaurante Sanborns",
+  "name": "CheckIt - Menú Digital",
+  "short_name": "CheckIt",
+  "description": "CheckIt - Menú digital interactivo para restaurantes",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#dc3545",

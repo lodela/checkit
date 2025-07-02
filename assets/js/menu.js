@@ -405,6 +405,10 @@ const MenuManager = {
         this.currentSearch = '';
         this.updateClearButton();
         this.filterMenu();
+        
+        // Scroll suave al top
+        this.scrollToTop();
+        
         // SanbornsUtils.showToast('Búsqueda limpiada', 'info');
     },
 
@@ -421,6 +425,25 @@ const MenuManager = {
         } else {
             $clearBtn.addClass('d-none');
             $searchInput.css('padding-right', '1rem'); // Padding normal
+        }
+    },
+
+    /**
+     * ⬆️ Scroll suave al top del contenido del menú
+     */
+    scrollToTop() {
+        const $menuSection = $('#menu-section');
+        if ($menuSection.length) {
+            $menuSection[0].scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start' 
+            });
+        } else {
+            // Fallback
+            window.scrollTo({ 
+                top: 0, 
+                behavior: 'smooth' 
+            });
         }
     },
 

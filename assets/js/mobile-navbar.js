@@ -113,15 +113,11 @@ const MobileTopNavbar = {
        ========================================================================== */
     
     setupEventListeners() {
-        // Hamburger menu toggle
-        this.elements.hamburgerBtn.on('click', () => this.toggleDrawer());
-        
-        // Drawer close
-        this.elements.drawerClose.on('click', () => this.closeDrawer());
-        this.elements.drawerOverlay.on('click', () => this.closeDrawer());
-        
         // Cart button fijo (único)
         this.elements.cartBtnFixed.on('click', () => this.goToCart());
+        
+        // Drawer events are now handled by DrawerMenu module to avoid conflicts
+        SanbornsUtils.log('🔗 Event listeners del navbar configurados (sin hamburger - manejado por DrawerMenu)');
         
         // Reset button
         this.elements.resetBtn.on('click', () => this.handleReset());
@@ -185,30 +181,6 @@ const MobileTopNavbar = {
             this.elements.navbar.addClass('hidden');
             this.isNavbarVisible = false;
         }
-    },
-    
-    /* ==========================================================================
-       Drawer Menu
-       ========================================================================== */
-    
-    toggleDrawer() {
-        if (this.elements.drawer.hasClass('open')) {
-            this.closeDrawer();
-        } else {
-            this.openDrawer();
-        }
-    },
-    
-    openDrawer() {
-        this.elements.drawer.addClass('open');
-        this.elements.hamburgerBtn.addClass('active');
-        $('body').addClass('overflow-hidden');
-    },
-    
-    closeDrawer() {
-        this.elements.drawer.removeClass('open');
-        this.elements.hamburgerBtn.removeClass('active');
-        $('body').removeClass('overflow-hidden');
     },
     
     /* ==========================================================================
@@ -311,7 +283,6 @@ const MobileTopNavbar = {
             title: `Mesa ${numero}`,
             html: this.buildMesaModalHTML(),
             width: '90%',
-            maxWidth: '400px',
             showConfirmButton: false,
             showCloseButton: true,
             customClass: {
@@ -438,7 +409,7 @@ const MobileTopNavbar = {
             // Configuraciones por defecto si falla
             this.config = {
                 app: {
-                    version: "1.2.3-beta",
+                    version: "1.2.4-beta",
                     nombre: "Sanborns Digital Menu"
                 },
                 colorFondo: "#dc3545",
@@ -554,7 +525,9 @@ const MobileTopNavbar = {
         }
         
         // Cerrar drawer
-        this.closeDrawer();
+        if (typeof DrawerMenu !== 'undefined' && DrawerMenu.close) {
+            DrawerMenu.close();
+        }
         
         // Mostrar confirmación y recargar
         Swal.fire({
@@ -574,10 +547,10 @@ const MobileTopNavbar = {
     },
     
     updateAppVersion() {
-        if (this.config && this.config.app) {
-            this.elements.appVersionText.text(`v${this.config.app.version}`);
-            SanbornsUtils.log(`📱 Versión actualizada: v${this.config.app.version}`);
-        }
+        // Usar la versión global desde AppConstants si está disponible
+        const version = window.AppConstants?.APP?.VERSION || this.config?.app?.version || '1.0.0';
+        this.elements.appVersionText.text(`v${version}`);
+        SanbornsUtils.log(`📱 Versión actualizada: v${version}`);
     },
 };
 
