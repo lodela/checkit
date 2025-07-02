@@ -518,7 +518,13 @@ const SanbornsApp = {
     setupPWA() {
         // Registrar service worker (si existe)
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js')
+            // Detectar si estamos en GitHub Pages para ajustar la ruta
+            const swPath = window.location.hostname === 'lodela.github.io' && 
+                          window.location.pathname.includes('/checkit/') 
+                          ? './sw.js' 
+                          : '/sw.js';
+                          
+            navigator.serviceWorker.register(swPath)
                 .then(registration => {
                     SanbornsUtils.log('SW registrado', 'info', registration);
                 })

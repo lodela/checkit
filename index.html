@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sanborns - Menú Digital</title>
+    <title>CheckIt - Menú Digital</title>
     
     <!-- Manifest PWA -->
     <link rel="manifest" href="manifest.json">
@@ -89,14 +89,21 @@
         <div class="drawer-overlay" id="drawer-overlay"></div>
         <div class="drawer-content">
             <div class="drawer-header">
-                <h5>Menú</h5>
+                <h5><i class="fas fa-utensils me-2"></i>Categorías</h5>
                 <button id="drawer-close" class="drawer-close">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <div class="drawer-body">
-                <!-- Links del menú se agregarán después -->
-                <p class="text-muted">Próximamente...</p>
+                <div id="drawer-menu-links" class="drawer-menu-links">
+                    <!-- Los links se cargarán dinámicamente -->
+                    <div class="text-center p-3">
+                        <div class="spinner-border spinner-border-sm" role="status">
+                            <span class="visually-hidden">Cargando categorías...</span>
+                        </div>
+                        <p class="text-muted mt-2 mb-0">Cargando categorías...</p>
+                    </div>
+                </div>
             </div>
             <div class="drawer-footer">
                 <button id="reset-btn" class="reset-btn">
@@ -104,7 +111,7 @@
                     Reset
                 </button>
                 <div class="app-version">
-                    <span id="app-version-text">v1.2.3-beta</span>
+                    <span id="app-version-text">v1.2.4-beta</span>
                 </div>
             </div>
         </div>
@@ -473,7 +480,9 @@
     
     <!-- Custom JS -->
     <script src="assets/js/utils.js"></script>
+    <script src="assets/js/constants.js"></script>
     <script src="assets/js/services/data-service.js"></script>
+    <script src="assets/js/drawer-menu.js"></script>
     <script src="assets/js/mobile-navbar.js"></script>
     <script src="assets/js/cart.js"></script>
     <script src="assets/js/menu.js"></script>
