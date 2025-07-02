@@ -20,6 +20,8 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="assets/css/main.css">
     <link rel="stylesheet" href="assets/css/retro-animations.css">
+    <link rel="stylesheet" href="assets/css/mobile-navbar.css">
+    <link rel="stylesheet" href="assets/css/drawer-menu.css">
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="assets/images/gRCojSDm5qpsr9nbc-App-restaurante--512x512.png">
@@ -94,6 +96,26 @@
                     <i class="fas fa-times"></i>
                 </button>
             </div>
+            
+            <!-- Filtro y Sorting de Categorías -->
+            <div class="drawer-filters">
+                <div class="category-search-container">
+                    <div class="search-input-wrapper">
+                        <input type="text" 
+                               id="category-filter-input" 
+                               class="category-filter-input" 
+                               placeholder="Filtrar categorías..."
+                               autocomplete="off">
+                        <button id="category-filter-clear" class="category-filter-clear d-none">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <button id="category-sort-btn" class="category-sort-btn" title="Ordenar categorías">
+                        <i class="fas fa-sort-alpha-up"></i>
+                    </button>
+                </div>
+            </div>
+            
             <div class="drawer-body">
                 <div id="drawer-menu-links" class="drawer-menu-links">
                     <!-- Los links se cargarán dinámicamente -->

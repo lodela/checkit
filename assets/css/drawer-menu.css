@@ -1,0 +1,370 @@
+/* ==========================================================================
+   Mobile Drawer Menu - Estilos Modulares
+   ========================================================================== */
+
+.mobile-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2000;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.mobile-drawer.open {
+  pointer-events: auto;
+  opacity: 1;
+}
+
+.drawer-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.drawer-content {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 320px;
+  max-width: 85vw;
+  height: 100%;
+  background: white;
+  transform: translateX(100%);
+  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: -8px 0 32px rgba(0, 0, 0, 0.2);
+  border-radius: 20px 0 0 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-drawer.open .drawer-content {
+  transform: translateX(0);
+}
+
+.drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+  background: var(--sanborns-red);
+  color: white;
+}
+
+.drawer-header h5 {
+  margin: 0;
+  font-weight: 600;
+}
+
+.drawer-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 18px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color var(--transition-fast);
+}
+
+.drawer-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ==========================================================================
+   Drawer Filters (Filtro y Sorting de Categorías)
+   ========================================================================== */
+
+.drawer-filters {
+  padding: 15px 20px;
+  border-bottom: 1px solid #eee;
+  background: #f8f9fa;
+}
+
+.category-search-container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.search-input-wrapper {
+  flex: 1;
+  position: relative;
+}
+
+.category-filter-input {
+  width: 100%;
+  padding: 10px 12px;
+  padding-right: 35px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all var(--transition-fast);
+  background: white;
+}
+
+.category-filter-input:focus {
+  outline: none;
+  border-color: var(--sanborns-red);
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+}
+
+.category-filter-input::placeholder {
+  color: #999;
+  font-style: italic;
+}
+
+.category-filter-clear {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #999;
+  font-size: 12px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.category-filter-clear:hover {
+  background: #f1f1f1;
+  color: var(--sanborns-red);
+}
+
+.category-sort-btn {
+  background: white;
+  border: 1px solid #ddd;
+  color: var(--sanborns-red);
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-size: 16px;
+}
+
+.category-sort-btn:hover {
+  background: var(--sanborns-red);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
+
+.category-sort-btn:active {
+  transform: translateY(0);
+}
+
+.category-sort-btn.desc {
+  background: var(--sanborns-red);
+  color: white;
+}
+
+.category-sort-btn.desc:hover {
+  background: #c82333;
+}
+
+/* Animación del ícono de sorting */
+.category-sort-btn i {
+  transition: transform 0.3s ease;
+}
+
+.category-sort-btn.desc i {
+  transform: scaleY(-1);
+}
+
+/* ==========================================================================
+   Drawer Body y Footer - Layout con footer fijo y scroll independiente
+   ========================================================================== */
+
+.drawer-body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  /* Scroll suave en iOS */
+  -webkit-overflow-scrolling: touch;
+  /* Padding bottom para evitar que el contenido se pegue al footer */
+  padding-bottom: 10px;
+}
+
+.drawer-footer {
+  flex-shrink: 0;
+  padding: 15px 20px;
+  border-top: 1px solid #eee;
+  background: #f8f9fa;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.reset-btn {
+  background: var(--sanborns-red);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.reset-btn:hover {
+  background: #c82333;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
+
+.reset-btn:active {
+  transform: translateY(0);
+}
+
+.reset-btn i {
+  font-size: 12px;
+}
+
+.app-version {
+  font-size: 11px;
+  color: #666;
+  font-weight: 500;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.app-version span {
+  background: #e9ecef;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-family: 'Courier New', monospace;
+}
+
+/* ==========================================================================
+   Drawer Menu Links - Estilos para los enlaces de categorías
+   ========================================================================== */
+
+.drawer-menu-links {
+  padding: 0;
+}
+
+.drawer-menu-link {
+  display: flex;
+  align-items: center;
+  padding: 16px 20px;
+  text-decoration: none;
+  color: #333;
+  border-bottom: 1px solid #eee;
+  transition: all var(--transition-fast);
+  position: relative;
+}
+
+.drawer-menu-link:hover {
+  background: #f8f9fa;
+  color: var(--sanborns-red);
+  text-decoration: none;
+}
+
+.drawer-menu-link:active {
+  background: #e9ecef;
+}
+
+.drawer-menu-link i:first-child {
+  font-size: 18px;
+  width: 24px;
+  text-align: center;
+  margin-right: 12px;
+  color: var(--sanborns-red);
+}
+
+.drawer-menu-link-text {
+  flex: 1;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.drawer-menu-link-arrow {
+  font-size: 12px;
+  color: #ccc;
+  transition: all var(--transition-fast);
+}
+
+.drawer-menu-link:hover .drawer-menu-link-arrow {
+  color: var(--sanborns-red);
+  transform: translateX(3px);
+}
+
+/* Estados especiales */
+.drawer-menu-link.active {
+  background: rgba(220, 53, 69, 0.1);
+  color: var(--sanborns-red);
+  border-left: 4px solid var(--sanborns-red);
+}
+
+.drawer-menu-link:last-child {
+  border-bottom: none;
+}
+
+/* Responsive para pantallas muy pequeñas */
+@media (max-width: 320px) {
+  .drawer-menu-link {
+    padding: 14px 16px;
+  }
+  
+  .drawer-menu-link-text {
+    font-size: 14px;
+  }
+}
+
+/* ==========================================================================
+   Resaltado de búsqueda en categorías
+   ========================================================================== */
+
+.search-highlight {
+  background: linear-gradient(120deg, #ffd700 0%, #ffed4e 100%);
+  color: #333;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(255, 215, 0, 0.3);
+  animation: searchHighlightPulse 1.5s ease-in-out;
+}
+
+@keyframes searchHighlightPulse {
+  0% { 
+    background: linear-gradient(120deg, #ffd700 0%, #ffed4e 100%);
+    transform: scale(1);
+  }
+  50% { 
+    background: linear-gradient(120deg, #ffed4e 0%, #ffd700 100%);
+    transform: scale(1.05);
+  }
+  100% { 
+    background: linear-gradient(120deg, #ffd700 0%, #ffed4e 100%);
+    transform: scale(1);
+  }
+}

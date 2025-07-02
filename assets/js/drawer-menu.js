@@ -13,15 +13,24 @@ const DrawerMenu = {
             drawer: '#mobile-drawer',
             drawerOverlay: '#drawer-overlay',
             drawerClose: '#drawer-close',
-            drawerLinksContainer: '#drawer-menu-links'
+            drawerLinksContainer: '#drawer-menu-links',
+            categoryFilterInput: '#category-filter-input',
+            categoryFilterClear: '#category-filter-clear',
+            categorySortBtn: '#category-sort-btn',
+            resetBtn: '#reset-btn',
+            appVersionText: '#app-version-text'
         },
         classes: {
             open: 'open',
-            loading: 'drawer-loading'
+            loading: 'drawer-loading',
+            sortDesc: 'desc'
         },
         animations: {
             scrollBehavior: 'smooth',
             scrollOffset: -80 // Offset para compensar navbar fijo
+        },
+        storage: {
+            sortOrder: 'drawer-category-sort-order'
         }
     },
 
@@ -31,7 +40,10 @@ const DrawerMenu = {
     state: {
         isOpen: false,
         isLoading: false,
-        categories: []
+        categories: [],
+        filteredCategories: [],
+        filterText: '',
+        sortOrder: 'asc' // 'asc' o 'desc'
     },
 
     /* ==========================================================================
@@ -44,21 +56,46 @@ const DrawerMenu = {
     init() {
         SanbornsUtils.log('Inicializando DrawerMenu...', 'info');
         
+        this.loadSortOrder();
         this.bindEvents();
-        this.loadCategories();
+        this.bindCategoryLinks(); // Configurar delegación de eventos una sola vez
+        
+        // Escuchar cuando MenuManager cargue los datos
+        $(document).on('menu:loaded', () => {
+            this.loadCategoriesFromMenuManager();
+        });
+        
+        // Si MenuManager ya tiene datos, cargarlos inmediatamente
+        if (window.MenuManager && window.MenuManager.menuData) {
+            this.loadCategoriesFromMenuManager();
+        }
     },
 
     /**
      * 🔗 Vincula eventos del drawer
      */
     bindEvents() {
-        const { hamburgerBtn, drawer, drawerOverlay, drawerClose } = this.config.selectors;
+        const { 
+            hamburgerBtn, 
+            drawer, 
+            drawerOverlay, 
+            drawerClose,
+            categoryFilterInput,
+            categoryFilterClear,
+            categorySortBtn,
+            resetBtn,
+            appVersionText
+        } = this.config.selectors;
         
         // Limpiar eventos previos para evitar duplicados
         $(hamburgerBtn).off('click.drawer');
         $(drawerClose).off('click.drawer');
         $(drawerOverlay).off('click.drawer');
         $(document).off('keydown.drawer');
+        $(categoryFilterInput).off('input.drawer keyup.drawer');
+        $(categoryFilterClear).off('click.drawer');
+        $(categorySortBtn).off('click.drawer');
+        $(resetBtn).off('click.drawer');
         
         // Toggle drawer
         $(hamburgerBtn).on('click.drawer', (e) => {
@@ -87,6 +124,32 @@ const DrawerMenu = {
                 this.close();
             }
         });
+        
+        // Filtro de categorías
+        $(categoryFilterInput).on('input.drawer keyup.drawer', (e) => {
+            this.handleFilterInput(e);
+        });
+        
+        // Limpiar filtro
+        $(categoryFilterClear).on('click.drawer', (e) => {
+            e.preventDefault();
+            this.clearFilter();
+        });
+        
+        // Sorting de categorías
+        $(categorySortBtn).on('click.drawer', (e) => {
+            e.preventDefault();
+            this.toggleSort();
+        });
+
+        // Reset button - Limpiar filtros y resetear estado
+        $(resetBtn).on('click.drawer', (e) => {
+            e.preventDefault();
+            this.resetAll();
+        });
+
+        // Inicializar versión de la app
+        this.updateAppVersion(appVersionText);
 
         // Prevenir propagación en contenido del drawer
         $('.drawer-content').off('click.drawer').on('click.drawer', (e) => {
@@ -130,6 +193,9 @@ const DrawerMenu = {
         // Prevenir scroll del body
         $('body').css('overflow', 'hidden');
         
+        // Resetear filtros y scroll
+        this.resetFiltersOnOpen();
+        
         SanbornsUtils.log('Drawer abierto', 'info');
     },
 
@@ -165,10 +231,12 @@ const DrawerMenu = {
 
         try {
             this.state.isLoading = true;
-            this.showLoading();
-
+            // No mostrar loading, solo cambiar estado
+            
             // Obtener datos del menú via DataService
             const menuData = await DataService.getMenuData();
+            
+            SanbornsUtils.log('Datos del menú obtenidos:', 'debug', menuData);
             
             if (!menuData) {
                 throw new Error('No se pudieron obtener datos del menú');
@@ -183,14 +251,14 @@ const DrawerMenu = {
                 return;
             }
             
-            // Renderizar links de categorías
-            this.renderCategoryLinks();
+            // Inicializar filtrado con todas las categorías
+            this.filterAndRenderCategories();
             
             SanbornsUtils.log(`${this.state.categories.length} categorías cargadas en drawer`, 'success');
 
         } catch (error) {
-            SanbornsUtils.log(`Error cargando categorías: ${error.message}`, 'error');
-            this.showError();
+            SanbornsUtils.log(`Error cargando categorías: ${error.message}`, 'error', error);
+            this.showEmptyState('Error al cargar categorías');
         } finally {
             this.state.isLoading = false;
         }
@@ -200,14 +268,17 @@ const DrawerMenu = {
      * 🎯 Extrae categorías del objeto de menú
      */
     extractCategories(menuData) {
-        const categories = [];
-        
         try {
             if (!menuData || typeof menuData !== 'object') {
                 SanbornsUtils.log('MenuData inválido para extraer categorías', 'warning');
                 return [];
             }
 
+            SanbornsUtils.log('Tipo de menuData:', 'debug', typeof menuData);
+            SanbornsUtils.log('Keys de menuData:', 'debug', Object.keys(menuData));
+
+            const categories = [];
+            
             if (menuData.categories && Array.isArray(menuData.categories)) {
                 // Si ya está en formato de array
                 categories.push(...menuData.categories);
@@ -216,21 +287,16 @@ const DrawerMenu = {
                 Object.keys(menuData).forEach(categoryKey => {
                     const category = menuData[categoryKey];
                     if (category && typeof category === 'object' && categoryKey.trim() !== '') {
-                        categories.push({
-                            id: categoryKey,
-                            name: categoryKey,
-                            icon: this.getCategoryIcon(categoryKey),
-                            ...category
-                        });
+                        categories.push(categoryKey); // Solo el nombre como string
                     }
                 });
             }
 
-            SanbornsUtils.log(`Categorías extraídas: ${categories.length}`, 'info');
-            return categories.filter(cat => cat.name && cat.name.trim() !== '');
+            SanbornsUtils.log(`Categorías extraídas: ${categories.length}`, 'info', categories.slice(0, 5));
+            return categories.filter(cat => cat && cat.trim() !== '');
             
         } catch (error) {
-            SanbornsUtils.log(`Error extrayendo categorías: ${error.message}`, 'error');
+            SanbornsUtils.log(`Error extrayendo categorías: ${error.message}`, 'error', error);
             return [];
         }
     },
@@ -263,41 +329,56 @@ const DrawerMenu = {
     /**
      * 🎨 Renderiza los links de categorías
      */
-    renderCategoryLinks() {
+    renderCategoryLinks(categories = null) {
         const container = $(this.config.selectors.drawerLinksContainer);
+        const categoriesToRender = categories || this.state.categories;
         
-        if (!this.state.categories.length) {
+        if (!categoriesToRender.length) {
+            const message = this.state.filterText ? 
+                'No se encontraron categorías' : 
+                'No hay categorías disponibles';
+                
             container.html(`
                 <div class="text-center p-4">
-                    <i class="fas fa-exclamation-triangle text-warning mb-2" style="font-size: 24px;"></i>
-                    <p class="text-muted mb-0">No hay categorías disponibles</p>
+                    <i class="fas fa-${this.state.filterText ? 'search' : 'exclamation-triangle'} text-warning mb-2" style="font-size: 24px;"></i>
+                    <p class="text-muted mb-0">${message}</p>
+                    ${this.state.filterText ? '<small class="text-muted">Intenta con otro término</small>' : ''}
                 </div>
             `);
             return;
         }
 
-        const linksHtml = this.state.categories.map(category => `
-            <a href="#" class="drawer-menu-link" data-category="${category.id || category.name}">
-                <i class="${category.icon}"></i>
-                <span class="drawer-menu-link-text">${category.name}</span>
-                <i class="fas fa-chevron-right drawer-menu-link-arrow"></i>
-            </a>
-        `).join('');
+        const linksHtml = categoriesToRender.map(category => {
+            // Si las categorías son strings simples, crear objeto temporal
+            const categoryName = typeof category === 'string' ? category : category.name;
+            const categoryIcon = this.getCategoryIcon(categoryName);
+                
+            return `
+                <a href="#" class="drawer-menu-link" data-category="${categoryName}">
+                    <i class="${categoryIcon}"></i>
+                    <span class="drawer-menu-link-text">${categoryName}</span>
+                    <i class="fas fa-chevron-right drawer-menu-link-arrow"></i>
+                </a>
+            `;
+        }).join('');
 
         container.html(linksHtml);
 
-        // Vincular eventos de click en links
-        this.bindCategoryLinks();
+        // Ya no necesitamos bindCategoryLinks() aquí porque usamos delegación de eventos
     },
 
     /**
      * 🔗 Vincula eventos de los links de categorías
      */
     bindCategoryLinks() {
-        // Limpiar eventos previos
-        $('.drawer-menu-link').off('click.categoryLink');
+        // Usar delegación de eventos para que funcione con contenido dinámico
+        const container = $(this.config.selectors.drawerLinksContainer);
         
-        $('.drawer-menu-link').on('click.categoryLink', (e) => {
+        // Limpiar eventos previos del contenedor
+        container.off('click.categoryLink');
+        
+        // Usar delegación para que funcione con elementos creados dinámicamente
+        container.on('click.categoryLink', '.drawer-menu-link', (e) => {
             e.preventDefault();
             e.stopPropagation();
             
@@ -334,8 +415,8 @@ const DrawerMenu = {
             // Trigger el evento input para activar el filtro
             $searchInput.trigger('input');
             
-            // Scroll al top
-            this.scrollToTop();
+            // Scroll suave al menú con offset de 10px
+            this.smoothScrollToMenu();
             
             SanbornsUtils.log(`Búsqueda activada para: ${categoryName}`, 'success');
         } else {
@@ -474,87 +555,142 @@ const DrawerMenu = {
     },
 
     /* ==========================================================================
-       Estados de UI
+       Filtro y Sorting de Categorías
        ========================================================================== */
 
     /**
-     * 📭 Muestra estado vacío
+     * 📂 Cargar orden de sorting desde localStorage
      */
-    showEmptyState() {
-        const container = $(this.config.selectors.drawerLinksContainer);
-        container.html(`
-            <div class="text-center p-4">
-                <i class="fas fa-utensils text-muted mb-2" style="font-size: 24px;"></i>
-                <p class="text-muted mb-0">No hay categorías disponibles en este momento</p>
-            </div>
-        `);
+    loadSortOrder() {
+        const saved = localStorage.getItem(this.config.storage.sortOrder);
+        this.state.sortOrder = saved || 'asc';
+        this.updateSortButton();
     },
 
     /**
-     * ⏳ Muestra estado de carga
+     * 💾 Guardar orden de sorting en localStorage
      */
-    showLoading() {
-        const container = $(this.config.selectors.drawerLinksContainer);
-        container.html(`
-            <div class="drawer-loading">
-                <div class="spinner-border spinner-border-sm" role="status">
-                    <span class="visually-hidden">Cargando categorías...</span>
-                </div>
-                <p class="text-muted mt-2 mb-0">Cargando categorías...</p>
-            </div>
-        `);
+    saveSortOrder() {
+        localStorage.setItem(this.config.storage.sortOrder, this.state.sortOrder);
     },
 
     /**
-     * ❌ Muestra estado de error
+     * 🔍 Manejar input del filtro
      */
-    showError() {
-        const container = $(this.config.selectors.drawerLinksContainer);
-        container.html(`
-            <div class="text-center p-4">
-                <i class="fas fa-exclamation-triangle text-danger mb-2" style="font-size: 24px;"></i>
-                <p class="text-muted mb-2">Error cargando categorías</p>
-                <button class="btn btn-sm btn-outline-primary" onclick="DrawerMenu.loadCategories()">
-                    <i class="fas fa-redo me-1"></i>Reintentar
-                </button>
-            </div>
-        `);
-    },
-
-    /* ==========================================================================
-       Limpieza y Mantenimiento
-       ========================================================================== */
-
-    /**
-     * 🧹 Limpia eventos y estado
-     */
-    cleanup() {
-        // Limpiar eventos con namespaces
-        const { hamburgerBtn, drawerClose, drawerOverlay } = this.config.selectors;
+    handleFilterInput(e) {
+        const input = e.target.value.toLowerCase().trim();
+        this.state.filterText = input;
         
-        $(hamburgerBtn).off('.drawer');
-        $(drawerClose).off('.drawer');
-        $(drawerOverlay).off('.drawer');
-        $(document).off('.drawer');
-        $('.drawer-content').off('.drawer');
-        $('.drawer-menu-link').off('.categoryLink');
+        // Mostrar/ocultar botón de limpiar
+        const clearBtn = $(this.config.selectors.categoryFilterClear);
+        if (input) {
+            clearBtn.removeClass('d-none');
+        } else {
+            clearBtn.addClass('d-none');
+        }
         
-        // Resetear estado
-        this.state.isOpen = false;
-        this.state.isLoading = false;
+        this.filterAndRenderCategories();
         
-        // Restaurar scroll
-        $('body').css('overflow', '');
-        
-        SanbornsUtils.log('DrawerMenu limpiado', 'info');
+        SanbornsUtils.log(`Filtrando categorías: "${input}"`, 'info');
     },
 
     /**
-     * 🔄 Reinicializa el drawer
+     * 🧹 Limpiar filtro
      */
-    reinit() {
-        this.cleanup();
-        this.init();
+    clearFilter() {
+        $(this.config.selectors.categoryFilterInput).val('');
+        $(this.config.selectors.categoryFilterClear).addClass('d-none');
+        this.state.filterText = '';
+        this.filterAndRenderCategories();
+        
+        SanbornsUtils.log('Filtro de categorías limpiado', 'info');
+    },
+
+    /**
+     * ↕️ Toggle sorting order
+     */
+    toggleSort() {
+        this.state.sortOrder = this.state.sortOrder === 'asc' ? 'desc' : 'asc';
+        this.updateSortButton();
+        this.saveSortOrder();
+        this.filterAndRenderCategories();
+        
+        SanbornsUtils.log(`Orden de categorías cambiado a: ${this.state.sortOrder}`, 'info');
+    },
+
+    /**
+     * 🎨 Actualizar botón de sorting
+     */
+    updateSortButton() {
+        const btn = $(this.config.selectors.categorySortBtn);
+        const icon = btn.find('i');
+        
+        if (this.state.sortOrder === 'desc') {
+            btn.addClass(this.config.classes.sortDesc);
+            icon.removeClass('fa-sort-alpha-up').addClass('fa-sort-alpha-down');
+            btn.attr('title', 'Ordenar Z → A');
+        } else {
+            btn.removeClass(this.config.classes.sortDesc);
+            icon.removeClass('fa-sort-alpha-down').addClass('fa-sort-alpha-up');
+            btn.attr('title', 'Ordenar A → Z');
+        }
+    },
+
+    /**
+     * 🔄 Filtrar y renderizar categorías
+     */
+    filterAndRenderCategories() {
+        // Filtrar categorías
+        let filtered = this.state.categories;
+        
+        if (this.state.filterText) {
+            filtered = this.state.categories.filter(category => 
+                category.toLowerCase().includes(this.state.filterText)
+            );
+        }
+        
+        // Ordenar categorías
+        filtered.sort((a, b) => {
+            if (this.state.sortOrder === 'asc') {
+                return a.localeCompare(b, 'es', { sensitivity: 'base' });
+            } else {
+                return b.localeCompare(a, 'es', { sensitivity: 'base' });
+            }
+        });
+        
+        this.state.filteredCategories = filtered;
+        this.renderCategoryLinks(filtered);
+        
+        SanbornsUtils.log(`Categorías filtradas: ${filtered.length}/${this.state.categories.length}`, 'info');
+    },
+
+    /**
+     * 🔄 Resetear filtros y scroll al abrir drawer
+     */
+    resetFiltersOnOpen() {
+        // Limpiar filtro de categorías
+        this.clearFilter();
+        
+        // Scroll del drawer a top
+        const drawerBody = $(this.config.selectors.drawer).find('.drawer-body');
+        drawerBody.scrollTop(0);
+        
+        // Scroll del menu principal a top
+        $('html, body').animate({ scrollTop: 0 }, 300);
+        
+        SanbornsUtils.log('Filtros y scroll reseteados al abrir drawer', 'info');
+    },
+
+    /**
+     * 📜 Scroll suave al seleccionar categoría
+     */
+    smoothScrollToMenu() {
+        const offset = 10; // 10px antes del top como solicitado
+        $('html, body').animate({ 
+            scrollTop: offset 
+        }, 400);
+        
+        SanbornsUtils.log('Scroll suave al menú ejecutado', 'info');
     },
 
     /* ==========================================================================
@@ -578,6 +714,100 @@ const DrawerMenu = {
             categoriesCount: this.state.categories.length,
             isLoading: this.state.isLoading
         };
+    },
+
+    /**
+     * 📋 Mostrar estado vacío o de error
+     */
+    showEmptyState(message = 'No hay categorías disponibles') {
+        const container = $(this.config.selectors.drawerLinksContainer);
+        container.html(`
+            <div class="text-center p-4">
+                <i class="fas fa-exclamation-triangle text-warning mb-2" style="font-size: 24px;"></i>
+                <p class="text-muted mb-0">${message}</p>
+            </div>
+        `);
+    },
+
+    /**
+     * 🔄 Cargar categorías desde MenuManager (más eficiente)
+     */
+    loadCategoriesFromMenuManager() {
+        try {
+            if (!window.MenuManager || !window.MenuManager.menuData) {
+                SanbornsUtils.log('MenuManager no disponible aún', 'warning');
+                return;
+            }
+
+            // Extraer categorías desde MenuManager
+            const menuData = window.MenuManager.menuData;
+            this.state.categories = Object.keys(menuData).filter(key => 
+                key && key.trim() !== '' && menuData[key] && typeof menuData[key] === 'object'
+            );
+
+            SanbornsUtils.log(`${this.state.categories.length} categorías cargadas desde MenuManager`, 'success');
+
+            // Inicializar filtrado con todas las categorías
+            this.filterAndRenderCategories();
+
+        } catch (error) {
+            SanbornsUtils.log(`Error cargando categorías desde MenuManager: ${error.message}`, 'error', error);
+            this.showEmptyState('Error al cargar categorías');
+        }
+    },
+
+    /* ==========================================================================
+       Utilidades del Footer
+       ========================================================================== */
+
+    /**
+     * 🔄 Resetea todos los filtros y estado del drawer
+     */
+    resetAll() {
+        try {
+            // Limpiar filtro de texto
+            this.clearFilter();
+            
+            // Resetear order ASC
+            this.state.sortOrder = 'asc';
+            this.saveSortOrder();
+            this.updateSortButton();
+            
+            // Limpiar filtro del menú principal si existe
+            if (window.MenuManager && typeof window.MenuManager.clearSearch === 'function') {
+                window.MenuManager.clearSearch();
+            }
+            
+            // Re-renderizar categorías
+            this.filterAndRenderCategories();
+            
+            SanbornsUtils.log('Drawer reseteado correctamente', 'success');
+            
+            // Mostrar feedback visual
+            const resetBtn = $(this.config.selectors.resetBtn);
+            const originalText = resetBtn.html();
+            resetBtn.html('<i class="fas fa-check"></i> Listo').prop('disabled', true);
+            
+            setTimeout(() => {
+                resetBtn.html(originalText).prop('disabled', false);
+            }, 1000);
+            
+        } catch (error) {
+            SanbornsUtils.log(`Error al resetear drawer: ${error.message}`, 'error', error);
+        }
+    },
+
+    /**
+     * 📱 Actualiza la versión de la app en el footer
+     */
+    updateAppVersion(selector) {
+        try {
+            const version = window.AppConstants?.APP?.VERSION || 'v1.3.0-beta';
+            $(selector).text(version);
+            SanbornsUtils.log(`Versión actualizada: ${version}`, 'success');
+        } catch (error) {
+            SanbornsUtils.log(`Error actualizando versión: ${error.message}`, 'error', error);
+        }
     }
 };
 
