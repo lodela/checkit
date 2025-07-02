@@ -387,11 +387,11 @@ const SanbornsUtils = {
                 description: "Desayunos tradicionales que te harán madrugar con ganas"
             },
             comidas: {
-                startHour: 14,            // 02:00 PM
+                startHour: 13,            // 02:00 PM
                 endHour: 17,              // 05:00 PM
-                enabled: false,           // ⚠️ Deshabilitado hasta tener productos
+                enabled: true,           // ⚠️ Deshabilitado hasta tener productos
                 buttonText: "Comidas Sanborns",
-                menuNode: "Comidas principales",       // Nodo que aún no existe
+                menuNode: "Especialidades Sanborns",       // Nodo que aún no existe
                 description: "Platillos fuertes para el hambre del mediodía"
             },
             cenas: {
@@ -406,37 +406,51 @@ const SanbornsUtils = {
     },
 
     /**
-     * 🕐 Obtiene el horario actual según la hora del sistema
-     * @returns {string|null} - Nombre del horario actual o null si no hay coincidencia
+     * 🕐 Obtiene los horarios activos según la hora del sistema
+     * @returns {Array} - Array de nombres de horarios activos
      */
-    getCurrentSchedule() {
+    getCurrentSchedules() {
         const config = this.menuScheduleConfig;
         
         if (!config.enabled) {
             if (config.debugMode) {
                 this.log('Menús por horario deshabilitados - mostrando menú general');
             }
-            return null;
+            return [];
         }
 
         const currentHour = new Date().getHours();
+        const activeSchedules = [];
         
         for (const [scheduleName, schedule] of Object.entries(config.schedules)) {
             if (!schedule.enabled) continue;
             
             // Verificar si la hora actual está en el rango
             if (currentHour >= schedule.startHour && currentHour < schedule.endHour) {
+                activeSchedules.push(scheduleName);
                 if (config.debugMode) {
-                    this.log(`Horario detectado: ${scheduleName} (${currentHour}:xx)`, 'info', schedule);
+                    this.log(`Horario activo: ${scheduleName} (${currentHour}:xx)`, 'info', schedule);
                 }
-                return scheduleName;
             }
         }
 
         if (config.debugMode) {
-            this.log(`Ningún horario activo para las ${currentHour}:xx - usando menú general`);
+            if (activeSchedules.length > 0) {
+                this.log(`Horarios activos detectados: ${activeSchedules.join(', ')} (${currentHour}:xx)`);
+            } else {
+                this.log(`Ningún horario activo para las ${currentHour}:xx - usando menú general`);
+            }
         }
-        return null;
+        return activeSchedules;
+    },
+
+    /**
+     * 🕐 Obtiene el horario principal (para compatibilidad)
+     * @returns {string|null} - Nombre del primer horario activo o null
+     */
+    getCurrentSchedule() {
+        const schedules = this.getCurrentSchedules();
+        return schedules.length > 0 ? schedules[0] : null;
     },
 
     /**
@@ -465,10 +479,10 @@ const SanbornsUtils = {
      */
     generateScheduleButtons(menuData) {
         const config = this.menuScheduleConfig;
-        const currentSchedule = this.getCurrentSchedule();
+        const currentSchedules = this.getCurrentSchedules();
         const buttons = [];
 
-        if (!config.enabled || !currentSchedule) {
+        if (!config.enabled || currentSchedules.length === 0) {
             // Sin horarios activos - mostrar botón general
             buttons.push({
                 type: 'general',
@@ -480,22 +494,25 @@ const SanbornsUtils = {
             return buttons;
         }
 
-        const schedule = config.schedules[currentSchedule];
-        
-        // Verificar si existe el nodo del menú
-        if (this.menuNodeExists(schedule.menuNode, menuData)) {
-            // Botón del horario específico
-            buttons.push({
-                type: 'schedule',
-                schedule: currentSchedule,
-                text: schedule.buttonText,
-                action: 'scrollToMenuSection',
-                target: schedule.menuNode,
-                className: '',
-                icon: this.getScheduleIcon(currentSchedule),
-                description: schedule.description
-            });
-        }
+        // Generar botones para cada horario activo
+        currentSchedules.forEach(scheduleName => {
+            const schedule = config.schedules[scheduleName];
+            
+            // Verificar si existe el nodo del menú
+            if (this.menuNodeExists(schedule.menuNode, menuData)) {
+                // Botón del horario específico
+                buttons.push({
+                    type: 'schedule',
+                    schedule: scheduleName,
+                    text: schedule.buttonText,
+                    action: 'scrollToMenuSection',
+                    target: schedule.menuNode,
+                    className: '',
+                    icon: this.getScheduleIcon(scheduleName),
+                    description: schedule.description
+                });
+            }
+        });
 
         // Siempre agregar opción del menú general
         buttons.push({
@@ -517,7 +534,7 @@ const SanbornsUtils = {
     getScheduleIcon(scheduleName) {
         const icons = {
             desayunos: '<span class="breakfast-icon-mask"></span>',
-            comidas: '☀️', 
+            comidas: '<span class="lunch-icon-mask"></span>', 
             cenas: '🌙'
         };
         return icons[scheduleName] || '🍽️';

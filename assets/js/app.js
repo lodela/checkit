@@ -535,7 +535,7 @@ const SanbornsApp = {
      */
     showInstallPrompt(e) {
         SanbornsUtils.showToast(
-            'Instala la app para una mejor experiencia CHANGOOOOS!!!',
+            'Instala la app para una mejor experiencia',
             'info',
             5000
         );

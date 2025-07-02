@@ -969,3 +969,14 @@ body {
   mask: url('../images/breakfast.svg') no-repeat center / contain;
   -webkit-mask: url('../images/breakfast.svg') no-repeat center / contain;
 }
+
+/* Custom Lunch Icon */
+.lunch-icon-mask {
+  display: inline-block;
+  width: 1em;
+  height: 1.3em;
+  vertical-align: -0.15em;
+  background-color: currentColor;
+  mask: url('../images/lunch.svg') no-repeat center / contain;
+  -webkit-mask: url('../images/lunch.svg') no-repeat center / contain;
+}
