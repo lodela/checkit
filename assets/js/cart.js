@@ -261,6 +261,12 @@ const CartManager = {
         this.updateCartSection();
         this.updateCartSummary();
         this.updateOrderButton(); // Agregar esta línea
+        
+        // Disparar evento para notificar cambios en el carrito
+        $(document).trigger('cart:updated', {
+            totalItems: this.getTotalItems(),
+            cart: this.cart
+        });
     },
 
     /**
