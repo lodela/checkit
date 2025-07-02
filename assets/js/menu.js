@@ -23,19 +23,14 @@ const MenuManager = {
     },
 
     /**
-     * Carga datos del menú desde mock.json
+     * Carga datos del menú usando DataService
      */
     async loadMenuData() {
         try {
             SanbornsUtils.log('Cargando datos del menú...');
             
-            // Cargar desde archivo local
-            const response = await fetch('./mock.json');
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            
-            this.menuData = await response.json();
+            // Usar DataService para obtener datos
+            this.menuData = await DataService.getMenuData();
             this.filteredData = { ...this.menuData };
             
             this.renderMenu();

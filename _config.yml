@@ -1,0 +1,26 @@
+# GitHub Pages Configuration
+# This file ensures proper deployment of the Sanborns WebApp
+
+# Custom 404 page (optional)
+# If user navigates to non-existent route, redirect to index.html
+plugins:
+  - jekyll-redirect-from
+
+# Include these files in deployment
+include:
+  - manifest.json
+  - mock.json
+  - assets/
+  - index.html
+
+# Exclude development files
+exclude:
+  - node_modules/
+  - package*.json
+  - README.md
+  - docs/
+  - labToExtratData/
+  - "*.py"
+  - "*.md"
+  - .gitignore
+  - .git/
