@@ -46,7 +46,7 @@
   border: none;
   width: 40px;
   height: 40px;
-  display: flex !important; /* Forzar visibilidad */
+  display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
@@ -219,4 +219,17 @@
     opacity: 1;
     transform: scale(1);
   }
+}
+
+/* Clases para ocultar elementos en Mi Orden */
+.hide-in-mi-orden {
+  display: none !important;
+}
+
+.topNavbar.hide-in-mi-orden {
+  display: none !important;
+}
+
+.cartButton.hide-in-mi-orden {
+  display: none !important;
 }

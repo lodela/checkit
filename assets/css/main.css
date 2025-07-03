@@ -518,6 +518,13 @@ body {
   margin-bottom: 0.25rem;
 }
 
+/* Disabled nav item styles */
+.mobile-nav .nav-item.disabled {
+  opacity: 0.4;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
 /* ==========================================================================
    Cart Styles
    ========================================================================== */
@@ -1167,7 +1174,7 @@ body {
   border: none;
   width: 40px;
   height: 40px;
-  display: flex !important; /* Forzar visibilidad */
+  display: flex; /* Remover !important para permitir hide() de JavaScript */
   align-items: center;
   justify-content: center;
   cursor: pointer;
@@ -1537,4 +1544,34 @@ body {
   100% {
     left: 100%;
   }
+}
+
+/* Cuenta icon en diferentes contextos */
+#empty-cart .cuenta-icon-mask {
+  font-size: 4rem;
+  width: 1em;
+  height: 1.3em;
+  color: #6c757d; /* text-muted */
+}
+
+/* Custom Breakfast Icon */
+.breakfast-icon-mask {
+  display: inline-block;
+  width: 1em;
+  height: 1.3em;
+  vertical-align: -0.15em;
+  background-color: currentColor;
+  mask: url('../images/breakfast.svg') no-repeat center / contain;
+  -webkit-mask: url('../images/breakfast.svg') no-repeat center / contain;
+}
+
+/* Custom Lunch Icon */
+.lunch-icon-mask {
+  display: inline-block;
+  width: 1em;
+  height: 1.3em;
+  vertical-align: -0.15em;
+  background-color: currentColor;
+  mask: url('../images/lunch.svg') no-repeat center / contain;
+  -webkit-mask: url('../images/lunch.svg') no-repeat center / contain;
 }

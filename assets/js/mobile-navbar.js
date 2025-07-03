@@ -13,6 +13,7 @@ const MobileTopNavbar = {
     lastScrollTop: 0,
     scrollThreshold: 50,
     isNavbarVisible: true,
+    scrollControllerEnabled: true, // Nueva propiedad para controlar el scroll controller
     cartItems: 0,
     mesaData: null,
     config: null, // Configuraciones desde db.json
@@ -151,6 +152,11 @@ const MobileTopNavbar = {
     },
     
     handleScroll() {
+        // No procesar scroll si está deshabilitado
+        if (!this.scrollControllerEnabled) {
+            return;
+        }
+        
         const currentScrollTop = $(window).scrollTop();
         
         // Determine scroll direction and distance
@@ -181,6 +187,38 @@ const MobileTopNavbar = {
             this.elements.navbar.addClass('hidden');
             this.isNavbarVisible = false;
         }
+    },
+    
+    /* ==========================================================================
+       Scroll Controller Management
+       ========================================================================== */
+    
+    disableScrollController() {
+        this.scrollControllerEnabled = false;
+        SanbornsUtils.log('🔧 Scroll controller deshabilitado');
+    },
+    
+    enableScrollController() {
+        this.scrollControllerEnabled = true;
+        SanbornsUtils.log('🔧 Scroll controller habilitado');
+    },
+    
+    forceHideNavbar() {
+        this.disableScrollController();
+        this.elements.navbar.addClass('hide-in-mi-orden');
+        this.elements.cartBtnFixed.addClass('hide-in-mi-orden');
+        SanbornsUtils.log('🔧 Navbar y cart button forzadamente ocultos');
+        SanbornsUtils.log('🔧 Navbar visible:', this.elements.navbar.is(':visible'));
+        SanbornsUtils.log('🔧 Cart button visible:', this.elements.cartBtnFixed.is(':visible'));
+    },
+    
+    forceShowNavbar() {
+        this.enableScrollController();
+        this.elements.navbar.removeClass('hide-in-mi-orden');
+        this.elements.cartBtnFixed.removeClass('hide-in-mi-orden');
+        SanbornsUtils.log('🔧 Navbar y cart button forzadamente mostrados');
+        SanbornsUtils.log('🔧 Navbar visible:', this.elements.navbar.is(':visible'));
+        SanbornsUtils.log('🔧 Cart button visible:', this.elements.cartBtnFixed.is(':visible'));
     },
     
     /* ==========================================================================

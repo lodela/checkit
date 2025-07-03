@@ -387,8 +387,14 @@ const SanbornsApp = {
     showSection(sectionName) {
         if (this.isLoading) return;
         
+        // Manejar mi-orden como cuenta
+        let targetSection = sectionName;
+        if (sectionName === 'mi-orden') {
+            targetSection = 'cuenta';
+        }
+        
         // Validar sección
-        const validSections = ['menu', 'cuenta', 'mesero'];
+        const validSections = ['menu', 'cuenta', 'mesero', 'mi-orden'];
         if (!validSections.includes(sectionName)) {
             SanbornsUtils.log(`Sección no válida: ${sectionName}`, 'warn');
             return;
@@ -401,10 +407,42 @@ const SanbornsApp = {
         $('.section').removeClass('active').hide();
         
         // Mostrar sección actual con animación
-        $(`#${sectionName}-section`)
+        $(`#${targetSection}-section`)
             .addClass('active')
             .fadeIn(300)
             .addClass('animate-fadeInUp');
+
+        // Cambiar título e icono si es mi-orden
+        if (sectionName === 'mi-orden') {
+            SanbornsUtils.log(`🔧 DEBUG: Ocultando topNavbar y cart para mi-orden`);
+            $('#cuenta-section h2').html('<span class="cuenta-icon-mask text-danger me-2"></span>Mi Orden');
+            $('#empty-cart i').removeClass('fas fa-shopping-cart').addClass('cuenta-icon-mask text-muted');
+            // Usar el MobileTopNavbar para forzar el ocultamiento
+            if (window.MobileTopNavbar) {
+                window.MobileTopNavbar.forceHideNavbar();
+            }
+            $('#cart-btn-fixed').hide();
+            SanbornsUtils.log(`🔧 DEBUG: TopNavbar visible después de hide(): ${$('#mobile-top-navbar').is(':visible')}`);
+            SanbornsUtils.log(`🔧 DEBUG: Cart button visible después de hide(): ${$('#cart-btn-fixed').is(':visible')}`);
+        } else if (targetSection === 'cuenta') {
+            SanbornsUtils.log(`🔧 DEBUG: Ocultando topNavbar y cart para cuenta`);
+            $('#cuenta-section h2').html('<i class="fas fa-shopping-cart text-danger me-2"></i>Cuenta');
+            $('#empty-cart i').removeClass('cuenta-icon-mask').addClass('fas fa-shopping-cart text-muted');
+            // Usar el MobileTopNavbar para forzar el ocultamiento
+            if (window.MobileTopNavbar) {
+                window.MobileTopNavbar.forceHideNavbar();
+            }
+            $('#cart-btn-fixed').hide();
+            SanbornsUtils.log(`🔧 DEBUG: TopNavbar visible después de hide(): ${$('#mobile-top-navbar').is(':visible')}`);
+            SanbornsUtils.log(`🔧 DEBUG: Cart button visible después de hide(): ${$('#cart-btn-fixed').is(':visible')}`);
+        } else {
+            SanbornsUtils.log(`🔧 DEBUG: Mostrando topNavbar y cart para ${sectionName}`);
+            // Usar el MobileTopNavbar para forzar el mostrado
+            if (window.MobileTopNavbar) {
+                window.MobileTopNavbar.forceShowNavbar();
+            }
+            $('#cart-btn-fixed').show();
+        }
 
         // Actualizar navegación
         this.updateNavigation(sectionName);
@@ -465,6 +503,11 @@ const SanbornsApp = {
         $('#productModal').on('hidden.bs.modal', () => {
             // Limpiar datos del modal al cerrarlo
             $('#productModal').removeData('product');
+        });
+
+        // Cart button click handler
+        $('#cart-btn-fixed').on('click', () => {
+            this.showSection('mi-orden');
         });
 
         // Prevenir zoom en inputs en iOS
