@@ -510,6 +510,14 @@ body {
   margin-bottom: 0.25rem;
 }
 
+/* Mobile navigation cuenta icon adjustments */
+.mobile-nav .nav-item .cuenta-icon-mask {
+  font-size: 1.5rem;
+  width: 1em;
+  height: 1.3em;
+  margin-bottom: 0.25rem;
+}
+
 /* ==========================================================================
    Cart Styles
    ========================================================================== */
@@ -582,6 +590,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  top: 12px !important;
+  right: 0 !important;
+  left: 78% !important;
 }
 
 /* ==========================================================================
@@ -965,6 +976,17 @@ body {
   background-color: currentColor;
   mask: url('../images/check.svg') no-repeat center / contain;
   -webkit-mask: url('../images/check.svg') no-repeat center / contain;
+}
+
+/* Custom Cuenta Icon */
+.cuenta-icon-mask {
+  display: inline-block;
+  width: 1em;
+  height: 1.3em;
+  vertical-align: -0.15em;
+  background-color: currentColor;
+  mask: url('../images/cuenta.svg') no-repeat center / contain;
+  -webkit-mask: url('../images/cuenta.svg') no-repeat center / contain;
 }
 
 /* Custom Breakfast Icon */
