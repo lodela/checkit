@@ -215,24 +215,25 @@
             </div>
         </section>
 
-        <!-- Cuenta Section -->
+        <!-- Cart Section (Compartida: Mi Orden y Cuenta) -->
         <section id="cuenta-section" class="section">
             <div class="container py-4">
-                <!-- Header with Title and Toggle -->
+                <!-- Header with Title (dinámico) -->
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h2 class="mb-0">
-                        <i class="fas fa-shopping-cart text-danger me-2"></i>
-                        Cuenta
+                    <h2 class="mb-0" id="cart-section-title">
+                        <span class="cuenta-icon-mask text-danger me-2"></span>
+                        Mi Orden
                     </h2>
-                    <div class="view-toggle-container d-none" id="view-toggle-container">
+                    <!-- Toggle View (solo en Mi Orden) -->
+                    <div id="view-toggle-container" class="d-none">
                         <div class="btn-group" role="group">
-                            <input type="radio" class="btn-check" name="viewToggle" id="view-cards" checked>
-                            <label class="btn btn-outline-secondary btn-sm" for="view-cards">
-                                <i class="fas fa-th-large"></i>
+                            <input type="radio" class="btn-check" name="view-toggle" id="view-cards" autocomplete="off" checked>
+                            <label class="btn btn-outline-danger btn-sm" for="view-cards">
+                                <i class="fas fa-th-large"></i> Cards
                             </label>
-                            <input type="radio" class="btn-check" name="viewToggle" id="view-list">
-                            <label class="btn btn-outline-secondary btn-sm" for="view-list">
-                                <i class="fas fa-receipt"></i>
+                            <input type="radio" class="btn-check" name="view-toggle" id="view-list" autocomplete="off">
+                            <label class="btn btn-outline-danger btn-sm" for="view-list">
+                                <i class="fas fa-list"></i> Lista
                             </label>
                         </div>
                     </div>
@@ -240,18 +241,15 @@
                 
                 <!-- Empty Cart State -->
                 <div id="empty-cart" class="text-center py-5">
-                    <i class="fas fa-shopping-cart text-muted" style="font-size: 4rem;"></i>
-                    <h4 class="mt-3 text-muted">Aqui la promo del dia.</h4>
-                    <p class="text-muted">Te recomendamos...</p>
-                    <button class="btn btn-danger btn-lg rounded-pill" onclick="showSection('menu')">
-                        <i class="fa-regular fa-calendar me-2"></i>Menú del día
-                    </button>
+                    <span class="cuenta-icon-mask text-muted" style="font-size: 4rem; display: inline-block; width: 4rem; height: 4rem;"></span>
+                    <h4 class="mt-3 text-muted">Tu orden está vacía</h4>
+                    <p class="text-muted">Agrega productos del menú para comenzar</p>
                     <button class="btn btn-danger btn-lg rounded-pill" onclick="showSection('menu')">
                         <span class="menu-icon-mask me-2"></span>Ver Menú
                     </button>
                 </div>
 
-                <!-- Cart Items -->
+                <!-- Cart Items (cards view) -->
                 <div id="cart-items" class="d-none">
                     <!-- Cart items will be loaded here -->
                 </div>
@@ -294,9 +292,8 @@
                         <!-- Products Header -->
                         <div class="row small fw-bold mb-1">
                             <div class="col-1">CANT</div>
-                            <div class="col-6">DESCRIPCION</div>
-                            <div class="col-3 text-end">IMPORTE</div>
-                            <div class="col-2 text-center">ACC</div>
+                            <div class="col-7">DESCRIPCION</div>
+                            <div class="col-4 text-end">IMPORTE</div>
                         </div>
 
                         <!-- Products List -->
@@ -321,6 +318,11 @@
                                 <div class="col-6">Total:</div>
                                 <div class="col-6 text-end">$<span id="ticket-total">0.00</span></div>
                             </div>
+                        </div>
+                        
+                        <!-- Info de solo lectura (solo en Cuenta) -->
+                        <div id="readonly-info" class="alert alert-info text-center mt-3 d-none">
+                            <small><i class="fas fa-info-circle me-2"></i>Vista de solo lectura - Para modificar ve a "Mi Orden"</small>
                         </div>
                     </div>
                 </div>
@@ -357,8 +359,8 @@
                         </div>
                     </div>
 
-                    <!-- Action Buttons -->
-                    <div class="d-grid gap-2 mt-4">
+                    <!-- Action Buttons (solo en Mi Orden) -->
+                    <div id="action-buttons" class="d-grid gap-2 mt-4">
                         <button id="ordenar-btn" class="btn btn-danger btn-lg">
                             <i class="fas fa-paper-plane me-2"></i>Ordenar Ahora
                         </button>
@@ -366,8 +368,19 @@
                             <span class="menu-icon-mask me-2"></span>Ver Menú
                         </button>
                     </div>
+                    
+                    <!-- Pay Button (solo en Cuenta) -->
+                    <div id="pay-button-container" class="d-grid gap-2 mt-4 d-none">
+                        <button id="pagar-btn" class="btn btn-success btn-lg">
+                            <i class="fas fa-credit-card me-2"></i>Pagar
+                        </button>
+                    </div>
                 </div>
             </div>
+        </section>
+
+        <!-- Alias section para Mi Orden -->
+        <section id="mi-orden-section" class="section">
         </section>
 
         <!-- Mesero Section -->
@@ -405,14 +418,14 @@
             <span class="menu-icon-mask"></span>
             <span>Menú</span>
         </div>
-        <div class="nav-item position-relative" data-section="cuenta">
+        <div class="nav-item position-relative" data-section="mi-orden">
             <span class="cuenta-icon-mask"></span>
             <span>Mi Orden</span>
             <span id="cart-badge-mobile" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark d-none">
                 0
             </span>
         </div>
-        <div class="nav-item position-relative" data-section="cuenta">
+        <div class="nav-item position-relative disabled" data-section="cuenta">
             <span class="check-icon-mask"></span>
             <span>Cuenta</span>
         </div>

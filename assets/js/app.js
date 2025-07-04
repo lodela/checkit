@@ -365,7 +365,15 @@ const SanbornsApp = {
         // Navegación desktop
         $('#desktop-header .nav-link').on('click', (e) => {
             e.preventDefault();
-            const section = $(e.currentTarget).data('section');
+            const $link = $(e.currentTarget);
+            const section = $link.data('section');
+            
+            // Verificar si el botón está deshabilitado
+            if ($link.hasClass('disabled') || $link.attr('disabled')) {
+                SanbornsUtils.showToast('Función no disponible', 'warning');
+                return;
+            }
+            
             if (section) {
                 this.showSection(section);
             }
@@ -373,7 +381,16 @@ const SanbornsApp = {
 
         // Navegación móvil
         $('#mobile-nav .nav-item').on('click', (e) => {
-            const section = $(e.currentTarget).data('section');
+            const $item = $(e.currentTarget);
+            const section = $item.data('section');
+            
+            // Verificar si el botón está deshabilitado
+            if ($item.hasClass('disabled')) {
+                e.preventDefault();
+                SanbornsUtils.showToast('Función no disponible', 'warning');
+                return;
+            }
+            
             if (section) {
                 this.showSection(section);
             }
@@ -387,8 +404,14 @@ const SanbornsApp = {
     showSection(sectionName) {
         if (this.isLoading) return;
         
+        // Tanto mi-orden como cuenta usan la misma sección pero con diferente configuración
+        let targetSection = sectionName;
+        if (sectionName === 'mi-orden') {
+            targetSection = 'cuenta';
+        }
+        
         // Validar sección
-        const validSections = ['menu', 'cuenta', 'mesero'];
+        const validSections = ['menu', 'cuenta', 'mesero', 'mi-orden'];
         if (!validSections.includes(sectionName)) {
             SanbornsUtils.log(`Sección no válida: ${sectionName}`, 'warn');
             return;
@@ -401,10 +424,28 @@ const SanbornsApp = {
         $('.section').removeClass('active').hide();
         
         // Mostrar sección actual con animación
-        $(`#${sectionName}-section`)
+        $(`#${targetSection}-section`)
             .addClass('active')
             .fadeIn(300)
             .addClass('animate-fadeInUp');
+
+        // Configurar interfaz según sección
+        if (sectionName === 'mi-orden' || sectionName === 'cuenta') {
+            // Ocultar navbar y cart button para ambas secciones
+            if (window.MobileTopNavbar) {
+                window.MobileTopNavbar.forceHideNavbar();
+            }
+            $('#cart-btn-fixed').hide();
+            
+            // Actualizar carrito con lógica condicional
+            CartManager.updateCartSection();
+        } else {
+            // Mostrar navbar y cart button para otras secciones
+            if (window.MobileTopNavbar) {
+                window.MobileTopNavbar.forceShowNavbar();
+            }
+            $('#cart-btn-fixed').show();
+        }
 
         // Actualizar navegación
         this.updateNavigation(sectionName);
@@ -465,6 +506,11 @@ const SanbornsApp = {
         $('#productModal').on('hidden.bs.modal', () => {
             // Limpiar datos del modal al cerrarlo
             $('#productModal').removeData('product');
+        });
+
+        // Cart button click handler
+        $('#cart-btn-fixed').on('click', () => {
+            this.showSection('mi-orden');
         });
 
         // Prevenir zoom en inputs en iOS

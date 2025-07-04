@@ -276,13 +276,42 @@ const CartManager = {
         const totalItems = this.getTotalItems();
         const $badgeDesktop = $('#cart-badge-desktop');
         const $badgeMobile = $('#cart-badge-mobile');
+        const $badgeFixed = $('#cart-badge-fixed');
         
         SanbornsUtils.updateCounter($badgeDesktop, totalItems);
         SanbornsUtils.updateCounter($badgeMobile, totalItems);
+        SanbornsUtils.updateCounter($badgeFixed, totalItems);
+        
+        // Verificar si hay productos enviados a cocina para habilitar botón "Cuenta"
+        this.updateCuentaButton();
     },
 
     /**
-     * Actualiza sección del carrito
+     * Verifica si hay productos enviados a cocina y habilita/deshabilita botón "Cuenta"
+     */
+    updateCuentaButton() {
+        const hasOrderedItems = this.cart.items.some(item => 
+            item.estado === 'enviado_cocina' || item.estado === 'servido'
+        );
+        
+        const $cuentaButtonMobile = $('.mobile-nav .nav-item[data-section="cuenta"]');
+        const $cuentaButtonDesktop = $('#desktop-header .nav-link[data-section="cuenta"]');
+        
+        if (hasOrderedItems) {
+            // Habilitar botón "Cuenta"
+            $cuentaButtonMobile.removeClass('disabled');
+            $cuentaButtonDesktop.removeClass('disabled').removeAttr('disabled');
+            SanbornsUtils.log('✅ Botón "Cuenta" habilitado - hay productos enviados a cocina');
+        } else {
+            // Deshabilitar botón "Cuenta"
+            $cuentaButtonMobile.addClass('disabled');
+            $cuentaButtonDesktop.addClass('disabled').attr('disabled', true);
+            SanbornsUtils.log('🔒 Botón "Cuenta" deshabilitado - no hay productos enviados a cocina');
+        }
+    },
+
+    /**
+     * Actualiza sección del carrito con lógica condicional
      */
     updateCartSection() {
         const $emptyCart = $('#empty-cart');
@@ -290,6 +319,31 @@ const CartManager = {
         const $cartListView = $('#cart-list-view');
         const $cartSummary = $('#cart-summary');
         const $toggleContainer = $('#view-toggle-container');
+        const $actionButtons = $('#action-buttons');
+        const $readonlyInfo = $('#readonly-info');
+        const $title = $('#cart-section-title');
+        
+        // Detectar sección activa desde la app principal
+        const currentSection = window.SanbornsApp ? window.SanbornsApp.currentSection : 'mi-orden';
+        const isInCuenta = currentSection === 'cuenta';
+        
+        // Configurar título e interfaz según sección
+        if (isInCuenta) {
+            $title.html('<i class="fas fa-receipt text-danger me-2"></i>Cuenta');
+            $toggleContainer.addClass('d-none');
+            $actionButtons.addClass('d-none');
+            $readonlyInfo.removeClass('d-none');
+            // Forzar vista lista en Cuenta
+            $('body').removeClass('view-cards').addClass('view-list');
+            
+            // Mostrar botón "Pagar" en lugar de los botones normales
+            this.showPayButton();
+        } else {
+            $title.html('<span class="cuenta-icon-mask text-danger me-2"></span>Mi Orden');
+            $actionButtons.removeClass('d-none');
+            $readonlyInfo.addClass('d-none');
+            $('#pay-button-container').addClass('d-none');
+        }
 
         if (this.cart.items.length === 0) {
             $emptyCart.removeClass('d-none');
@@ -300,12 +354,15 @@ const CartManager = {
         } else {
             $emptyCart.addClass('d-none');
             $cartSummary.removeClass('d-none');
-            $toggleContainer.removeClass('d-none');
+            
+            if (!isInCuenta) {
+                $toggleContainer.removeClass('d-none');
+            }
             
             // Renderizar según vista activa
             const currentView = $('body').hasClass('view-list') ? 'list' : 'cards';
             
-            if (currentView === 'list') {
+            if (currentView === 'list' || isInCuenta) {
                 $cartItems.addClass('d-none');
                 $cartListView.removeClass('d-none');
                 this.renderCartList();
@@ -632,23 +689,93 @@ const CartManager = {
     },
 
     /**
+     * Muestra el botón "Pagar" en la sección Cuenta
+     */
+    showPayButton() {
+        const $payContainer = $('#pay-button-container');
+        $payContainer.removeClass('d-none');
+        
+        // Bind evento si no existe
+        if (!$('#pagar-btn').data('bound')) {
+            $('#pagar-btn').on('click', () => this.processPay());
+            $('#pagar-btn').data('bound', true);
+        }
+    },
+
+    /**
      * Procesa el pago
      */
-    async processPayment() {
+    async processPay() {
+        // Verificar que hay items para pagar
+        const payableItems = this.cart.items.filter(item => 
+            item.estado === 'enviado_cocina' || item.estado === 'servido'
+        );
+        
+        if (payableItems.length === 0) {
+            SanbornsUtils.showToast('No hay productos que pagar', 'warning');
+            return;
+        }
+
         const $pagarBtn = $('#pagar-btn');
         SanbornsUtils.showLoading($pagarBtn, 'Procesando...');
 
         try {
-            await new Promise(resolve => setTimeout(resolve, 2000));
+            // Simular procesamiento de pago
+            await SanbornsUtils.delay(2000);
             
-            SanbornsUtils.showToast('¡Pago procesado exitosamente!', 'success');
-            this.clearCart();
-            showSection('menu');
+            // Mostrar confirmación
+            const result = await Swal.fire({
+                title: '💳 Procesar Pago',
+                html: `
+                    <div class="text-start">
+                        <p><strong>Total a pagar:</strong> ${SanbornsUtils.formatPrice(this.cart.total)}</p>
+                        <p class="text-muted">¿Confirmas el pago de tu cuenta?</p>
+                    </div>
+                `,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, pagar',
+                cancelButtonText: 'Cancelar',
+                confirmButtonColor: '#28a745'
+            });
+
+            if (result.isConfirmed) {
+                // Marcar items como pagados
+                this.markItemsAsPaid();
+                
+                SanbornsUtils.showToast('¡Pago procesado exitosamente!', 'success');
+                
+                // Opcional: Navegar de vuelta al menú
+                setTimeout(() => {
+                    showSection('menu');
+                }, 1500);
+            }
             
         } catch (error) {
-            SanbornsUtils.showToast('Error al procesar pago', 'error');
+            SanbornsUtils.showToast('Error procesando el pago', 'error');
+            SanbornsUtils.log('Error en pago:', 'error', error);
+        } finally {
             SanbornsUtils.hideLoading($pagarBtn);
         }
+    },
+
+    /**
+     * Marca items como pagados
+     */
+    markItemsAsPaid() {
+        this.cart.items.forEach(item => {
+            if (item.estado === 'enviado_cocina' || item.estado === 'servido') {
+                item.estado = 'pagado';
+            }
+        });
+        
+        // Actualizar storage
+        this.saveCart();
+        
+        // Actualizar UI
+        this.updateUI();
+        
+        SanbornsUtils.log('Items marcados como pagados');
     },
 
     /* ==========================================================================
@@ -787,7 +914,8 @@ const CartManager = {
         const estados = {
             'nuevo': 'Nuevo',
             'enviado_cocina': 'En Cocina',
-            'servido': 'Servido'
+            'servido': 'Servido',
+            'pagado': 'Pagado'
         };
         return estados[estado] || 'Desconocido';
     },
