@@ -365,7 +365,15 @@ const SanbornsApp = {
         // Navegación desktop
         $('#desktop-header .nav-link').on('click', (e) => {
             e.preventDefault();
-            const section = $(e.currentTarget).data('section');
+            const $link = $(e.currentTarget);
+            const section = $link.data('section');
+            
+            // Verificar si el botón está deshabilitado
+            if ($link.hasClass('disabled') || $link.attr('disabled')) {
+                SanbornsUtils.showToast('Función no disponible', 'warning');
+                return;
+            }
+            
             if (section) {
                 this.showSection(section);
             }
@@ -373,7 +381,16 @@ const SanbornsApp = {
 
         // Navegación móvil
         $('#mobile-nav .nav-item').on('click', (e) => {
-            const section = $(e.currentTarget).data('section');
+            const $item = $(e.currentTarget);
+            const section = $item.data('section');
+            
+            // Verificar si el botón está deshabilitado
+            if ($item.hasClass('disabled')) {
+                e.preventDefault();
+                SanbornsUtils.showToast('Función no disponible', 'warning');
+                return;
+            }
+            
             if (section) {
                 this.showSection(section);
             }
@@ -387,7 +404,7 @@ const SanbornsApp = {
     showSection(sectionName) {
         if (this.isLoading) return;
         
-        // Manejar mi-orden como cuenta
+        // Tanto mi-orden como cuenta usan la misma sección pero con diferente configuración
         let targetSection = sectionName;
         if (sectionName === 'mi-orden') {
             targetSection = 'cuenta';
@@ -412,32 +429,18 @@ const SanbornsApp = {
             .fadeIn(300)
             .addClass('animate-fadeInUp');
 
-        // Cambiar título e icono si es mi-orden
-        if (sectionName === 'mi-orden') {
-            SanbornsUtils.log(`🔧 DEBUG: Ocultando topNavbar y cart para mi-orden`);
-            $('#cuenta-section h2').html('<span class="cuenta-icon-mask text-danger me-2"></span>Mi Orden');
-            $('#empty-cart i').removeClass('fas fa-shopping-cart').addClass('cuenta-icon-mask text-muted');
-            // Usar el MobileTopNavbar para forzar el ocultamiento
+        // Configurar interfaz según sección
+        if (sectionName === 'mi-orden' || sectionName === 'cuenta') {
+            // Ocultar navbar y cart button para ambas secciones
             if (window.MobileTopNavbar) {
                 window.MobileTopNavbar.forceHideNavbar();
             }
             $('#cart-btn-fixed').hide();
-            SanbornsUtils.log(`🔧 DEBUG: TopNavbar visible después de hide(): ${$('#mobile-top-navbar').is(':visible')}`);
-            SanbornsUtils.log(`🔧 DEBUG: Cart button visible después de hide(): ${$('#cart-btn-fixed').is(':visible')}`);
-        } else if (targetSection === 'cuenta') {
-            SanbornsUtils.log(`🔧 DEBUG: Ocultando topNavbar y cart para cuenta`);
-            $('#cuenta-section h2').html('<i class="fas fa-shopping-cart text-danger me-2"></i>Cuenta');
-            $('#empty-cart i').removeClass('cuenta-icon-mask').addClass('fas fa-shopping-cart text-muted');
-            // Usar el MobileTopNavbar para forzar el ocultamiento
-            if (window.MobileTopNavbar) {
-                window.MobileTopNavbar.forceHideNavbar();
-            }
-            $('#cart-btn-fixed').hide();
-            SanbornsUtils.log(`🔧 DEBUG: TopNavbar visible después de hide(): ${$('#mobile-top-navbar').is(':visible')}`);
-            SanbornsUtils.log(`🔧 DEBUG: Cart button visible después de hide(): ${$('#cart-btn-fixed').is(':visible')}`);
+            
+            // Actualizar carrito con lógica condicional
+            CartManager.updateCartSection();
         } else {
-            SanbornsUtils.log(`🔧 DEBUG: Mostrando topNavbar y cart para ${sectionName}`);
-            // Usar el MobileTopNavbar para forzar el mostrado
+            // Mostrar navbar y cart button para otras secciones
             if (window.MobileTopNavbar) {
                 window.MobileTopNavbar.forceShowNavbar();
             }
