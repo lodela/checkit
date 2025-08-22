@@ -377,8 +377,8 @@ const CartManager = {
 
     if (this.cart.items.length === 0) {
       $emptyCart.removeClass('d-none');
-      $cartItems.addClass('d-none');
-      $cartListView.addClass('d-none');
+      $cartItems.addClass('d-none').empty();
+      $cartListView.addClass('d-none').empty();
       $cartSummary.addClass('d-none');
       $toggleContainer.addClass('d-none');
     } else {

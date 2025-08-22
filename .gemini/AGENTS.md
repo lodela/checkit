@@ -71,10 +71,6 @@ project/
 ├── .claude/
 │   ├── settings.json      # Claude Code configuration
 │   └── commands/         # Custom slash commands
-│       ├── siguiente-tarea.md    # Get next available task
-│       ├── completar-tarea.md    # Complete specific task
-│       ├── estado-proyecto.md    # Project status analysis
-│       └── corregir-bug.md       # Fix specific P0 bugs
 ├── .env                  # API keys
 ├── .mcp.json            # MCP configuration
 └── CLAUDE.md            # This file - auto-loaded by Claude Code
