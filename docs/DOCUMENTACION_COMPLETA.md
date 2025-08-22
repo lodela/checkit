@@ -30,15 +30,18 @@
 ## 🎯 **¿QUÉ ES ESTA APP?**
 
 ### 🍽️ **Concepto Principal:**
-**WebApp de menú digital para restaurante Sanborns** que reemplaza los menús físicos con una experiencia digital interactiva via QR.
+
+**WebApp de menú digital para restaurantes** que reemplaza los menús físicos con una experiencia digital interactiva via QR.
 
 ### 🎨 **Estilo Visual:**
+
 - **Tema:** Retro 90's con nostalgia
-- **Colores:** Rojo Sanborns (#dc3545) + Dorado + Blancos
+- **Colores:** Rojo "Checkit" (#dc3545) + Dorado + Blancos
 - **Iconografía:** SVG masks personalizados + Font Awesome
 - **Animaciones:** jQuery smooth transitions + CSS3
 
 ### 📱 **Dispositivos Objetivo:**
+
 - **Primario:** Móviles (320px - 768px)
 - **Secundario:** Tablets + Desktop (responsive)
 - **PWA:** Instalable como app nativa
@@ -48,6 +51,7 @@
 ## 🔄 **¿CÓMO FUNCIONA?**
 
 ### 🎯 **Flujo Básico:**
+
 ```
 1. Cliente llega al restaurante
 2. Mesero escanea QR → Habilita mesa en sistema
@@ -60,41 +64,48 @@
 ### 🍽️ **Proceso Detallado:**
 
 #### **FASE 1: Inicialización (Backend)**
+
 - Mesa se habilita en BD cuando mesero escanea QR
 - Sistema asigna mesero específico
 - Se registra número de comensales
 - Se genera QR único para cliente
 
 #### **FASE 2: Acceso Cliente**
+
 - Cliente escanea QR → Abre webapp
 - Ve splash screen con botones de entrada:
   - 🍽️ Comidas Sanborns
-  - 🥐 Desayuno Sanborns  
+  - 🥐 Desayuno Sanborns
   - 📅 Menú del día
   - 📋 Menú Sanborns
 
 #### **FASE 3: Navegación Menú**
+
 - **TopNavbar:** Logo + Mesa info + Cart button + Hamburger
 - **Content:** Búsqueda + 29 categorías + 150+ productos
 - **BottomTab:** Menú | Mi Orden | Cuenta | Mesero
 
 #### **FASE 4: Selección Productos**
+
 - Cards con imagen, descripción, precio
 - Click → Modal con detalles + cantidad
 - "Agregar al carrito" → Badge counters se actualizan
 
 #### **FASE 5: Mi Orden**
+
 - TopNavbar se oculta (navegación limpia)
 - Lista de productos seleccionados
 - Controles cantidad, eliminar items
 - Cálculo automático: subtotal + impuestos + total
 
 #### **FASE 6: Proceso Orden**
+
 - "Ordenar Ahora" → Items cambian a estado "enviado_cocina"
 - Cocina prepara → Mesero actualiza a "servido"
 - Cliente puede seguir agregando items nuevos
 
 #### **FASE 7: Finalización**
+
 - Items "servido" → Botones "Pagar Cuenta" + "Agregar Más"
 - Proceso pago (futuro)
 - Reset para siguiente cliente
@@ -106,6 +117,7 @@
 ### 📦 **Stack Tecnológico:**
 
 #### **Frontend:**
+
 ```javascript
 - HTML5: Semántico, accesible, PWA manifest
 - CSS3: Bootstrap 5 Grid + Variables CSS + Flexbox/Grid
@@ -114,6 +126,7 @@
 ```
 
 #### **Backend Simulado:**
+
 ```javascript
 - JSON Server: API REST simulada
 - LocalStorage: Persistencia carrito
@@ -122,6 +135,7 @@
 ```
 
 #### **Build & Deploy:**
+
 ```bash
 - GitHub Pages: Hosting estático
 - Live Server: Desarrollo local
@@ -131,14 +145,22 @@
 ### 🧩 **Patrón Arquitectónico:**
 
 #### **Modular Namespace Pattern:**
+
 ```javascript
 // Cada módulo es un objeto literal con responsabilidad única
-const MenuManager = { /* ... */ };
-const CartManager = { /* ... */ };
-const MobileTopNavbar = { /* ... */ };
+const MenuManager = {
+  /* ... */
+};
+const CartManager = {
+  /* ... */
+};
+const MobileTopNavbar = {
+  /* ... */
+};
 ```
 
 #### **Principios SOLID:**
+
 - **S**ingle Responsibility: Cada módulo una función
 - **O**pen/Closed: Extensible sin modificar core
 - **L**iskov Substitution: Interfaces consistentes
@@ -146,6 +168,7 @@ const MobileTopNavbar = { /* ... */ };
 - **D**ependency Inversion: Inyección de dependencias
 
 #### **DRY (Don't Repeat Yourself):**
+
 ```javascript
 // Utils centralizados
 SanbornsUtils.log(), .formatPrice(), .debounce()
@@ -164,7 +187,7 @@ ModalManager, StateService, DataService
 ### 🗂️ **Organización Completa:**
 
 ```
-📁 webScrapperSbrnsHmns/
+📁 checkit/
 │
 ├── 📄 index.html                    # Entry point - SPA
 ├── 📄 manifest.json                 # PWA configuration
@@ -235,21 +258,25 @@ ModalManager, StateService, DataService
 ### 📋 **Responsabilidades por Archivo:**
 
 #### **🎯 Core Files:**
+
 - **`index.html`** → SPA shell, navbar, secciones, tab bar
 - **`app.js`** → Init, navegación, eventos globales
 - **`constants.js`** → Versión, configuraciones, constantes
 
 #### **🛠️ Components:**
+
 - **`menu.js`** → MenuManager: categorías, productos, búsqueda
 - **`cart.js`** → CartManager: carrito, estados, cálculos
 - **`mobile-navbar.js`** → TopNavbar: scroll, configuración
 - **`drawer-menu.js`** → Sidebar: hamburger menu
 
 #### **🔧 Services:**
+
 - **`data-service.js`** → DataService: fetch, cache, error handling
 - **`utils.js`** → SanbornsUtils: logging, formatters, helpers
 
 #### **📊 Data:**
+
 - **`db.json`** → Configuraciones, mesas, órdenes
 - **`mock.json`** → Menú completo de Sanborns
 
@@ -260,18 +287,17 @@ ModalManager, StateService, DataService
 ### 📱 **NAVEGACIÓN STEP-BY-STEP:**
 
 #### **🚀 1. ENTRY POINT**
+
 ```html
 <!-- Pantalla inicial con botonera -->
-URL: https://lodela.github.io/webScrapperSbrnsHmns/
-Estado: Mesa habilitada en BD
-
-UI Components:
-- Background: Rojo Sanborns con logo
-- 4 Botones: Comidas | Desayuno | Menú día | Menú Sanborns
-- Acción: Click cualquier botón → showSection('menu')
+URL: https://lodela.github.io/webScrapperSbrnsHmns/ Estado: Mesa habilitada en
+BD UI Components: - Background: Rojo Sanborns con logo - 4 Botones: Comidas |
+Desayuno | Menú día | Menú Sanborns - Acción: Click cualquier botón →
+showSection('menu')
 ```
 
 #### **🍽️ 2. SECCIÓN MENÚ**
+
 ```javascript
 // showSection('menu') ejecuta:
 Estado: currentSection = 'menu'
@@ -286,6 +312,7 @@ addToCartBtn.click → CartManager.addToCart() → badges update
 ```
 
 #### **🛒 3. AGREGAR PRODUCTOS**
+
 ```javascript
 // Al hacer click en producto:
 ProductModal.show() → {
@@ -303,7 +330,7 @@ CartManager.addToCart(product, quantity) → {
         timestamp: Date.now(),
         subtotal: price * quantity
     });
-    
+
     // UI Updates:
     updateBadges();           // Top + bottom counters
     showToast('Agregado');    // Feedback visual
@@ -312,18 +339,19 @@ CartManager.addToCart(product, quantity) → {
 ```
 
 #### **🧾 4. SECCIÓN MI ORDEN**
+
 ```javascript
 // Acceso: Cart button click O tab Mi Orden click
 showSection('mi-orden') → {
     // UI Changes:
     topNavbar.hide();                    // ❌ Ocultar navbar
     cartButton.hide();                   // ❌ Ocultar cart button
-    
+
     // Content:
     section: '#cuenta-section',          // Reutiliza misma sección
     title: 'Mi Orden',                   // Título específico
     icon: 'cuenta-icon-mask',            // Icono cuenta.svg
-    
+
     // Render:
     CartManager.renderCart('cards');     // Vista cards por defecto
 }
@@ -338,6 +366,7 @@ showSection('mi-orden') → {
 ```
 
 #### **🚀 5. ORDENAR AHORA**
+
 ```javascript
 // Click "Ordenar Ahora":
 CartManager.sendOrder() → {
@@ -348,32 +377,33 @@ CartManager.sendOrder() → {
             item.sentTimestamp = Date.now();
         }
     });
-    
+
     // UI Updates:
     showSuccessMessage('🍳 Orden enviada a cocina!');
     hideButton('ordenar-ahora-btn');
     disableEditing();                    // Items no editables
-    
+
     // Persistencia:
     localStorage.setItem('sanborns-cart', JSON.stringify(cart));
 }
 ```
 
 #### **👨‍🍳 6. PROCESO COCINA**
+
 ```javascript
 // BACKEND: Mesero actualiza desde su panel
 mesero.updateOrderStatus(orderId, "servido") → {
     // Base de datos:
     orden.estado = "servido";
     orden.servedTimestamp = Date.now();
-    
+
     // Frontend sync (polling o websocket futuro):
     cart.items.forEach(item => {
         if (item.estado === "enviado_cocina") {
             item.estado = "servido";
         }
     });
-    
+
     // UI Updates (en sección "Cuenta"):
     showButtons(['pagar-cuenta-btn', 'agregar-mas-btn']);
     showMessage('✅ Tu orden está lista!');
@@ -381,11 +411,12 @@ mesero.updateOrderStatus(orderId, "servido") → {
 ```
 
 #### **💰 7. ESTADOS MIXTOS**
+
 ```javascript
 // Usuario puede seguir agregando items:
 Escenario: {
     items_servidos: [{estado: "servido"}],     // No editables
-    items_cocina: [{estado: "enviado_cocina"}], // No editables  
+    items_cocina: [{estado: "enviado_cocina"}], // No editables
     items_nuevos: [{estado: "nuevo"}]          // Editables ✅
 }
 
@@ -405,24 +436,26 @@ if (hasServedItems()) {
 ### 📱 **1. SanbornsApp (app.js)**
 
 #### **Responsabilidad:**
+
 Core de la aplicación, navegación SPA, inicialización
 
 #### **API Pública:**
+
 ```javascript
 SanbornsApp = {
     // Estado
     currentSection: 'menu',
     isLoading: false,
-    
+
     // Métodos principales
     init(),                           // Inicialización completa
     showSection(sectionName),         // Navegación SPA
     updateNavigation(section),        // Actualizar tabs activos
-    
+
     // Event handlers
     setupEventListeners(),            // Eventos globales
     handleKeyboardShortcuts(event),   // Alt+M, Alt+C, etc.
-    
+
     // Utilidades
     isIOS(),                         // Detección dispositivo
     handleNetworkError(),            // Gestión errores
@@ -430,6 +463,7 @@ SanbornsApp = {
 ```
 
 #### **Flujo de Inicialización:**
+
 ```javascript
 $(document).ready() → {
     1. SanbornsApp.init()
@@ -446,26 +480,28 @@ $(document).ready() → {
 ### 🍽️ **2. MenuManager (menu.js)**
 
 #### **Responsabilidad:**
+
 Renderizado del menú, categorías, productos, búsqueda
 
 #### **API Pública:**
+
 ```javascript
 MenuManager = {
     // Estado
     menuData: {},                     // Datos de mock.json
     filteredData: {},                 // Datos filtrados
     currentSearch: '',                // Término búsqueda actual
-    
+
     // Métodos principales
     init(),                          // Cargar datos del menú
     loadMenuData(),                  // Fetch mock.json
     renderCategories(data),          // Render categorías
     renderProducts(categoryName),     // Render productos de categoría
-    
+
     // Búsqueda
     filterProducts(searchTerm),      // Filtrar productos
     clearSearch(),                   // Limpiar búsqueda
-    
+
     // Utilidades
     formatProductPrice(price),       // Formatear precios
     buildProductCard(product),       // HTML producto
@@ -473,6 +509,7 @@ MenuManager = {
 ```
 
 #### **Estructura de Datos:**
+
 ```javascript
 // mock.json structure:
 {
@@ -494,9 +531,11 @@ MenuManager = {
 ### 🛒 **3. CartManager (cart.js)**
 
 #### **Responsabilidad:**
+
 Gestión completa del carrito, estados de productos, cálculos
 
 #### **API Pública:**
+
 ```javascript
 CartManager = {
     // Estado
@@ -507,21 +546,21 @@ CartManager = {
         total: 0,
         timestamp: Date.now()
     },
-    
+
     // Métodos principales
     init(),                          // Inicializar carrito
     addToCart(product, quantity),    // Agregar producto
     removeFromCart(productId),       // Eliminar producto
     updateQuantity(productId, qty),  // Actualizar cantidad
-    
+
     // Estados
     sendOrder(),                     // nuevo → enviado_cocina
     updateOrderStatus(status),       // Backend sync
-    
+
     // Renderizado
     renderCart(viewType),            // 'cards' | 'list'
     calculateTotals(),               // Recalcular totales
-    
+
     // Persistencia
     saveCart(),                      // localStorage
     loadCart(),                      // Cargar desde storage
@@ -529,6 +568,7 @@ CartManager = {
 ```
 
 #### **Estados de Productos:**
+
 ```javascript
 // Ciclo de vida de un item:
 "nuevo" → {
@@ -555,9 +595,11 @@ CartManager = {
 ### 📱 **4. MobileTopNavbar (mobile-navbar.js)**
 
 #### **Responsabilidad:**
+
 Navbar superior configurable, scroll behavior, modales
 
 #### **API Pública:**
+
 ```javascript
 MobileTopNavbar = {
     // Estado
@@ -565,42 +607,43 @@ MobileTopNavbar = {
     scrollControllerEnabled: true,
     cartItems: 0,
     mesaData: {},
-    
+
     // Configuración
     loadConfig(),                    // Desde db.json
     applyConfig(),                   // Aplicar estilos
-    
+
     // Scroll Controller
     setupScrollController(),         // Auto hide/show
     forceHideNavbar(),              // Ocultar manual
     forceShowNavbar(),              // Mostrar manual
-    
+
     // Cart Management
     updateCartBadge(cartData),      // Actualizar contador
     goToCart(),                     // Navegación
-    
+
     // Mesa Modal
     showMesaModal(),                // Info + calculadora propina
     updateMesaDataFromCart(),       // Sync datos
-    
+
     // Reset
     performReset(),                 // Limpiar app completa
 }
 ```
 
 #### **Configuración (db.json):**
+
 ```json
 {
-    "configuraciones": {
-        "topNavbar": {
-            "colorFondo": "#dc3545",
-            "logoImagen": "sanbornsWhite.svg",
-            "scrollPixeles": 5,
-            "animacionMs": 300,
-            "alturaNavbar": 60,
-            "mostrarHamburger": true
-        }
+  "configuraciones": {
+    "topNavbar": {
+      "colorFondo": "#dc3545",
+      "logoImagen": "sanbornsWhite.svg",
+      "scrollPixeles": 5,
+      "animacionMs": 300,
+      "alturaNavbar": 60,
+      "mostrarHamburger": true
     }
+  }
 }
 ```
 
@@ -611,6 +654,7 @@ MobileTopNavbar = {
 ### 🗃️ **Archivos de Datos:**
 
 #### **📄 db.json - Configuración Central**
+
 ```json
 {
     "configuraciones": {
@@ -668,27 +712,29 @@ MobileTopNavbar = {
 ```
 
 #### **📄 mock.json - Menú Completo**
+
 ```json
 {
-    "Festival del Mollete y Molletzzas Sanborns": {
-        "productos": [
-            {
-                "orderPrductName": "Molletes sanborns de quesirri",
-                "description": "Con salsa mexicana bolillos con mantequilla, gratinados con queso y frijoles refritos 4 piezas",
-                "price": 129.0,
-                "discount": 10,
-                "image": "https://tofuu.getjusto.com/orioneat-local/resized2/4RMDBx--S1s5gNYXQ1KLA6.webp",
-                "sku": "18608"
-            }
-        ]
-    },
-    // ... 28 categorías más con 150+ productos
+  "Festival del Mollete y Molletzzas Sanborns": {
+    "productos": [
+      {
+        "orderPrductName": "Molletes sanborns de quesirri",
+        "description": "Con salsa mexicana bolillos con mantequilla, gratinados con queso y frijoles refritos 4 piezas",
+        "price": 129.0,
+        "discount": 10,
+        "image": "https://tofuu.getjusto.com/orioneat-local/resized2/4RMDBx--S1s5gNYXQ1KLA6.webp",
+        "sku": "18608"
+      }
+    ]
+  }
+  // ... 28 categorías más con 150+ productos
 }
 ```
 
 ### 💾 **Persistencia:**
 
 #### **LocalStorage:**
+
 ```javascript
 // Carrito principal
 'sanborns-cart': {
@@ -715,6 +761,7 @@ MobileTopNavbar = {
 ```
 
 #### **SessionStorage:**
+
 ```javascript
 // Datos temporales
 'sanborns-temp-order': {...}    // Orden temporal
@@ -728,12 +775,14 @@ MobileTopNavbar = {
 ### 📊 **Estados de la Aplicación:**
 
 #### **🎯 App Level States:**
+
 ```javascript
 SanbornsApp.currentSection: 'menu' | 'mi-orden' | 'cuenta' | 'mesero'
 SanbornsApp.isLoading: boolean
 ```
 
 #### **🛒 Cart Level States:**
+
 ```javascript
 CartManager.cart.status: 'empty' | 'active' | 'ordered' | 'served'
 
@@ -742,6 +791,7 @@ item.estado: 'nuevo' | 'enviado_cocina' | 'servido'
 ```
 
 #### **📱 UI Level States:**
+
 ```javascript
 TopNavbar.isVisible: boolean
 TopNavbar.scrollControllerEnabled: boolean
@@ -765,19 +815,20 @@ stateDiagram-v2
 ```
 
 #### **Transiciones Detalladas:**
+
 ```javascript
 // 1. Empty → Active
 trigger: CartManager.addToCart()
 condition: cart.items.length === 0
 action: enableOrderButton(), updateBadges(), showCartButton()
 
-// 2. Active → Ordered  
+// 2. Active → Ordered
 trigger: sendOrder()
 condition: hasItemsInState('nuevo')
 action: changeItemsState('nuevo' → 'enviado_cocina'), hideOrderButton()
 
 // 3. Ordered → Mixed
-trigger: addToCart() 
+trigger: addToCart()
 condition: hasItemsInState('enviado_cocina')
 action: addNewItem(estado: 'nuevo'), showOrderButton()
 
@@ -794,41 +845,43 @@ action: changeItemsState('enviado_cocina' → 'servido'), enablePayment()
 ### 🎨 **Color Palette:**
 
 #### **Primary Colors:**
+
 ```css
 :root {
-    /* Sanborns Brand */
-    --sanborns-red: #dc3545;
-    --sanborns-red-dark: #c82333;
-    --sanborns-red-light: #f8d7da;
-    
-    /* Complementary */
-    --sanborns-gold: #ffc107;
-    --sanborns-gold-dark: #e0a800;
-    
-    /* Neutral */
-    --gray-100: #f8f9fa;
-    --gray-200: #e9ecef;
-    --gray-300: #dee2e6;
-    --gray-800: #343a40;
-    --gray-900: #212529;
-    
-    /* Semantic */
-    --success: #28a745;
-    --warning: #ffc107;
-    --danger: #dc3545;
-    --info: #17a2b8;
+  /* Sanborns Brand */
+  --sanborns-red: #dc3545;
+  --sanborns-red-dark: #c82333;
+  --sanborns-red-light: #f8d7da;
+
+  /* Complementary */
+  --sanborns-gold: #ffc107;
+  --sanborns-gold-dark: #e0a800;
+
+  /* Neutral */
+  --gray-100: #f8f9fa;
+  --gray-200: #e9ecef;
+  --gray-300: #dee2e6;
+  --gray-800: #343a40;
+  --gray-900: #212529;
+
+  /* Semantic */
+  --success: #28a745;
+  --warning: #ffc107;
+  --danger: #dc3545;
+  --info: #17a2b8;
 }
 ```
 
 #### **Typography:**
+
 ```css
 /* Font Stack */
-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, 
+font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
              "Helvetica Neue", Arial, sans-serif;
 
 /* Hierarchy */
 h1: 2.5rem (40px) - Page titles
-h2: 2rem (32px) - Section titles  
+h2: 2rem (32px) - Section titles
 h3: 1.75rem (28px) - Subsection titles
 h4: 1.5rem (24px) - Card titles
 h5: 1.25rem (20px) - Item titles
@@ -840,74 +893,77 @@ small: 0.875rem (14px) - Helper text
 ### 📱 **Component Library:**
 
 #### **🔘 Buttons:**
+
 ```css
 /* Primary Action */
 .btn-danger {
-    background: var(--sanborns-red);
-    border: var(--sanborns-red);
-    color: white;
-    border-radius: 25px;    /* Pill shape */
-    font-weight: 600;
+  background: var(--sanborns-red);
+  border: var(--sanborns-red);
+  color: white;
+  border-radius: 25px; /* Pill shape */
+  font-weight: 600;
 }
 
-/* Secondary Action */  
+/* Secondary Action */
 .btn-outline-danger {
-    border: 2px solid var(--sanborns-red);
-    color: var(--sanborns-red);
-    background: transparent;
+  border: 2px solid var(--sanborns-red);
+  color: var(--sanborns-red);
+  background: transparent;
 }
 
 /* Icon Buttons */
 .btn-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 ```
 
 #### **🍽️ Product Cards:**
+
 ```css
 .product-card {
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    transition: transform 0.2s ease;
-    background: white;
-    border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+  background: white;
+  border: 1px solid var(--gray-200);
 }
 
 .product-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
 }
 
 .product-image {
-    aspect-ratio: 1;
-    border-radius: 12px 12px 0 0;
-    object-fit: cover;
+  aspect-ratio: 1;
+  border-radius: 12px 12px 0 0;
+  object-fit: cover;
 }
 ```
 
 #### **🎭 SVG Icon System:**
+
 ```css
 /* Mask-based icons para customización de color */
 .menu-icon-mask {
-    mask: url('assets/images/menuIcon.svg') center/contain no-repeat;
-    background-color: currentColor;
-    width: 24px;
-    height: 24px;
+  mask: url('assets/images/menuIcon.svg') center/contain no-repeat;
+  background-color: currentColor;
+  width: 24px;
+  height: 24px;
 }
 
 .cuenta-icon-mask {
-    mask: url('assets/images/cuenta.svg') center/contain no-repeat;
-    background-color: currentColor;
+  mask: url('assets/images/cuenta.svg') center/contain no-repeat;
+  background-color: currentColor;
 }
 
 .check-icon-mask {
-    mask: url('assets/images/check.svg') center/contain no-repeat;
-    background-color: currentColor;
+  mask: url('assets/images/check.svg') center/contain no-repeat;
+  background-color: currentColor;
 }
 ```
 
@@ -917,75 +973,97 @@ small: 0.875rem (14px) - Helper text
 /* Mobile First Approach */
 /* xs: 0-575px (mobile) */
 @media (max-width: 575px) {
-    .mobile-only { display: block; }
-    .desktop-only { display: none; }
+  .mobile-only {
+    display: block;
+  }
+  .desktop-only {
+    display: none;
+  }
 }
 
 /* sm: 576-767px (large mobile) */
 @media (min-width: 576px) and (max-width: 767px) {
-    .container { padding: 0 20px; }
+  .container {
+    padding: 0 20px;
+  }
 }
 
 /* md: 768-991px (tablet) */
 @media (min-width: 768px) {
-    .mobile-nav { display: none; }
-    .desktop-nav { display: block; }
+  .mobile-nav {
+    display: none;
+  }
+  .desktop-nav {
+    display: block;
+  }
 }
 
 /* lg: 992-1199px (small desktop) */
 @media (min-width: 992px) {
-    .container { max-width: 960px; }
+  .container {
+    max-width: 960px;
+  }
 }
 
 /* xl: 1200px+ (large desktop) */
 @media (min-width: 1200px) {
-    .container { max-width: 1140px; }
+  .container {
+    max-width: 1140px;
+  }
 }
 ```
 
 ### 🎞️ **Animations:**
 
 #### **Page Transitions:**
+
 ```css
 /* Section fade in */
 .section {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.3s ease;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
 }
 
 .section.active {
-    opacity: 1;
-    transform: translateY(0);
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Navbar scroll hide/show */
 .mobile-top-navbar {
-    transform: translateY(0);
-    transition: transform 0.3s ease;
+  transform: translateY(0);
+  transition: transform 0.3s ease;
 }
 
 .mobile-top-navbar.hidden {
-    transform: translateY(-100%);
+  transform: translateY(-100%);
 }
 ```
 
 #### **Interactive Feedback:**
+
 ```css
 /* Button press */
 .btn:active {
-    transform: scale(0.98);
+  transform: scale(0.98);
 }
 
 /* Card hover */
 .card:hover {
-    transform: translateY(-2px);
+  transform: translateY(-2px);
 }
 
 /* Toast notifications */
 @keyframes slideInTop {
-    from { transform: translateY(-100%); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 ```
 
@@ -996,10 +1074,11 @@ small: 0.875rem (14px) - Helper text
 ### ✅ **Testing Checklist:**
 
 #### **📱 Responsive Testing:**
+
 ```javascript
 // Viewport sizes to test:
 - iPhone SE (375x667)
-- iPhone 12 (390x844)  
+- iPhone 12 (390x844)
 - iPhone 12 Pro Max (428x926)
 - Samsung Galaxy S20 (360x800)
 - iPad (768x1024)
@@ -1015,10 +1094,11 @@ small: 0.875rem (14px) - Helper text
 ```
 
 #### **🔄 Functional Testing:**
+
 ```javascript
 // Core User Flows:
 ✅ Add product to cart → Badge updates
-✅ Navigate between sections → State preserved  
+✅ Navigate between sections → State preserved
 ✅ Order process → Items change state
 ✅ Cart persistence → Page reload maintains data
 ✅ Search functionality → Results filter correctly
@@ -1033,10 +1113,11 @@ small: 0.875rem (14px) - Helper text
 ```
 
 #### **🚀 Performance Testing:**
+
 ```javascript
 // Metrics to monitor:
 - First Contentful Paint: < 1.5s
-- Largest Contentful Paint: < 2.5s  
+- Largest Contentful Paint: < 2.5s
 - First Input Delay: < 100ms
 - Cumulative Layout Shift: < 0.1
 
@@ -1049,6 +1130,7 @@ small: 0.875rem (14px) - Helper text
 ### 🐛 **Known Issues:**
 
 #### **🔧 P0 - Critical:**
+
 ```javascript
 // TopNavbar visibility in Mi Orden
 Issue: TopNavbar remains visible despite forceHideNavbar()
@@ -1058,6 +1140,7 @@ Fix: Use CSS classes instead of .hide()
 ```
 
 #### **📱 P1 - High:**
+
 ```javascript
 // Tab "Cuenta" disabled
 Issue: Tab Cuenta permanently disabled
@@ -1067,6 +1150,7 @@ Fix: Define enablement conditions
 ```
 
 #### **🎨 P2 - Medium:**
+
 ```javascript
 // Product images loading
 Issue: Some images fail to load
@@ -1082,6 +1166,7 @@ Fix: Image fallback system
 ### 🌐 **GitHub Pages Setup:**
 
 #### **📋 Current Deployment:**
+
 ```bash
 # Repository
 URL: https://github.com/lodela/webScrapperSbrnsHmns
@@ -1095,6 +1180,7 @@ Entry: index.html
 ```
 
 #### **⚙️ Deploy Configuration:**
+
 ```javascript
 // GitHub Pages Settings:
 Source: Deploy from branch
@@ -1111,6 +1197,7 @@ HTTPS: ✅ Required for PWA
 ### 🔧 **Local Development:**
 
 #### **📋 Setup Instructions:**
+
 ```bash
 # 1. Clone repository
 git clone https://github.com/lodela/webScrapperSbrnsHmns.git
@@ -1120,7 +1207,7 @@ cd webScrapperSbrnsHmns
 npx live-server
 # OR
 python -m http.server 8000
-# OR  
+# OR
 php -S localhost:8000
 
 # 3. Access application
@@ -1128,6 +1215,7 @@ http://localhost:8000
 ```
 
 #### **🛠️ Development Workflow:**
+
 ```bash
 # 1. Create feature branch
 git checkout -b feature/nueva-funcionalidad
@@ -1135,7 +1223,7 @@ git checkout -b feature/nueva-funcionalidad
 # 2. Make changes
 # Edit files directly (no build process)
 
-# 3. Test locally  
+# 3. Test locally
 # Verify in multiple devices/browsers
 
 # 4. Commit and push
@@ -1159,7 +1247,7 @@ const API_BASE = './';
 const DEBUG = true;
 
 // Production (GitHub Pages)
-const ENV = 'production';  
+const ENV = 'production';
 const API_BASE = './';
 const DEBUG = false;
 
@@ -1173,12 +1261,14 @@ const isProduction = window.location.hostname.includes('github.io');
 ## 🗺️ **ROADMAP FUTURO**
 
 ### 🎯 **FASE ACTUAL: v1.2.3-beta**
+
 **Estado:** FUNCIONAL COMPLETO - Lista para usar  
 **Completado:** 5 de 7 fases planificadas
 
 ### 🚧 **PRÓXIMAS FASES:**
 
 #### **🔥 FASE 6: Fixes Críticos (1-2 semanas)**
+
 ```javascript
 P0 - TopNavbar Hide Fix
 ├── Problema: Bootstrap override CSS
@@ -1186,7 +1276,7 @@ P0 - TopNavbar Hide Fix
 └── Impact: UX crítico en Mi Orden
 
 P1 - Botones Incorrectos
-├── Problema: "Pagar Cuenta" en Mi Orden  
+├── Problema: "Pagar Cuenta" en Mi Orden
 ├── Solución: Separar secciones correctamente
 └── Impact: Confusión de usuario
 
@@ -1197,24 +1287,26 @@ P2 - Tab Cuenta Specification
 ```
 
 #### **⚡ FASE 7: Enhanced UX (1 mes)**
+
 ```javascript
 Drawer Menu Funcional
 ├── Contenido: Links navegación, configuración
 ├── Features: Info mesa, llamar mesero
 └── UI: Animaciones smooth
 
-PWA Optimizations  
+PWA Optimizations
 ├── Service Worker: Cache offline avanzado
 ├── Install Prompt: Custom installation
 └── Notifications: Push cuando orden lista
 
 Performance
 ├── Lazy Loading: Imágenes productos
-├── Code Splitting: Módulos bajo demanda  
+├── Code Splitting: Módulos bajo demanda
 └── Bundle Size: Optimización archivos
 ```
 
 #### **🔮 FASE 8: Módulos Avanzados (2-3 meses)**
+
 ```javascript
 Sistema Meseros
 ├── Panel mesero: Gestión órdenes
@@ -1238,6 +1330,7 @@ Analytics
 ```
 
 #### **🌟 FASE 9: AI & Automation (6+ meses)**
+
 ```javascript
 Recomendaciones AI
 ├── ML: Productos sugeridos
@@ -1258,6 +1351,7 @@ Voice & AR
 ### 📊 **Métricas de Éxito:**
 
 #### **Technical KPIs:**
+
 ```javascript
 Performance:
 - Load Time: < 2s (target: 1s)
@@ -1271,10 +1365,11 @@ Reliability:
 ```
 
 #### **Business KPIs:**
+
 ```javascript
 User Experience:
 - Order Completion: > 85% (target: 95%)
-- Time to Order: < 3min (target: 2min)  
+- Time to Order: < 3min (target: 2min)
 - Return Usage: > 70% (target: 80%)
 
 Operational:
@@ -1288,24 +1383,27 @@ Operational:
 ## 📞 **CONTACTO Y MANTENIMIENTO**
 
 ### 👥 **Team:**
+
 - **Lead Developer:** Lodela
-- **UX/UI:** Lodela  
+- **UX/UI:** Lodela
 - **QA:** Lodela
 - **DevOps:** GitHub Pages
 
 ### 📚 **Recursos:**
+
 - **Repository:** https://github.com/lodela/webScrapperSbrnsHmns
 - **Live App:** https://lodela.github.io/webScrapperSbrnsHmns/
 - **Documentation:** /docs/ folder
 - **Issues:** GitHub Issues tab
 
 ### 🔧 **Emergency Contacts:**
+
 ```javascript
 // Critical Issues (P0):
 Response Time: < 2 hours
 Contact: GitHub Issues + immediate notification
 
-// High Priority (P1):  
+// High Priority (P1):
 Response Time: < 24 hours
 Contact: GitHub Issues
 
@@ -1319,6 +1417,7 @@ Contact: GitHub Issues
 ## 📝 **CONCLUSIÓN**
 
 ### ✅ **¿Qué tienes ahora?**
+
 1. **WebApp completa y funcional** para menú digital Sanborns
 2. **Arquitectura sólida** basada en principios SOLID + DRY
 3. **Documentación completa** que explica todo el proyecto
@@ -1326,6 +1425,7 @@ Contact: GitHub Issues
 5. **Sistema de deployment** automático en GitHub Pages
 
 ### 🎯 **Si regresas en 2 meses:**
+
 1. **Lee este documento** (15 minutos) → Estarás 100% al día
 2. **Revisa PROJECT_ROADMAP.md** → Estado actual del proyecto
 3. **Checa GitHub Issues** → Problemas conocidos y progreso
@@ -1333,6 +1433,7 @@ Contact: GitHub Issues
 5. **Continúa desde donde dejaste** → Sin perder el hilo
 
 ### 🚀 **Próximos pasos recomendados:**
+
 1. **Fix crítico TopNavbar** (P0)
 2. **Especificar sección Cuenta** (UX decision)
 3. **Completar Drawer Menu** (enhancement)

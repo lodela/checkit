@@ -32,16 +32,17 @@ const urlsToCache = [
 /* ==========================================================================
    Evento: Install
    ========================================================================== */
-self.addEventListener('install', function(event) {
+self.addEventListener('install', function (event) {
   console.log('🔧 Service Worker: Instalando...');
-  
+
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(function(cache) {
+    caches
+      .open(CACHE_NAME)
+      .then(function (cache) {
         console.log('📦 Service Worker: Cache abierto');
         return cache.addAll(urlsToCache);
       })
-      .then(function() {
+      .then(function () {
         console.log('✅ Service Worker: Archivos cacheados');
         return self.skipWaiting();
       })
@@ -51,65 +52,66 @@ self.addEventListener('install', function(event) {
 /* ==========================================================================
    Evento: Activate
    ========================================================================== */
-self.addEventListener('activate', function(event) {
+self.addEventListener('activate', function (event) {
   console.log('🚀 Service Worker: Activando...');
-  
+
   event.waitUntil(
-    caches.keys().then(function(cacheNames) {
-      return Promise.all(
-        cacheNames.map(function(cacheName) {
-          if (cacheName !== CACHE_NAME) {
-            console.log('🗑️ Service Worker: Eliminando cache antiguo', cacheName);
-            return caches.delete(cacheName);
-          }
-        })
-      );
-    })
-    .then(function() {
-      console.log('✅ Service Worker: Activado');
-      return self.clients.claim();
-    })
+    caches
+      .keys()
+      .then(function (cacheNames) {
+        return Promise.all(
+          cacheNames.map(function (cacheName) {
+            if (cacheName !== CACHE_NAME) {
+              console.log(
+                '🗑️ Service Worker: Eliminando cache antiguo',
+                cacheName
+              );
+              return caches.delete(cacheName);
+            }
+          })
+        );
+      })
+      .then(function () {
+        console.log('✅ Service Worker: Activado');
+        return self.clients.claim();
+      })
   );
 });
 
 /* ==========================================================================
    Evento: Fetch
    ========================================================================== */
-self.addEventListener('fetch', function(event) {
+self.addEventListener('fetch', function (event) {
   event.respondWith(
-    caches.match(event.request)
-      .then(function(response) {
-        // Cache hit - return response
-        if (response) {
+    caches.match(event.request).then(function (response) {
+      // Cache hit - return response
+      if (response) {
+        return response;
+      }
+
+      return fetch(event.request).then(function (response) {
+        // Check if we received a valid response
+        if (!response || response.status !== 200 || response.type !== 'basic') {
           return response;
         }
 
-        return fetch(event.request).then(
-          function(response) {
-            // Check if we received a valid response
-            if(!response || response.status !== 200 || response.type !== 'basic') {
-              return response;
-            }
+        // Clone the response para cache
+        var responseToCache = response.clone();
 
-            // Clone the response para cache
-            var responseToCache = response.clone();
+        caches.open(CACHE_NAME).then(function (cache) {
+          cache.put(event.request, responseToCache);
+        });
 
-            caches.open(CACHE_NAME)
-              .then(function(cache) {
-                cache.put(event.request, responseToCache);
-              });
-
-            return response;
-          }
-        );
-      })
-    );
+        return response;
+      });
+    })
+  );
 });
 
 /* ==========================================================================
    Evento: Message
    ========================================================================== */
-self.addEventListener('message', function(event) {
+self.addEventListener('message', function (event) {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
   }
