@@ -9,9 +9,9 @@ const AppConstants = {
        ========================================================================== */
   APP: {
     NAME: 'CheckIt',
-    VERSION: '1.3.0-beta',
+    VERSION: '1.3.01-beta',
     DESCRIPTION: 'Menú digital interactivo para restaurantes',
-    AUTHOR: 'CheckIt Team',
+    AUTHOR: 'Norberto Lodela',
     COMMIT_DATE: new Date().toISOString().split('T')[0], // YYYY-MM-DD
   },
 
