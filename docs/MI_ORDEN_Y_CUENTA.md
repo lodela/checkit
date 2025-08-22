@@ -14,19 +14,19 @@
 
 ```javascript
 // Ambas muestran la misma sección HTML
-showSection('mi-orden') → Muestra #cuenta-section 
+showSection('mi-orden') → Muestra #cuenta-section
 showSection('cuenta')   → Muestra #cuenta-section
 ```
 
 ### 🎨 **Diferencias Visuales:**
 
-| Aspecto | "Mi Orden" | "Cuenta" |
-|---------|------------|----------|
-| **Título** | 🧾 "Mi Orden" | 🛒 "Cuenta" |
-| **Icono Header** | `cuenta-icon-mask` (cuenta.svg) | `fas fa-shopping-cart` |
-| **Icono Empty State** | `cuenta-icon-mask` | `fas fa-shopping-cart` |
-| **TopNavbar** | ❌ Oculto | ❌ Oculto |
-| **Cart Button** | ❌ Oculto | ❌ Oculto |
+| Aspecto               | "Mi Orden"                      | "Cuenta"               |
+| --------------------- | ------------------------------- | ---------------------- |
+| **Título**            | 🧾 "Mi Orden"                   | 🛒 "Cuenta"            |
+| **Icono Header**      | `cuenta-icon-mask` (cuenta.svg) | `fas fa-shopping-cart` |
+| **Icono Empty State** | `cuenta-icon-mask`              | `fas fa-shopping-cart` |
+| **TopNavbar**         | ❌ Oculto                       | ❌ Oculto              |
+| **Cart Button**       | ❌ Oculto                       | ❌ Oculto              |
 
 ---
 
@@ -35,6 +35,7 @@ showSection('cuenta')   → Muestra #cuenta-section
 ### 📱 **Formas de Acceder:**
 
 #### 1️⃣ **A "Mi Orden":**
+
 ```javascript
 // Desde cart button fijo (top-right)
 $('#cart-btn-fixed').click() → showSection('mi-orden')
@@ -47,6 +48,7 @@ showSection('mi-orden')
 ```
 
 #### 2️⃣ **A "Cuenta":**
+
 ```javascript
 // Desde tab bar mobile (botón DESHABILITADO)
 $('.nav-item[data-section="cuenta"]').click() → showSection('cuenta')
@@ -60,7 +62,7 @@ showSection('cuenta')
 ```javascript
 // En app.js línea 510
 $('#cart-btn-fixed').on('click', () => {
-    this.showSection('mi-orden'); // Siempre va a "Mi Orden"
+  this.showSection('mi-orden'); // Siempre va a "Mi Orden"
 });
 ```
 
@@ -73,25 +75,25 @@ $('#cart-btn-fixed').on('click', () => {
 ```html
 <!-- Tab Bar Mobile -->
 <nav id="mobile-nav" class="mobile-nav">
-    <!-- Mi Orden - ACTIVO -->
-    <div class="nav-item" data-section="mi-orden">
-        <span class="cuenta-icon-mask"></span>
-        <span>Mi Orden</span>
-        <span id="cart-badge-mobile" class="badge">0</span>
-    </div>
-    
-    <!-- Cuenta - DESHABILITADO -->
-    <div class="nav-item disabled" data-section="cuenta">
-        <span class="check-icon-mask"></span>
-        <span>Cuenta</span>
-    </div>
+  <!-- Mi Orden - ACTIVO -->
+  <div class="nav-item" data-section="mi-orden">
+    <span class="cuenta-icon-mask"></span>
+    <span>Mi Orden</span>
+    <span id="cart-badge-mobile" class="badge">0</span>
+  </div>
+
+  <!-- Cuenta - DESHABILITADO -->
+  <div class="nav-item disabled" data-section="cuenta">
+    <span class="check-icon-mask"></span>
+    <span>Cuenta</span>
+  </div>
 </nav>
 
 <!-- Sección Única -->
 <section id="cuenta-section" class="section">
-    <h2><!-- Título dinámico --></h2>
-    <div id="empty-cart"><!-- Estado vacío --></div>
-    <div id="cart-container"><!-- Productos --></div>
+  <h2><!-- Título dinámico --></h2>
+  <div id="empty-cart"><!-- Estado vacío --></div>
+  <div id="cart-container"><!-- Productos --></div>
 </section>
 ```
 
@@ -104,27 +106,27 @@ showSection(sectionName) {
     if (sectionName === 'mi-orden') {
         targetSection = 'cuenta'; // Usa la misma sección
     }
-    
+
     // 2. Cambio de UI según origen
     if (sectionName === 'mi-orden') {
         // Configurar para "Mi Orden"
         $('#cuenta-section h2').html('<span class="cuenta-icon-mask text-danger me-2"></span>Mi Orden');
         $('#empty-cart i').removeClass('fas fa-shopping-cart').addClass('cuenta-icon-mask text-muted');
-        
+
         // Ocultar navbar
         window.MobileTopNavbar.forceHideNavbar();
         $('#cart-btn-fixed').hide();
-        
+
     } else if (targetSection === 'cuenta') {
         // Configurar para "Cuenta"
         $('#cuenta-section h2').html('<i class="fas fa-shopping-cart text-danger me-2"></i>Cuenta');
         $('#empty-cart i').removeClass('cuenta-icon-mask').addClass('fas fa-shopping-cart text-muted');
-        
+
         // Ocultar navbar
         window.MobileTopNavbar.forceHideNavbar();
         $('#cart-btn-fixed').hide();
     }
-    
+
     // 3. Mostrar sección
     $(`#${targetSection}-section`).addClass('active').fadeIn(300);
 }
@@ -137,6 +139,7 @@ showSection(sectionName) {
 ### 🔍 **Estados del Tab Bar:**
 
 #### 📱 **Mobile Navigation:**
+
 ```html
 <!-- ACTIVOS -->
 <div class="nav-item" data-section="menu">Menú</div>
@@ -152,13 +155,13 @@ showSection(sectionName) {
 ```css
 /* Iconos personalizados con SVG masks */
 .cuenta-icon-mask {
-    mask: url('assets/images/cuenta.svg');
-    background-color: currentColor;
+  mask: url('assets/images/cuenta.svg');
+  background-color: currentColor;
 }
 
 .check-icon-mask {
-    mask: url('assets/images/check.svg'); 
-    background-color: currentColor;
+  mask: url('assets/images/check.svg');
+  background-color: currentColor;
 }
 ```
 
@@ -170,7 +173,7 @@ showSection(sectionName) {
 // ❌ Cart Button (#cart-btn-fixed)
 
 // En sección "menu" se muestra:
-// ✅ TopNavbar  
+// ✅ TopNavbar
 // ✅ Cart Button
 ```
 
@@ -186,7 +189,7 @@ CartManager.renderCart() → #cart-container
 
 // Estados de productos:
 // - "nuevo" → Editable, botón "Ordenar Ahora"
-// - "enviado_cocina" → Solo lectura  
+// - "enviado_cocina" → Solo lectura
 // - "servido" → Solo lectura, botones "Pagar" + "Ver Menú"
 ```
 
@@ -194,7 +197,7 @@ CartManager.renderCart() → #cart-container
 
 ```javascript
 // Ambas secciones usan el mismo carrito
-localStorage.getItem('sanborns-cart')
+localStorage.getItem('sanborns-cart');
 
 // Estados sincronizados:
 // - Badge del carrito (#cart-badge-mobile)
@@ -207,6 +210,7 @@ localStorage.getItem('sanborns-cart')
 ## 🚨 **ISSUES CONOCIDOS**
 
 ### 🔧 **P1 - TopNavbar No Se Oculta:**
+
 ```javascript
 // PROBLEMA: Bootstrap classes d-block d-md-none fuerzan visibilidad
 // ESTADO: En desarrollo
@@ -218,10 +222,12 @@ $('#cart-btn-fixed').hide(); // No funciona completamente
 ```
 
 ### 📱 **P2 - Tab "Cuenta" Deshabilitado:**
+
 ```html
 <!-- ESTADO ACTUAL -->
 <div class="nav-item disabled" data-section="cuenta">
-    <span>Cuenta</span> <!-- No clickeable -->
+  <span>Cuenta</span>
+  <!-- No clickeable -->
 </div>
 
 <!-- PREGUNTA: ¿Cuándo se debe habilitar? -->
@@ -253,53 +259,44 @@ $('#cart-btn-fixed').hide(); // No funciona completamente
 ### 📋 **FASE 1: INICIALIZACIÓN DE MESA**
 
 #### � **Backend Process:**
+
 1. **Usuario escanea QR** → Se habilita mesa en BD
-2. **Sistema asigna mesero** → Mesa queda vinculada 
+2. **Sistema asigna mesero** → Mesa queda vinculada
 3. **Mesero ingresa número de personas** → Mesa configurada
 4. **Se genera QR único** → Usuario escanea con celular
 
 #### 📱 **Frontend Entry Point:**
+
 ```html
 <!-- PANTALLA 1: Botonera de entrada (FUNCIONANDO PERFECTO) -->
 <!-- Imagen adjunta #1 -->
-Botones:
-- 🍽️ Comidas Sanborns
-- 🥐 Desayuno Sanborns  
-- 📅 Menú del día
-- 📋 Menú Sanborns
+Botones: - 🍽️ Comidas Sanborns - 🥐 Desayuno Sanborns - 📅 Menú del día - 📋
+Menú Sanborns
 ```
 
 ### 📋 **FASE 2: NAVEGACIÓN EN MENÚ**
 
 #### 🍽️ **Menu Section (FUNCIONANDO CORRECTO):**
+
 ```html
 <!-- PANTALLA 2: TopNavbar + Menú -->
 <!-- Imagen adjunta #2 y #3 -->
 
-TopNavbar (RED):
-- 🛒 Cart Button (badge counter)
-- 🍔 Hamburger Button
-
-Content:
-- 🔍 Search bar
-- 📋 Categorías del menú
-- 🍽️ Cards de productos
-
-Bottom Tab:
-- 📋 Menú (active)
-- 🧾 Mi Orden (badge counter) ✅
-- 📋 Cuenta (disabled)
-- 👨‍🍳 Mesero
+TopNavbar (RED): - 🛒 Cart Button (badge counter) - 🍔 Hamburger Button Content:
+- 🔍 Search bar - 📋 Categorías del menú - 🍽️ Cards de productos Bottom Tab: -
+📋 Menú (active) - 🧾 Mi Orden (badge counter) ✅ - 📋 Cuenta (disabled) - 👨‍🍳
+Mesero
 ```
 
 #### ✅ **Add to Cart Logic:**
+
 ```javascript
 // Usuario selecciona productos → Se agregan al carrito
 CartManager.addToCart(product) → {
     // Incrementa badge en:
-    // - #cart-badge-fixed (topNavbar)  
+    // - #cart-badge-fixed (topNavbar)
     // - #cart-badge-mobile (bottomTab)
-    
+
     // Estado inicial de todos los items:
     item.estado = "nuevo" // Editable
 }
@@ -308,6 +305,7 @@ CartManager.addToCart(product) → {
 ### 📋 **FASE 3: SECCIÓN "MI ORDEN"**
 
 #### 🎯 **Acceso a Mi Orden:**
+
 ```javascript
 // TRIGGER: Click en cart button O tab "Mi Orden"
 showSection('mi-orden') → {
@@ -317,28 +315,20 @@ showSection('mi-orden') → {
 ```
 
 #### 📱 **UI de Mi Orden (IMAGEN #4):**
+
 ```html
 <!-- ESTADO ACTUAL CORRECTO -->
-Header:
-- 🧾 "Mi Orden" (título + icono cuenta.svg)
-- 📊 Toggle buttons (cards/list view)
-
-Content:  
-- 🍽️ Cards de productos seleccionados
-- ➕➖ Controles cantidad (FUNCIONAL)
-- 🗑️ Eliminar items (FUNCIONAL)
-
-Summary:
-- 💰 Subtotal, Impuestos, Total (CORRECTO)
-
-Actions:
-- 🚀 "Ordenar Ahora" (solo si hay items "nuevo")
-- 📋 "Ver Menú"
+Header: - 🧾 "Mi Orden" (título + icono cuenta.svg) - 📊 Toggle buttons
+(cards/list view) Content: - 🍽️ Cards de productos seleccionados - ➕➖
+Controles cantidad (FUNCIONAL) - 🗑️ Eliminar items (FUNCIONAL) Summary: - 💰
+Subtotal, Impuestos, Total (CORRECTO) Actions: - 🚀 "Ordenar Ahora" (solo si hay
+items "nuevo") - 📋 "Ver Menú"
 ```
 
 ### 📋 **FASE 4: PROCESO DE ORDEN**
 
 #### 🚀 **Click "Ordenar Ahora":**
+
 ```javascript
 // EVENTO CRÍTICO
 $('#ordenar-ahora-btn').click() → {
@@ -348,21 +338,22 @@ $('#ordenar-ahora-btn').click() → {
             item.estado = "enviado_cocina";
         }
     });
-    
+
     // UI Updates:
     // ✅ Mostrar: "🍳 Orden enviada a cocina!"
-    // ❌ Ocultar: Botón "Ordenar Ahora"  
+    // ❌ Ocultar: Botón "Ordenar Ahora"
     // ❌ Items "enviado_cocina" NO editables
 }
 ```
 
 #### 👨‍🍳 **Proceso de Cocina:**
+
 ```javascript
 // BACKEND: Mesero actualiza cuando comida está lista
 mesero.updateOrderStatus(orderId, "servido") → {
     // Estado final de items:
     item.estado = "servido"
-    
+
     // UI Changes:
     // ✅ Mostrar: Botones "Pagar Cuenta" + "Agregar Más Productos"
 }
@@ -371,14 +362,15 @@ mesero.updateOrderStatus(orderId, "servido") → {
 ### 📋 **FASE 5: ESTADOS MIXTOS**
 
 #### 🔄 **Usuario Agrega Más Items:**
+
 ```javascript
 // ESCENARIO: Ya hay items "enviado_cocina" + user agrega nuevos
 cart.items = [
-    {id: 1, estado: "enviado_cocina"}, // No editable
-    {id: 2, estado: "enviado_cocina"}, // No editable  
-    {id: 3, estado: "nuevo"},          // Editable ✅
-    {id: 4, estado: "nuevo"}           // Editable ✅
-]
+  { id: 1, estado: 'enviado_cocina' }, // No editable
+  { id: 2, estado: 'enviado_cocina' }, // No editable
+  { id: 3, estado: 'nuevo' }, // Editable ✅
+  { id: 4, estado: 'nuevo' }, // Editable ✅
+];
 
 // UI Estado Mixto:
 // ✅ Indicador: "🍳 Orden enviada a cocina"
@@ -389,6 +381,7 @@ cart.items = [
 ### 📋 **FASE 6: REGLAS DE BOTONES EN MI ORDEN**
 
 #### 🎯 **Botones que NO deben aparecer:**
+
 ```javascript
 // EN SECCIÓN "MI ORDEN" NUNCA mostrar:
 ❌ "Pagar Cuenta"           // Solo en sección "Cuenta"
@@ -404,6 +397,7 @@ cart.items = [
 ## 🚨 **ISSUES IDENTIFICADOS**
 
 ### 🔧 **P0 - TopNavbar Visible en Mi Orden:**
+
 ```javascript
 // PROBLEMA CRÍTICO: TopNavbar se debe ocultar en Mi Orden
 // ESTADO: Requiere fix inmediato
@@ -411,6 +405,7 @@ showSection('mi-orden') → TopNavbar debe ser invisible
 ```
 
 ### 📱 **P1 - Botones Incorrectos:**
+
 ```javascript
 // PROBLEMA: Botones "Pagar Cuenta" aparecen en Mi Orden
 // REGLA: Solo mostrar en sección "Cuenta" (diferente)
@@ -423,14 +418,14 @@ showSection('mi-orden') → TopNavbar debe ser invisible
 ### 🔨 **Tareas Críticas:**
 
 1. **Fix TopNavbar ocultamiento** - P0
-2. **Remover botones incorrectos de Mi Orden** - P1  
+2. **Remover botones incorrectos de Mi Orden** - P1
 3. **Definir cuándo habilitar sección "Cuenta"** - UX
 4. **Implementar estados mixtos correctamente** - P1
 
 ### 💡 **Preguntas Resueltas:**
 
 1. ✅ **Mi Orden vs Cuenta:** Son secciones diferentes con propósitos distintos
-2. ✅ **Flujo de estados:** nuevo → enviado_cocina → servido  
+2. ✅ **Flujo de estados:** nuevo → enviado_cocina → servido
 3. ✅ **Botones:** Mi Orden = navegación / Cuenta = acciones finales
 
 ---

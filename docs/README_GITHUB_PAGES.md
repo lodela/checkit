@@ -47,19 +47,21 @@ Una Progressive Web App (PWA) moderna para el menú digital de Sanborns, desarro
 ## 🔧 Desarrollo Local
 
 1. **Clonar repositorio:**
+
    ```bash
    git clone https://github.com/[TU_USUARIO]/[TU_REPO].git
    cd [TU_REPO]
    ```
 
 2. **Servir localmente:**
+
    ```bash
    # Con Python 3
    python -m http.server 3000
-   
+
    # Con Node.js
    npx serve . -p 3000
-   
+
    # Con Live Server (VSCode)
    # Right-click en index.html > "Open with Live Server"
    ```
@@ -74,6 +76,7 @@ Una Progressive Web App (PWA) moderna para el menú digital de Sanborns, desarro
 El proyecto se despliega automáticamente en **GitHub Pages** cuando se hace push a la rama `main`:
 
 1. **Push a main:**
+
    ```bash
    git add .
    git commit -m "🚀 Update menu"
@@ -96,7 +99,7 @@ DataService.setEnvironment('github_pages');
 
 // Configurar endpoints personalizados
 DataService.configureEndpoints({
-    menu: 'https://api.mibackend.com/menu'
+  menu: 'https://api.mibackend.com/menu',
 });
 ```
 
@@ -133,6 +136,7 @@ Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) par
 ## 👨‍💻 Autor
 
 **[TU_NOMBRE]**
+
 - GitHub: [@[TU_USUARIO]](https://github.com/[TU_USUARIO])
 - LinkedIn: [Tu LinkedIn](https://linkedin.com/in/tu-perfil)
 

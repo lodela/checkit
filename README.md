@@ -7,6 +7,7 @@
 Cliente escanea QR → Abre webapp → Ve menú → Ordena → Paga → Se va feliz
 
 ### 🎯 Flujo de Usuario
+
 1. **Escaneo QR** - Cliente accede a la webapp desde su móvil
 2. **Visualización Menú** - 29 categorías, +150 productos con imágenes
 3. **Selección Productos** - Cards con imagen, descripción, precio, botón (+)
@@ -18,13 +19,15 @@ Cliente escanea QR → Abre webapp → Ve menú → Ordena → Paga → Se va fe
 ## 🎨 Diseño & UX
 
 ### Responsive Design
+
 - **Desktop/Tablet**: Menú superior horizontal
 - **Mobile**: Tab bar inferior con iconos
   - 🍽️ Menú
-  - 🛒 Cuenta  
+  - 🛒 Cuenta
   - 👨‍🍳 Mesero
 
 ### Estados de la App
+
 - **Carrito Vacío**: "No tienes nada ordenado, ¿te gustaría ver el menú?"
 - **Con Productos**: Suma de totales en tiempo real
 - **Orden Enviada**: Botones "Pagar" y "Ver Menú"
@@ -32,12 +35,14 @@ Cliente escanea QR → Abre webapp → Ve menú → Ordena → Paga → Se va fe
 ## 🛠️ Stack Tecnológico
 
 ### Core
+
 - **HTML5** - Semántico y accesible
 - **CSS3** - Bootstrap 5 Grid + Variables CSS
 - **JavaScript ES6+** - Modules, destructuring, async/await
 - **jQuery** - DOM manipulation, events, animations
 
 ### Herramientas
+
 - **Bootstrap 5** - Grid responsivo (sm, md, lg, xl)
 - **JSON Server** - API simulada para estados de mesa
 - **LocalStorage** - Persistencia del carrito
@@ -69,21 +74,25 @@ Cliente escanea QR → Abre webapp → Ve menú → Ordena → Paga → Se va fe
 ## 🔄 Componentes Principales
 
 ### 1. MenuManager
+
 - Renderizado de categorías
 - Cards de productos
 - Filtros y búsqueda
 
-### 2. CartManager  
+### 2. CartManager
+
 - Agregar/remover productos
 - Calcular totales
 - Persistencia localStorage
 
 ### 3. ModalManager
+
 - Modal de producto
 - Modal de carrito
 - Confirmaciones
 
 ### 4. NavigationManager
+
 - Tab bar móvil
 - Menú desktop
 - Estados activos
@@ -91,6 +100,7 @@ Cliente escanea QR → Abre webapp → Ve menú → Ordena → Paga → Se va fe
 ## 📊 Estructura de Datos
 
 ### Producto (del mock.json)
+
 ```json
 {
   "orderPrductName": "Molletes sanborns SKU 18330",
@@ -102,6 +112,7 @@ Cliente escanea QR → Abre webapp → Ve menú → Ordena → Paga → Se va fe
 ```
 
 ### Estado Carrito (localStorage)
+
 ```json
 {
   "items": [
@@ -122,6 +133,7 @@ Cliente escanea QR → Abre webapp → Ve menú → Ordena → Paga → Se va fe
 ## 🚀 Fases de Desarrollo
 
 ### ✅ Fase 1: Estructura Base
+
 - [x] Extracción de datos del HTML
 - [x] Creación del mock.json completo
 - [x] Setup inicial del proyecto
@@ -129,19 +141,22 @@ Cliente escanea QR → Abre webapp → Ve menú → Ordena → Paga → Se va fe
 - [x] CSS retro + animaciones
 - [x] JavaScript core + jQuery
 
-### 🔄 Fase 2: Funcionalidad Core  
+### 🔄 Fase 2: Funcionalidad Core
+
 - [ ] Renderizado del menú
 - [ ] Sistema de carrito
 - [ ] Modales de producto
 - [ ] Navegación responsive
 
 ### 🔮 Fase 3: Features Avanzadas
+
 - [ ] JSON Server + estados de mesa
 - [ ] PWA + manifest
 - [ ] Animaciones + sonidos
 - [ ] Optimizaciones finales
 
 ### 🎯 Fase 4: Módulos Futuros
+
 - [ ] Opciones de productos (sin cebolla, etc.)
 - [ ] Sistema de meseros
 - [ ] Pagos integrados
@@ -150,12 +165,14 @@ Cliente escanea QR → Abre webapp → Ve menú → Ordena → Paga → Se va fe
 ## 🎵 Estilo Retro 90's
 
 ### Paleta de Colores
+
 - **Primario**: #FF0000 (Rojo Sanborns)
-- **Secundario**: #FFD700 (Dorado)  
+- **Secundario**: #FFD700 (Dorado)
 - **Fondo**: #F5F5F5 (Gris claro)
 - **Texto**: #333333 (Gris oscuro)
 
 ### Animaciones jQuery
+
 - **Fade in/out** para modales
 - **Slide up/down** para navegación
 - **Bounce** para botones de acción
@@ -173,7 +190,7 @@ npm run server
 # Desarrollo (Live Server)
 npm run dev
 
-# Build para producción  
+# Build para producción
 npm run build
 ```
 

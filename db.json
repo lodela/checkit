@@ -23,11 +23,11 @@
       "adultos": 2,
       "ninos": 0,
       "cuentaAbierta": true,
-      "subtotal": 580.00,
-      "impuestos": 92.80,
-      "total": 672.80,
+      "subtotal": 580.0,
+      "impuestos": 92.8,
+      "total": 672.8,
       "propina": 0,
-      "totalConPropina": 672.80,
+      "totalConPropina": 672.8,
       "timestamp": "2025-07-02T10:47:00Z",
       "orden": null
     }
@@ -52,7 +52,7 @@
     },
     {
       "id": "enviada",
-      "nombre": "Enviada a Cocina", 
+      "nombre": "Enviada a Cocina",
       "descripcion": "Orden confirmada y enviada a cocina"
     },
     {

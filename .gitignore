@@ -39,7 +39,33 @@ Thumbs.db
 # Temporary files
 tmp/
 temp/
+screenshots/
 
 # Cache
 .cache/
 .parcel-cache/
+
+logs
+dev-debug.log
+# Dependency directories
+# Editor directories and files
+.idea
+.vscode
+.claude
+.clinerules
+.cursor
+.GitHub
+.roo
+.taskmaster
+.trae
+.windsurf
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+# OS specific
+
+# Task files
+tasks.json
+tasks/ 

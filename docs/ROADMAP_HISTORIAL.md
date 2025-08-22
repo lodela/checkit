@@ -2,19 +2,21 @@
 
 **📅 Última actualización:** 03 Julio 2025  
 **🎯 Proyecto:** WebApp Menú Digital Sanborns  
-**📍 Estado actual:** v1.2.3-beta (5 de 7 fases completadas)  
+**📍 Estado actual:** v1.2.3-beta (5 de 7 fases completadas)
 
 ---
 
 ## 🎯 **RESUMEN EJECUTIVO**
 
 ### **📊 Estado Global:**
+
 - **✅ FUNCIONAL:** Core features operativas
 - **🔄 REFINANDO:** UX y fixes críticos
 - **🚀 DEPLOY:** GitHub Pages automático
 - **📋 DOCUMENTADO:** Arquitectura completa
 
 ### **🎨 Arquitectura Actual:**
+
 - **Frontend:** HTML5 + CSS3 + JavaScript ES6+ + jQuery
 - **Backend:** JSON Server (simulado) + LocalStorage
 - **Deploy:** GitHub Pages + PWA
@@ -25,10 +27,12 @@
 ## 📈 **HISTORIAL DE FASES**
 
 ### **✅ FASE 1: FOUNDATION (Completada)**
+
 **📅 Duración:** 2 semanas  
 **🎯 Objetivo:** Base sólida del proyecto
 
 #### **🏗️ Logros:**
+
 - ✅ Estructura HTML semántica
 - ✅ Sistema de estilos CSS3 + Bootstrap 5
 - ✅ JavaScript modular (ES6+)
@@ -36,6 +40,7 @@
 - ✅ PWA básica (manifest + service worker)
 
 #### **🔧 Decisiones Técnicas:**
+
 - **Vanilla JS + jQuery:** Balance rendimiento/rapidez desarrollo
 - **JSON Server:** Simulación backend sin complejidad
 - **GitHub Pages:** Deploy gratuito y automático
@@ -44,10 +49,12 @@
 ---
 
 ### **✅ FASE 2: CORE FEATURES (Completada)**
+
 **📅 Duración:** 3 semanas  
 **🎯 Objetivo:** Funcionalidades principales
 
 #### **🏗️ Logros:**
+
 - ✅ Navegación SPA (Single Page App)
 - ✅ Gestión de menú (categorías + productos)
 - ✅ Sistema de carrito completo
@@ -56,6 +63,7 @@
 - ✅ Responsive mobile-first
 
 #### **🧩 Componentes Desarrollados:**
+
 - **SanbornsApp:** Core navegación
 - **MenuManager:** Renderizado menú
 - **CartManager:** Gestión carrito
@@ -65,10 +73,12 @@
 ---
 
 ### **✅ FASE 3: ADVANCED UX (Completada)**
+
 **📅 Duración:** 2 semanas  
 **🎯 Objetivo:** Experiencia de usuario avanzada
 
 #### **🏗️ Logros:**
+
 - ✅ Estados de productos (nuevo, cocina, servido)
 - ✅ TopNavbar con scroll auto-hide
 - ✅ Animations y transiciones smooth
@@ -77,6 +87,7 @@
 - ✅ Optimización mobile
 
 #### **🎨 Mejoras UX:**
+
 - **Scroll Behavior:** Navbar inteligente
 - **Visual Feedback:** Estados claros
 - **Touch Optimization:** Gestos móviles
@@ -85,10 +96,12 @@
 ---
 
 ### **✅ FASE 4: BUSINESS LOGIC (Completada)**
+
 **📅 Duración:** 1 semana  
 **🎯 Objetivo:** Lógica de negocio completa
 
 #### **🏗️ Logros:**
+
 - ✅ Proceso de órdenes completo
 - ✅ Estados inmutables después de envío
 - ✅ Cálculo de totales e impuestos
@@ -96,6 +109,7 @@
 - ✅ Gestión de errores
 
 #### **💼 Flujo de Negocio:**
+
 - **Orden → Cocina → Servido → Pago**
 - **Inmutabilidad:** Items no editables post-orden
 - **Facturación:** Solo items procesados
@@ -104,10 +118,12 @@
 ---
 
 ### **✅ FASE 5: DOCUMENTATION (Completada)**
+
 **📅 Duración:** 1 semana  
 **🎯 Objetivo:** Documentación exhaustiva
 
 #### **📋 Logros:**
+
 - ✅ Manual de usuario completo
 - ✅ Documentación técnica
 - ✅ Especificación Mi Orden vs Cuenta
@@ -115,6 +131,7 @@
 - ✅ Instrucciones de deploy
 
 #### **📚 Documentos Generados:**
+
 - **MANUAL_DE_USUARIO.md:** Guía paso a paso
 - **DOCUMENTACION_COMPLETA.md:** Arquitectura completa
 - **ESPECIFICACION_MI_ORDEN_Y_CUENTA.md:** Lógica de secciones
@@ -126,10 +143,12 @@
 ## 🔄 **FASES PENDIENTES**
 
 ### **⚡ FASE 6: FIXES CRÍTICOS (En progreso)**
+
 **📅 Duración estimada:** 1-2 semanas  
 **🎯 Objetivo:** Resolver issues P0-P1
 
 #### **🚨 Issues Prioritarios:**
+
 ```javascript
 // P0 - TopNavbar Hide
 Issue: forceHideNavbar() no funciona en Mi Orden
@@ -137,7 +156,7 @@ Cause: Bootstrap classes override CSS
 Fix: Custom CSS classes + !important
 Status: 🔄 En desarrollo
 
-// P1 - Botón Incorrecto  
+// P1 - Botón Incorrecto
 Issue: "Ver Menú" en sección Cuenta
 Cause: Reutilización de template
 Fix: Separar lógica de botones
@@ -151,6 +170,7 @@ Status: 📋 Pendiente
 ```
 
 #### **🔧 Soluciones Planificadas:**
+
 - **CSS Override:** Clases personalizadas para navbar
 - **Button Logic:** Separar botones por sección
 - **State Management:** Mejorar habilitación de tabs
@@ -159,10 +179,12 @@ Status: 📋 Pendiente
 ---
 
 ### **🚀 FASE 7: ENHANCED UX (Planificada)**
+
 **📅 Duración estimada:** 3-4 semanas  
 **🎯 Objetivo:** UX de nivel profesional
 
 #### **🎨 Mejoras UX:**
+
 - **Drawer Menu Funcional:** Navegación completa
 - **Animations Avanzadas:** Micro-interacciones
 - **Feedback Haptic:** Vibración en móviles
@@ -170,12 +192,14 @@ Status: 📋 Pendiente
 - **Error Handling:** Mensajes user-friendly
 
 #### **⚡ Optimizaciones:**
+
 - **Performance:** Lazy loading imágenes
 - **Memory:** Garbage collection optimizado
 - **Battery:** Throttling de eventos
 - **Network:** Retry automático
 
 #### **🔧 Funcionalidades:**
+
 - **Offline Mode:** Funcionalidad sin internet
 - **Push Notifications:** Orden lista
 - **Install Prompt:** PWA installation
@@ -184,10 +208,12 @@ Status: 📋 Pendiente
 ---
 
 ### **🌟 FASE 8: MÓDULOS AVANZADOS (Futuro)**
+
 **📅 Duración estimada:** 2-3 meses  
 **🎯 Objetivo:** Funcionalidades enterprise
 
 #### **👨‍💼 Panel Meseros:**
+
 - **Dashboard:** Vista global de mesas
 - **Orders Management:** Gestión de órdenes
 - **Status Updates:** Cambio de estados
@@ -195,6 +221,7 @@ Status: 📋 Pendiente
 - **Analytics:** Métricas básicas
 
 #### **💳 Sistema de Pagos:**
+
 - **Stripe Integration:** Tarjetas de crédito
 - **PayPal:** Pagos digitales
 - **QR Payments:** SPEI, CoDi (México)
@@ -202,6 +229,7 @@ Status: 📋 Pendiente
 - **Receipts:** Facturas digitales
 
 #### **🎯 Personalización:**
+
 - **Product Options:** Sin cebolla, extra queso
 - **Allergies:** Información detallada
 - **Favorites:** Productos frecuentes
@@ -211,22 +239,26 @@ Status: 📋 Pendiente
 ---
 
 ### **🤖 FASE 9: AI & AUTOMATION (Visión)**
+
 **📅 Duración estimada:** 6+ meses  
 **🎯 Objetivo:** Inteligencia artificial
 
 #### **🧠 Machine Learning:**
+
 - **Recommendation Engine:** Productos personalizados
 - **Demand Prediction:** Inventario inteligente
 - **Price Optimization:** Precios dinámicos
 - **Sentiment Analysis:** Feedback automático
 
 #### **🔮 Automation:**
+
 - **Kitchen Display:** Pantalla cocina
 - **Inventory Management:** Stock tiempo real
 - **Staff Scheduling:** Optimización turnos
 - **Table Management:** Asignación automática
 
 #### **🌐 Integration:**
+
 - **Voice Assistant:** Órdenes por voz
 - **AR Menu:** Realidad aumentada
 - **IoT Sensors:** Mesa inteligente
@@ -237,6 +269,7 @@ Status: 📋 Pendiente
 ## 📊 **MÉTRICAS Y OBJETIVOS**
 
 ### **🎯 KPIs Técnicos:**
+
 ```javascript
 // Performance
 loadTime: {
@@ -268,6 +301,7 @@ errorRate: {
 ```
 
 ### **📈 KPIs de Negocio:**
+
 ```javascript
 // User Adoption
 orderCompletion: {
@@ -296,6 +330,7 @@ returnUsage: {
 ## 🛠️ **STACK TECNOLÓGICO**
 
 ### **📱 Frontend Actual:**
+
 - **HTML5:** Semántico, accesible
 - **CSS3:** Variables, Grid, Flexbox
 - **JavaScript:** ES6+, Modules, Async/Await
@@ -303,12 +338,14 @@ returnUsage: {
 - **Bootstrap:** Grid system, utilities
 
 ### **⚙️ Backend Actual:**
+
 - **JSON Server:** API REST simulada
 - **LocalStorage:** Persistencia cliente
 - **GitHub Pages:** Hosting estático
 - **PWA:** Service Worker, Manifest
 
 ### **🔮 Stack Futuro:**
+
 - **Backend:** Node.js + Express + MongoDB
 - **Real-time:** WebSockets + Socket.io
 - **Payments:** Stripe + PayPal APIs
@@ -320,6 +357,7 @@ returnUsage: {
 ## 🎯 **DECISIONES ARQUITECTÓNICAS**
 
 ### **✅ Decisiones Confirmadas:**
+
 1. **Vanilla JS + jQuery:** Balance perfecto
 2. **Modular Pattern:** Escalabilidad y mantenimiento
 3. **SOLID Principles:** Código limpio y extensible
@@ -327,12 +365,14 @@ returnUsage: {
 5. **PWA:** Instalación nativa sin app store
 
 ### **🔄 Decisiones En Revisión:**
+
 1. **Separación de Secciones:** Refactoring vs optimización
 2. **State Management:** Centralized vs distributed
 3. **Build Process:** Mantener vanilla vs bundler
 4. **Backend Migration:** Cuándo migrar a real backend
 
 ### **📋 Decisiones Pendientes:**
+
 1. **Framework Migration:** React/Vue vs mantener vanilla
 2. **Database:** PostgreSQL vs MongoDB vs Firebase
 3. **Authentication:** JWT vs OAuth vs Firebase Auth
@@ -343,6 +383,7 @@ returnUsage: {
 ## 🔧 **AMBIENTE DE DESARROLLO**
 
 ### **⚡ Setup Actual:**
+
 ```bash
 # Repositorio
 git clone https://github.com/lodela/webScrapperSbrnsHmns.git
@@ -357,6 +398,7 @@ git push origin main → GitHub Pages auto-deploy
 ```
 
 ### **🛠️ Herramientas:**
+
 - **Editor:** VS Code + extensiones
 - **Debug:** Chrome DevTools + Live Server
 - **Version Control:** Git + GitHub
@@ -368,6 +410,7 @@ git push origin main → GitHub Pages auto-deploy
 ## 📋 **LESSONS LEARNED**
 
 ### **✅ Aciertos:**
+
 1. **Documentación Temprana:** Evitó confusiones
 2. **Vanilla JS:** Rapidez desarrollo sin overhead
 3. **Mobile-First:** UX superior en dispositivos objetivo
@@ -375,6 +418,7 @@ git push origin main → GitHub Pages auto-deploy
 5. **Estado Inmutable:** Lógica de negocio clara
 
 ### **⚠️ Desafíos:**
+
 1. **Bootstrap Override:** CSS specificity issues
 2. **Estado Compartido:** Sincronización entre secciones
 3. **Testing Manual:** Tiempo consumido en validation
@@ -382,6 +426,7 @@ git push origin main → GitHub Pages auto-deploy
 5. **Browser Compatibility:** iOS Safari quirks
 
 ### **💡 Mejoras Futuras:**
+
 1. **Automated Testing:** Unit + Integration tests
 2. **CI/CD Pipeline:** Testing + deployment automático
 3. **Performance Monitoring:** Real-time metrics
@@ -393,24 +438,28 @@ git push origin main → GitHub Pages auto-deploy
 ## 🎯 **PRÓXIMOS PASOS**
 
 ### **🔥 Inmediatos (Esta semana):**
+
 1. **Fix TopNavbar hide** (P0)
 2. **Cambiar botón Cuenta** (P1)
 3. **Habilitar tab Cuenta** (P2)
 4. **Testing completo** flujos
 
 ### **⚡ Corto plazo (2-4 semanas):**
+
 1. **Drawer Menu funcional**
 2. **Optimizaciones PWA**
 3. **Error handling mejorado**
 4. **Performance optimizations**
 
 ### **🌟 Mediano plazo (2-3 meses):**
+
 1. **Panel meseros**
 2. **Sistema pagos**
 3. **Personalización productos**
 4. **Analytics básicos**
 
 ### **🚀 Largo plazo (6+ meses):**
+
 1. **Backend real**
 2. **Mobile app nativa**
 3. **AI recommendations**
@@ -421,6 +470,7 @@ git push origin main → GitHub Pages auto-deploy
 ## 👥 **EQUIPO Y CONTACTO**
 
 ### **🧑‍💻 Roles Actuales:**
+
 - **Lead Developer:** Lodela
 - **UX/UI Designer:** Lodela
 - **QA Engineer:** Lodela
@@ -428,6 +478,7 @@ git push origin main → GitHub Pages auto-deploy
 - **Product Owner:** Lodela
 
 ### **📞 Contacto:**
+
 - **Repository:** https://github.com/lodela/webScrapperSbrnsHmns
 - **Live Demo:** https://lodela.github.io/webScrapperSbrnsHmns/
 - **Issues:** GitHub Issues
@@ -438,12 +489,15 @@ git push origin main → GitHub Pages auto-deploy
 ## 🎯 **CONCLUSIÓN**
 
 ### **🎊 Estado Actual:**
+
 **Proyecto 85% completo y funcional**. Core features operativas, documentación exhaustiva, deploy automático. Listo para uso en producción con fixes menores.
 
 ### **🔮 Visión Futura:**
+
 **Plataforma completa de digitalización gastronómica**. Desde menú básico hasta sistema enterprise con IA, pagos, analytics y multi-restaurant.
 
 ### **🎯 Compromiso:**
+
 **Mantener simplicidad y performance** mientras agregamos features avanzadas. Priorizar UX y developer experience en cada iteración.
 
 ---

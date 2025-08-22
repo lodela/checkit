@@ -1,4 +1,5 @@
 # 🍽️ SANBORNS DIGITAL MENU - PROJECT ROADMAP
+
 > **"Si no recuerdo ni madres en 6 meses, este archivo me debe poner al día en 5 minutos"**
 
 **📅 Última actualización:** 02 Julio 2025  
@@ -11,6 +12,7 @@
 ## 🎯 **ESTADO ACTUAL - ¿DÓNDE ESTÁS HOY?**
 
 ### 📱 **LO QUE FUNCIONA PERFECTO:**
+
 - ✅ **PWA Funcional** - App instalable en mobile/desktop
 - ✅ **Menú Dinámico** - 29 categorías, +150 productos con imágenes
 - ✅ **Carrito Completo** - Agregar/quitar, persistencia, totales en tiempo real
@@ -23,6 +25,7 @@
 - ✅ **Responsive Design** - Mobile-first, funciona en todos los dispositivos
 
 ### 🎨 **LOOK & FEEL:**
+
 - **Colores:** Rojo Sanborns (#dc3545) + Dorado + Estilo 90's
 - **UX:** Mobile-first, animaciones jQuery, feedback visual
 - **Performance:** Carga rápida, localStorage para persistencia
@@ -34,21 +37,27 @@
 ### 🗓️ **CRONOLOGÍA DE IMPLEMENTACIÓN:**
 
 #### **🏗️ FASE 1: ESTRUCTURA BASE** (Completada)
+
 **📅 Fecha:** Inicio del proyecto
+
 - ✅ Extracción de datos reales de Sanborns HTML
 - ✅ Creación de `mock.json` completo (29 categorías, +150 productos)
 - ✅ Setup inicial: HTML5 + Bootstrap 5 + jQuery + Font Awesome
 - ✅ Arquitectura de archivos modular y escalable
 
 #### **🎨 FASE 2: UI/UX MOBILE** (Completada)
+
 **📅 Fecha:** Primera iteración UI
+
 - ✅ Mobile-first responsive design
 - ✅ Top navbar con logo, mesa info, acciones
 - ✅ Bottom tab navigation (Menú/Cuenta/Mesero)
 - ✅ CSS custom con variables y animaciones retro
 
-#### **🛒 FASE 3: CARRITO INTELIGENTE** (Completada) 
+#### **🛒 FASE 3: CARRITO INTELIGENTE** (Completada)
+
 **📅 Fecha:** Core functionality
+
 - ✅ **CartManager**: Agregar/quitar productos, calcular totales
 - ✅ **Estados de productos**: `nuevo` → `enviado_cocina` → `servido`
 - ✅ **Validaciones**: Solo productos "nuevo" son editables
@@ -57,14 +66,18 @@
 - ✅ **Botón "Ordenar Ahora"**: Solo aparece si hay productos nuevos
 
 #### **🔍 FASE 4: BÚSQUEDA AVANZADA** (Completada)
+
 **📅 Fecha:** UX improvements
+
 - ✅ **Filtro en tiempo real** por nombre de producto
 - ✅ **Botón Clear (X)**: Aparece/desaparece dinámicamente
 - ✅ **Feedback visual**: Toast "Búsqueda limpiada"
 - ✅ **Performance**: Debounce para evitar lag
 
 #### **📱 FASE 5: TOP NAVBAR CONFIGURABLE** (Completada HOY)
+
 **📅 Fecha:** 02 Julio 2025
+
 - ✅ **Sistema de configuración** desde `db.json`
 - ✅ **Navbar responsive** con scroll hide/show automático
 - ✅ **Botones fijos**: Hamburger + Carrito siempre visibles
@@ -78,6 +91,7 @@
 ## 🏗️ **ARQUITECTURA ACTUAL - CÓMO ESTÁ ORGANIZADO**
 
 ### 📁 **ESTRUCTURA DE ARCHIVOS:**
+
 ```
 📁 webScrapperSbrnsHmns/
 ├── 📄 index.html              # Entry point
@@ -106,38 +120,48 @@
 ### 🧩 **COMPONENTES PRINCIPALES:**
 
 #### **🎯 MobileTopNavbar (`mobile-navbar.js`)**
+
 **Responsabilidad:** Navbar responsive configurable
+
 ```javascript
 // Configuración desde db.json
 configuraciones.topNavbar: {
   colorFondo: "#dc3545",
-  logoImagen: "sanbornsWhite.svg", 
+  logoImagen: "sanbornsWhite.svg",
   scrollPixeles: 5,
   mostrarHamburger: true,
   alturaNavbar: 60
 }
 ```
+
 **Features:**
+
 - ✅ Scroll hide/show automático
 - ✅ Botones fijos siempre visibles
 - ✅ Modal mesa con calculadora propina
 - ✅ Sistema reset completo
 
 #### **🛒 CartManager (`cart.js`)**
+
 **Responsabilidad:** Gestión completa del carrito
+
 ```javascript
 // Estados de productos
-estados: ["nuevo", "enviado_cocina", "servido"]
+estados: ['nuevo', 'enviado_cocina', 'servido'];
 ```
+
 **Features:**
+
 - ✅ Solo productos "nuevo" son editables
 - ✅ Botón "Ordenar" solo si hay productos nuevos
 - ✅ Doble vista: cards + ticket
 - ✅ Persistencia localStorage
 
 #### **🍽️ MenuManager (`menu.js`)**
+
 **Responsabilidad:** Renderizado del menú
 **Features:**
+
 - ✅ 29 categorías dinámicas
 - ✅ Búsqueda en tiempo real
 - ✅ Botón clear búsqueda
@@ -146,6 +170,7 @@ estados: ["nuevo", "enviado_cocina", "servido"]
 ### 💾 **DATOS Y CONFIGURACIÓN:**
 
 #### **📄 db.json - Centro de Configuración:**
+
 ```json
 {
   "configuraciones": {
@@ -157,7 +182,7 @@ estados: ["nuevo", "enviado_cocina", "servido"]
       "colorFondo": "#dc3545",
       "logoImagen": "sanbornsWhite.svg",
       "scrollPixeles": 5,
-      "animacionMs": 300, 
+      "animacionMs": 300,
       "alturaNavbar": 60,
       "mostrarHamburger": true
     }
@@ -169,6 +194,7 @@ estados: ["nuevo", "enviado_cocina", "servido"]
 ```
 
 #### **📄 mock.json - Datos del Menú:**
+
 - **29 categorías** (Desayunos, Molletes, Bebidas, etc.)
 - **+150 productos** con precios, descripciones, imágenes
 - **Estructura real** extraída del HTML de Sanborns
@@ -180,18 +206,22 @@ estados: ["nuevo", "enviado_cocina", "servido"]
 ### 🚨 **PRIORIDAD P0 - CRÍTICO (Próximas 2 semanas)**
 
 #### **🔧 P0.1 - Drawer Menu Funcional**
+
 **⏱️ Estimación:** 4-6 horas
 **📝 Descripción:** Implementar contenido del drawer menu hamburger
 **🎯 Objetivos:**
+
 - ✅ Enlaces de navegación funcionales
 - ✅ Configuración de usuario (tema, idioma)
 - ✅ Información de la mesa
 - ✅ Botón "Llamar Mesero"
 
 #### **📱 P0.2 - PWA Optimizations**
+
 **⏱️ Estimación:** 3-4 horas  
 **📝 Descripción:** Mejorar experiencia de instalación
 **🎯 Objetivos:**
+
 - ✅ Service Worker para cache offline
 - ✅ Install prompt personalizado
 - ✅ Splash screen custom
@@ -200,9 +230,11 @@ estados: ["nuevo", "enviado_cocina", "servido"]
 ### ⚡ **PRIORIDAD P1 - IMPORTANTE (Próximo mes)**
 
 #### **💳 P1.1 - Sección Pago/Checkout**
+
 **⏱️ Estimación:** 8-12 horas
 **📝 Descripción:** Proceso de pago simulado completo
 **🎯 Objetivos:**
+
 - ✅ Resumen de cuenta con impuestos
 - ✅ Calculadora propina integrada
 - ✅ Opciones de pago (efectivo, tarjeta, app)
@@ -210,18 +242,22 @@ estados: ["nuevo", "enviado_cocina", "servido"]
 - ✅ Estado "Cuenta Pagada"
 
 #### **👨‍🍳 P1.2 - Módulo Mesero Avanzado**
+
 **⏱️ Estimación:** 10-15 horas
 **📝 Descripción:** Panel para mesero gestionar mesas
 **🎯 Objetivos:**
+
 - ✅ Dashboard mesas activas
 - ✅ Marcar productos como servidos
 - ✅ Chat/notificaciones con cliente
 - ✅ Historial de órdenes por mesa
 
 #### **🔄 P1.3 - Estados de Mesa Complejos**
+
 **⏱️ Estimación:** 6-8 horas
 **📝 Descripción:** Flujo completo mesa → orden → pago
 **🎯 Objetivos:**
+
 - ✅ Estado "Esperando pago"
 - ✅ Estado "Mesa libre"
 - ✅ Transiciones automáticas
@@ -230,36 +266,44 @@ estados: ["nuevo", "enviado_cocina", "servido"]
 ### 🌟 **PRIORIDAD P2 - NICE TO HAVE (Futuro)**
 
 #### **📊 P2.1 - Analytics Básicos**
+
 **⏱️ Estimación:** 15-20 horas
 **📝 Descripción:** Dashboard de métricas básicas
 **🎯 Objetivos:**
+
 - ✅ Productos más vendidos
 - ✅ Tiempo promedio por mesa
 - ✅ Ingresos por día/semana
 - ✅ Export a Excel/CSV
 
 #### **🎨 P2.2 - Personalización UI**
+
 **⏱️ Estimación:** 8-10 horas
 **📝 Descripción:** Temas y customización
 **🎯 Objetivos:**
+
 - ✅ Modo oscuro/claro
 - ✅ Tamaños de fuente
 - ✅ Temas por restaurante
 - ✅ Configuración de colores
 
 #### **🌐 P2.3 - Multi-idioma**
+
 **⏱️ Estimación:** 12-18 horas
 **📝 Descripción:** Soporte ES/EN/otros
 **🎯 Objetivos:**
+
 - ✅ i18n framework
 - ✅ Traducción de menú
 - ✅ Selector de idioma
 - ✅ Persistencia de preferencia
 
 #### **🔗 P2.4 - Integración Backend Real**
+
 **⏱️ Estimación:** 20-30 horas
 **📝 Descripción:** Migrar de mock a API real
 **🎯 Objetivos:**
+
 - ✅ API REST con Node.js/Express
 - ✅ Base de datos (PostgreSQL/MySQL)
 - ✅ Authentication (JWT)
@@ -271,6 +315,7 @@ estados: ["nuevo", "enviado_cocina", "servido"]
 ## ⚡ **QUICK START - CÓMO RETOMAR EN 5 MINUTOS**
 
 ### 🚀 **1. SETUP RÁPIDO:**
+
 ```bash
 # Clonar proyecto
 git clone [URL_REPO]
@@ -285,20 +330,23 @@ http://localhost:8000
 ```
 
 ### 🔧 **2. ARCHIVOS CLAVE A REVISAR:**
+
 1. **`db.json`** - Configuraciones actuales
 2. **`assets/js/mobile-navbar.js`** - Último componente implementado
 3. **`assets/js/cart.js`** - Lógica core del carrito
 4. **`PROJECT_ROADMAP.md`** - Este archivo (siempre actualizado)
 
 ### 🐛 **3. DEBUG RÁPIDO:**
+
 ```javascript
 // En DevTools Console:
-window.debugSanborns();           // Info general app
-CartManager.simulateStates();     // Testing estados carrito
-MobileTopNavbar.config;           // Ver config navbar
+window.debugSanborns(); // Info general app
+CartManager.simulateStates(); // Testing estados carrito
+MobileTopNavbar.config; // Ver config navbar
 ```
 
 ### 📱 **4. TESTING RÁPIDO:**
+
 1. **Mobile:** Abrir DevTools → Mobile view
 2. **Carrito:** Agregar productos, probar estados
 3. **Navbar:** Scroll para ver hide/show
@@ -309,6 +357,7 @@ MobileTopNavbar.config;           // Ver config navbar
 ## 🔥 **DECISIONES TÉCNICAS IMPORTANTES**
 
 ### ✅ **QUÉ FUNCIONA BIEN (NO TOCAR):**
+
 - **jQuery + Bootstrap**: Para velocidad de desarrollo
 - **Mobile-first**: Diseño pensado para móviles primero
 - **localStorage**: Persistencia confiable sin backend
@@ -316,12 +365,14 @@ MobileTopNavbar.config;           // Ver config navbar
 - **db.json**: Configuraciones centralizadas
 
 ### ⚠️ **DEBT TÉCNICO ACTUAL:**
+
 - **Mock data**: Eventualmente migrar a backend real
 - **No TypeScript**: Considerar migración futura
 - **Falta testing**: Unit tests pendientes
 - **Performance**: Optimizar imágenes y cache
 
 ### 🎯 **PATRONES ESTABLECIDOS:**
+
 - **Naming**: camelCase JS, kebab-case CSS
 - **Comments**: Headers con `/* ===== SECTION ===== */`
 - **Logs**: `SanbornsUtils.log()` para debugging
@@ -332,6 +383,7 @@ MobileTopNavbar.config;           // Ver config navbar
 ## 🏆 **MÉTRICAS DE ÉXITO**
 
 ### ✅ **LO QUE YA LOGRAMOS:**
+
 - 📱 **100% Mobile responsive** - Funciona perfecto en móviles
 - ⚡ **Performance:** Carga < 2 segundos
 - 🎨 **UX Suave:** Animaciones fluidas, feedback visual
@@ -339,8 +391,9 @@ MobileTopNavbar.config;           // Ver config navbar
 - 🔧 **Mantenible:** Código modular y bien documentado
 
 ### 🎯 **METAS FUTURAS:**
+
 - 📊 **Analytics:** Dashboards con métricas reales
-- 🔄 **Real-time:** WebSockets para updates instantáneos  
+- 🔄 **Real-time:** WebSockets para updates instantáneos
 - 💳 **Pagos:** Integración con pasarelas reales
 - 🌐 **Escala:** Multi-restaurante, multi-idioma
 
@@ -349,17 +402,20 @@ MobileTopNavbar.config;           // Ver config navbar
 ## 📞 **CONTACTO Y RECURSOS**
 
 ### 🔗 **Links Importantes:**
+
 - **Repo:** [GitHub URL]
 - **Demo:** [GitHub Pages URL]
 - **Figma/Designs:** [Si existe]
 
 ### 📚 **Documentación Legacy:**
+
 - `README.md` - Overview general del proyecto
 - `IMPLEMENTATION_SUMMARY.md` - Detalles técnicos carrito
 - `CHECK_ICON_IMPLEMENTATION.md` - Iconos custom
 - `SEARCH_CLEAR_IMPLEMENTATION.md` - Botón limpiar búsqueda
 
 ### 🆘 **Si Te Atoraste:**
+
 1. **Revisa este roadmap** - La verdad está aquí
 2. **Console logs** - `SanbornsUtils.log()` en todo el código
 3. **DevTools Network** - Verifica si `db.json` y `mock.json` cargan
@@ -391,13 +447,15 @@ MobileTopNavbar.config;           // Ver config navbar
 ### 📡 **SETUP DE GITHUB PAGES (Configurado y Funcionando)**
 
 #### **🔧 Archivos de Deployment:**
+
 - ✅ **`.github/workflows/deploy.yml`** - GitHub Actions auto-deploy
-- ✅ **`deploy.sh`** - Script manual de deployment  
+- ✅ **`deploy.sh`** - Script manual de deployment
 - ✅ **`_config.yml`** - Configuración Jekyll para GitHub Pages
 - ✅ **`404.html`** - Página de error personalizada
 - ✅ **`README_GITHUB_PAGES.md`** - Documentación completa del deployment
 
 #### **🌐 URLs del Proyecto:**
+
 - **🔗 Demo Live:** `https://[TU_USUARIO].github.io/webScrapperSbrnsHmns/`
 - **📁 Repositorio:** `https://github.com/[TU_USUARIO]/webScrapperSbrnsHmns`
 - **⚙️ Actions:** `https://github.com/[TU_USUARIO]/webScrapperSbrnsHmns/actions`
@@ -405,6 +463,7 @@ MobileTopNavbar.config;           // Ver config navbar
 ### 🔄 **PROCESO DE DEPLOYMENT ACTUAL:**
 
 #### **🤖 Automático (Recomendado):**
+
 ```bash
 # 1. Hacer cambios en el código
 git add .
@@ -416,6 +475,7 @@ git push origin main
 ```
 
 #### **📱 Manual (Backup):**
+
 ```bash
 # Script personalizado
 ./deploy.sh "🚀 Update con nueva feature"
@@ -427,6 +487,7 @@ git add . && git commit -m "Update" && git push origin main
 ### ⚙️ **CONFIGURACIÓN GITHUB ACTIONS:**
 
 **📄 `.github/workflows/deploy.yml`** (Auto-deploy):
+
 ```yaml
 # Se ejecuta automáticamente en push a main
 # Despliega directamente a GitHub Pages
@@ -436,6 +497,7 @@ git add . && git commit -m "Update" && git push origin main
 ### 🛠️ **HERRAMIENTAS DE DESARROLLO LOCAL:**
 
 #### **🖥️ Servidor Local:**
+
 ```bash
 # Opción 1: Python (recomendado)
 python -m http.server 8000
@@ -448,6 +510,7 @@ npx serve . -p 8000
 ```
 
 #### **🔄 Workflow de Desarrollo:**
+
 1. **Desarrollar localmente** → `localhost:8000`
 2. **Testing** → Verificar funcionalidad
 3. **Commit & Push** → `git push origin main`
@@ -471,12 +534,14 @@ npx serve . -p 8000
 ### 🚨 **TROUBLESHOOTING DEPLOYMENT:**
 
 #### **❌ Problemas Comunes:**
+
 1. **404 en GitHub Pages** → Verificar `_config.yml` y rama `main`
 2. **JS/CSS no cargan** → Verificar rutas relativas (no absolutas)
 3. **PWA no instala** → Verificar `manifest.json` y HTTPS
 4. **Deploy falla** → Revisar GitHub Actions logs
 
 #### **🔧 Comandos de Debug:**
+
 ```bash
 # Ver status de GitHub Pages
 curl -I https://[TU_USUARIO].github.io/webScrapperSbrnsHmns/
@@ -491,6 +556,7 @@ git log --oneline -5
 ### 📊 **MÉTRICAS DE DEPLOYMENT:**
 
 #### **✅ Lo que Funciona:**
+
 - 🚀 **Auto-deploy** desde `main` branch
 - ⚡ **Deploy rápido** (1-2 minutos)
 - 📱 **PWA funcional** en GitHub Pages
@@ -498,6 +564,7 @@ git log --oneline -5
 - 📄 **404 personalizada** configurada
 
 #### **🎯 Próximas Mejoras:**
+
 - 📊 **Métricas de visitas** (Google Analytics)
 - 🔄 **Deploy preview** para pull requests
 - 🧪 **Testing automático** antes de deploy
@@ -506,14 +573,16 @@ git log --oneline -5
 ### 🔐 **CONFIGURACIONES IMPORTANTES:**
 
 #### **📄 `_config.yml` (Jekyll):**
+
 ```yaml
 # Configuración mínima para GitHub Pages
 # Permite archivos estáticos sin build
-title: "Sanborns Digital Menu"
-description: "PWA para menú digital"
+title: 'Sanborns Digital Menu'
+description: 'PWA para menú digital'
 ```
 
 #### **📄 `404.html`:**
+
 - Página personalizada para URLs no encontradas
 - Redirige automáticamente a `index.html`
 - Mantiene la experiencia de SPA
@@ -521,13 +590,15 @@ description: "PWA para menú digital"
 ### 🎯 **DEPLOYMENT CHECKLIST:**
 
 **Antes de cada deploy:**
+
 - ✅ Testing local funcionando
-- ✅ Carrito persiste correctamente  
+- ✅ Carrito persiste correctamente
 - ✅ Mobile responsive verificado
 - ✅ PWA instala sin errores
 - ✅ Configuración `db.json` correcta
 
 **Después de cada deploy:**
+
 - ✅ URL de GitHub Pages carga
 - ✅ All features funcionando
 - ✅ PWA actualiza automáticamente

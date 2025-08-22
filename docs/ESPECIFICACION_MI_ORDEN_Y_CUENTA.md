@@ -2,7 +2,7 @@
 
 **📅 Fecha:** 03 Julio 2025  
 **🎯 Sección:** Diferencias críticas entre "Mi Orden" y "Cuenta"  
-**📝 Estado:** Especificación final actualizada  
+**📝 Estado:** Especificación final actualizada
 
 ---
 
@@ -11,11 +11,13 @@
 ### **📋 SECCIÓN "MI ORDEN"**
 
 #### **🔧 Funcionalidad Principal:**
+
 - **Gestión total del carrito** (todos los items)
 - **Control de estados** (nuevos, cocina, servidos)
 - **Edición condicional** (solo items nuevos)
 
 #### **💫 Estados de Items:**
+
 ```javascript
 // Items "nuevos" (editables)
 {
@@ -28,7 +30,7 @@
 
 // Items "en cocina" (readonly)
 {
-    estado: "en_cocina", 
+    estado: "en_cocina",
     editable: false,
     showControls: false,     // Sin botones de control
     readonly: true,
@@ -38,7 +40,7 @@
 // Items "servidos" (readonly)
 {
     estado: "servido",
-    editable: false, 
+    editable: false,
     showControls: false,     // Sin botones de control
     readonly: true,
     statusBadge: "✅ Servido"
@@ -46,26 +48,29 @@
 ```
 
 #### **🧮 Cálculo de Totales:**
+
 - **Incluye:** TODOS los items (nuevos + cocina + servidos)
 - **Subtotal:** Suma de todos los productos
 - **Impuestos:** 16% sobre subtotal
 - **Total:** Subtotal + impuestos
 
 #### **⚡ Botones Dinámicos:**
+
 ```javascript
 // Botón "Ordenar Ahora"
-showButton: hasItemsInState("nuevo") === true
-hideButton: hasItemsInState("nuevo") === false
+showButton: hasItemsInState('nuevo') === true;
+hideButton: hasItemsInState('nuevo') === false;
 
 // Lógica de display
-if (cart.items.filter(item => item.estado === "nuevo").length > 0) {
-    showButton("ordenar-ahora-btn");
+if (cart.items.filter(item => item.estado === 'nuevo').length > 0) {
+  showButton('ordenar-ahora-btn');
 } else {
-    hideButton("ordenar-ahora-btn");
+  hideButton('ordenar-ahora-btn');
 }
 ```
 
 #### **🎨 Indicadores Visuales:**
+
 - **Badge del Tab:** Muestra total de items (nuevos + cocina + servidos)
 - **Items nuevos:** Fondo blanco, controles habilitados
 - **Items en cocina:** Fondo amarillo claro, texto "🔥 En preparación"
@@ -76,11 +81,13 @@ if (cart.items.filter(item => item.estado === "nuevo").length > 0) {
 ### **💳 SECCIÓN "CUENTA"**
 
 #### **🔧 Funcionalidad Principal:**
+
 - **Solo facturación** (items que generaron cargo)
 - **Vista de solo lectura** (información)
 - **Proceso de pago** (cierre de cuenta)
 
 #### **📋 Habilitación del Tab:**
+
 ```javascript
 // Estado inicial
 tabCuenta: {
@@ -99,36 +106,41 @@ enableCuentaTab: function() {
 ```
 
 #### **💰 Items Mostrados:**
+
 - **Incluye SOLO:** Items "en cocina" + "servidos"
 - **Excluye:** Items "nuevos" (no facturados)
 - **Razón:** Solo se cobran items que se ordenaron
 
 #### **🧮 Cálculo de Totales:**
+
 ```javascript
 // Filtrado de items facturados
-const itemsFacturados = cart.items.filter(item => 
-    item.estado === "en_cocina" || item.estado === "servido"
+const itemsFacturados = cart.items.filter(
+  item => item.estado === 'en_cocina' || item.estado === 'servido'
 );
 
 // Cálculo solo de items facturados
-const subtotal = itemsFacturados.reduce((sum, item) => 
-    sum + (item.price * item.quantity), 0
+const subtotal = itemsFacturados.reduce(
+  (sum, item) => sum + item.price * item.quantity,
+  0
 );
 const impuestos = subtotal * 0.16;
 const total = subtotal + impuestos;
 ```
 
 #### **🎨 Formato de Visualización:**
+
 - **Layout:** Formato lista (como ticket)
 - **Controles:** Ninguno (solo lectura)
 - **Estados:** Mostrar badge de estado por item
 - **Botones:** Solo "Pagar Cuenta"
 
 #### **❌ Funcionalidades ELIMINADAS:**
+
 - **NO** botones +/- para cantidad
 - **NO** botón eliminar items
 - **NO** mensaje "Orden Enviada a Cocina"
-- **NO** botón "Ver Menú" 
+- **NO** botón "Ver Menú"
 - **NO** edición de ningún tipo
 
 ---
@@ -138,6 +150,7 @@ const total = subtotal + impuestos;
 ### **📱 Secuencia Completa:**
 
 #### **1. Estado Inicial:**
+
 ```javascript
 // Al cargar la app
 miOrden: { visible: true, items: [] }
@@ -145,6 +158,7 @@ cuenta: { enabled: false, visible: true, items: [] }
 ```
 
 #### **2. Agregar Items:**
+
 ```javascript
 // Items van a "Mi Orden" como "nuevos"
 addToCart() → {
@@ -155,6 +169,7 @@ addToCart() → {
 ```
 
 #### **3. Ordenar Ahora:**
+
 ```javascript
 // Items pasan a "en cocina"
 ordenarAhora() → {
@@ -163,16 +178,17 @@ ordenarAhora() → {
             item.estado = "en_cocina";
         }
     });
-    
+
     // Habilitar tab Cuenta
     cuenta.enabled = true;
-    cuenta.items = items.filter(item => 
+    cuenta.items = items.filter(item =>
         item.estado === "en_cocina" || item.estado === "servido"
     );
 }
 ```
 
 #### **4. Servir Items:**
+
 ```javascript
 // Mesero actualiza estados
 marcarComoServido() → {
@@ -181,24 +197,25 @@ marcarComoServido() → {
             item.estado = "servido";
         }
     });
-    
+
     // Actualizar vista Cuenta
-    cuenta.items = items.filter(item => 
+    cuenta.items = items.filter(item =>
         item.estado === "en_cocina" || item.estado === "servido"
     );
 }
 ```
 
 #### **5. Pagar Cuenta:**
+
 ```javascript
 // Proceso de pago y reset
 pagarCuenta() → {
     // Modal de confirmación
     showModal("¿Confirmas el pago?");
-    
+
     // Encuesta de satisfacción
     showSurvey();
-    
+
     // Reset completo
     resetApp() → {
         cart.items = [];
@@ -215,29 +232,31 @@ pagarCuenta() → {
 ## 🎯 **CASOS DE USO ESPECÍFICOS**
 
 ### **📋 Caso 1: Estados Mixtos**
+
 ```javascript
 // Escenario: 3 nuevos, 2 en cocina, 1 servido
 cart.items = [
-    { id: 1, estado: "nuevo", editable: true },
-    { id: 2, estado: "nuevo", editable: true },
-    { id: 3, estado: "nuevo", editable: true },
-    { id: 4, estado: "en_cocina", editable: false },
-    { id: 5, estado: "en_cocina", editable: false },
-    { id: 6, estado: "servido", editable: false }
+  { id: 1, estado: 'nuevo', editable: true },
+  { id: 2, estado: 'nuevo', editable: true },
+  { id: 3, estado: 'nuevo', editable: true },
+  { id: 4, estado: 'en_cocina', editable: false },
+  { id: 5, estado: 'en_cocina', editable: false },
+  { id: 6, estado: 'servido', editable: false },
 ];
 
 // Mi Orden muestra: 6 items (3 editables + 3 readonly)
 miOrden.displayItems = 6;
 miOrden.editableItems = 3;
-miOrden.showOrdenarAhoraBtn = true;  // Hay items nuevos
+miOrden.showOrdenarAhoraBtn = true; // Hay items nuevos
 
 // Cuenta muestra: 3 items (2 cocina + 1 servido)
 cuenta.displayItems = 3;
 cuenta.editableItems = 0;
-cuenta.showPagarCuentaBtn = true;    // Hay items facturados
+cuenta.showPagarCuentaBtn = true; // Hay items facturados
 ```
 
 ### **🧮 Caso 2: Cálculo Diferenciado**
+
 ```javascript
 // Items con precios
 const items = [
@@ -262,6 +281,7 @@ cuenta.total = 350 + 56 = 406;
 ## 🚨 **ISSUES CRÍTICOS IDENTIFICADOS**
 
 ### **🔴 P0 - TopNavbar Hide**
+
 ```javascript
 // Problema actual
 forceHideNavbar() → {
@@ -283,22 +303,24 @@ forceHideNavbar() → {
 ```
 
 ### **🔴 P1 - Botón Incorrecto**
+
 ```javascript
 // Problema: Botón "Ver Menú" en sección Cuenta
 // Solución: Cambiar por "Pagar Cuenta"
 
 // Cuenta debe mostrar SOLO:
 const cuentaButtons = {
-    "pagar-cuenta-btn": {
-        text: "Pagar Cuenta",
-        action: "pagarCuenta()",
-        visible: true
-    }
-    // NO otros botones
+  'pagar-cuenta-btn': {
+    text: 'Pagar Cuenta',
+    action: 'pagarCuenta()',
+    visible: true,
+  },
+  // NO otros botones
 };
 ```
 
 ### **🔴 P2 - Separación Lógica**
+
 ```javascript
 // Problema: Misma sección para Mi Orden y Cuenta
 // Solución temporal: Condicionales
@@ -319,27 +341,28 @@ renderSection(sectionName) {
 ## 🎯 **DEBUGGING FUNCTIONS**
 
 ### **🔧 Funciones de Debug:**
+
 ```javascript
 // Disponibles en consola
 SanbornsDebug = {
-    // Simular estados
-    simulateStates: () => CartManager.simulateStates(),
-    
-    // Reset a estado inicial
-    resetAllToNew: () => CartManager.resetAllToNew(),
-    
-    // Contar items por estado
-    getStatusCounts: () => CartManager.getStatusCounts(),
-    
-    // Cambiar estados manualmente
-    markAsSent: () => CartManager.markProductsAsSent(),
-    markAsServed: () => CartManager.markProductsAsServed(),
-    
-    // Habilitar/deshabilitar cuenta
-    toggleCuenta: () => {
-        const hasChargedItems = CartManager.hasChargedItems();
-        $('#cuenta-tab').toggleClass('disabled', !hasChargedItems);
-    }
+  // Simular estados
+  simulateStates: () => CartManager.simulateStates(),
+
+  // Reset a estado inicial
+  resetAllToNew: () => CartManager.resetAllToNew(),
+
+  // Contar items por estado
+  getStatusCounts: () => CartManager.getStatusCounts(),
+
+  // Cambiar estados manualmente
+  markAsSent: () => CartManager.markProductsAsSent(),
+  markAsServed: () => CartManager.markProductsAsServed(),
+
+  // Habilitar/deshabilitar cuenta
+  toggleCuenta: () => {
+    const hasChargedItems = CartManager.hasChargedItems();
+    $('#cuenta-tab').toggleClass('disabled', !hasChargedItems);
+  },
 };
 ```
 
@@ -348,18 +371,21 @@ SanbornsDebug = {
 ## 📋 **CHECKLIST DE IMPLEMENTACIÓN**
 
 ### **✅ Completadas:**
+
 - [x] Estados de items (nuevo, cocina, servido)
 - [x] Cálculo diferenciado Mi Orden vs Cuenta
 - [x] Habilitación condicional tab Cuenta
 - [x] Items readonly en estados avanzados
 
 ### **🔄 En Proceso:**
+
 - [ ] Fix TopNavbar hide en Mi Orden
 - [ ] Botón "Pagar Cuenta" en sección Cuenta
 - [ ] Modal de confirmación pago
 - [ ] Encuesta de satisfacción
 
 ### **📋 Pendientes:**
+
 - [ ] Separación física de secciones
 - [ ] Optimización de renders
 - [ ] Testing de flujos completos

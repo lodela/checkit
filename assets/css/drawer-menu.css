@@ -205,7 +205,7 @@
   /* Scroll suave en iOS */
   -webkit-overflow-scrolling: touch;
   /* Padding bottom para evitar que el contenido se pegue al footer */
-  padding-bottom: 10px;
+  padding-bottom: 100px;
 }
 
 .drawer-footer {
@@ -334,7 +334,7 @@
   .drawer-menu-link {
     padding: 14px 16px;
   }
-  
+
   .drawer-menu-link-text {
     font-size: 14px;
   }
@@ -355,15 +355,15 @@
 }
 
 @keyframes searchHighlightPulse {
-  0% { 
+  0% {
     background: linear-gradient(120deg, #ffd700 0%, #ffed4e 100%);
     transform: scale(1);
   }
-  50% { 
+  50% {
     background: linear-gradient(120deg, #ffed4e 0%, #ffd700 100%);
     transform: scale(1.05);
   }
-  100% { 
+  100% {
     background: linear-gradient(120deg, #ffd700 0%, #ffed4e 100%);
     transform: scale(1);
   }

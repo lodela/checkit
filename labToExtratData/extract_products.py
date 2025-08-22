@@ -5,6 +5,7 @@ Script para extraer productos de Sanborns del HTML y generar JSON completo
 
 import json
 import re
+import argparse
 from bs4 import BeautifulSoup
 
 def extract_sku_from_text(text):
@@ -49,11 +50,11 @@ def clean_text(text):
         return ""
     return ' '.join(text.split()).strip()
 
-def extract_products_from_html():
+def extract_products_from_html(input_file):
     """Extrae todos los productos del HTML"""
     
     # Leer el archivo HTML
-    with open('/home/lodela/www/webScrapperSbrnsHmns/labToExtratData/sanborns-desayunos.html', 'r', encoding='utf-8') as f:
+    with open(input_file, 'r', encoding='utf-8') as f:
         html_content = f.read()
     
     soup = BeautifulSoup(html_content, 'html.parser')
@@ -113,6 +114,11 @@ def extract_products_from_html():
                     sku = str(int(hash_object.hexdigest()[:8], 16))[:6]  # 6 dígitos
                 
                 sku_key = f"sku{sku}"
+
+                # >>>>> MODIFICACIÓN: Evitar duplicados <<<<<
+                if sku_key in products_by_category[category_name]:
+                    print(f"  - Producto duplicado omitido: {product_name} (SKU: {sku})")
+                    continue
                 
                 # Extraer descripción
                 description = ""
@@ -121,7 +127,7 @@ def extract_products_from_html():
                     description = clean_text(desc_elem.get_text())
                 
                 # Extraer precios
-                price_divs = card.find_all('div', text=re.compile(r'\$\d+'))
+                price_divs = card.find_all('div', string=re.compile(r'\$\d+'))
                 original_price = None
                 discounted_price = None
                 
@@ -143,7 +149,7 @@ def extract_products_from_html():
                 
                 # Extraer descuento
                 discount = None
-                discount_elem = card.find('span', text=re.compile(r'[+-]?\d+%'))
+                discount_elem = card.find('span', string=re.compile(r'[+-]?\d+%'))
                 if discount_elem:
                     discount = extract_discount_from_text(discount_elem.get_text())
                 
@@ -169,14 +175,18 @@ def extract_products_from_html():
 
 def main():
     """Función principal"""
+    parser = argparse.ArgumentParser(description='Extraer productos de Sanborns desde un archivo HTML a un JSON.')
+    parser.add_argument('input_file', type=str, help='Ruta al archivo HTML de entrada.')
+    parser.add_argument('output_file', type=str, help='Ruta al archivo JSON de salida.')
+    args = parser.parse_args()
+
     print("Iniciando extracción de productos...")
     
     # Extraer productos
-    products = extract_products_from_html()
+    products = extract_products_from_html(args.input_file)
     
     # Guardar JSON
-    output_file = '/home/lodela/www/webScrapperSbrnsHmns/mock.json'
-    with open(output_file, 'w', encoding='utf-8') as f:
+    with open(args.output_file, 'w', encoding='utf-8') as f:
         json.dump(products, f, indent=2, ensure_ascii=False)
     
     # Estadísticas
@@ -184,7 +194,7 @@ def main():
     print(f"\n✅ Extracción completada:")
     print(f"   📂 Categorías: {len(products)}")
     print(f"   🛍️  Productos totales: {total_products}")
-    print(f"   💾 Archivo guardado: {output_file}")
+    print(f"   💾 Archivo guardado: {args.output_file}")
     
     # Mostrar resumen por categoría
     print(f"\n📊 Resumen por categoría:")
