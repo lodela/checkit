@@ -149,7 +149,8 @@ const MobileTopNavbar = {
   setupScrollController() {
     let ticking = false;
 
-    $(window).on('scroll', () => {
+    // Se agrega .navbar para poder desregistrar este evento específicamente
+    $(window).on('scroll.navbar', () => {
       if (!ticking) {
         requestAnimationFrame(() => {
           this.handleScroll();
@@ -203,13 +204,18 @@ const MobileTopNavbar = {
        ========================================================================== */
 
   disableScrollController() {
+    $(window).off('scroll.navbar'); // Desactiva SÓLO nuestro listener de scroll
+    this.showNavbar(); // Se asegura de que la navbar sea visible
     this.scrollControllerEnabled = false;
-    SanbornsUtils.log('🔧 Scroll controller deshabilitado');
+    SanbornsUtils.log('🔧 Scroll controller DESHABILITADO.');
   },
 
   enableScrollController() {
+    if (!this.scrollControllerEnabled) {
+      this.setupScrollController(); // Lo reactiva solo si estaba apagado
+    }
     this.scrollControllerEnabled = true;
-    SanbornsUtils.log('🔧 Scroll controller habilitado');
+    SanbornsUtils.log('🔧 Scroll controller HABILITADO.');
   },
 
   forceHideNavbar() {

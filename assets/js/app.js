@@ -395,53 +395,48 @@ const SanbornsApp = {
   showSection(sectionName) {
     if (this.isLoading) return;
 
-    // Tanto mi-orden como cuenta usan la misma sección pero con diferente configuración
     let targetSection = sectionName;
     if (sectionName === 'mi-orden') {
       targetSection = 'cuenta';
     }
 
-    // Validar sección
     const validSections = ['menu', 'cuenta', 'mesero', 'mi-orden'];
     if (!validSections.includes(sectionName)) {
       SanbornsUtils.log(`Sección no válida: ${sectionName}`, 'warn');
       return;
     }
 
-    // Actualizar estado
     this.currentSection = sectionName;
 
-    // Ocultar todas las secciones
     $('.section').removeClass('active').hide();
 
-    // Mostrar sección actual con animación
+    const $sectionTitle = $(`#${targetSection}-section h2`).first();
+    $('.section h2').removeClass('section-header-sticky');
+
+    if (sectionName === 'menu') {
+      if (window.MobileTopNavbar) {
+        window.MobileTopNavbar.enableScrollController();
+        window.MobileTopNavbar.elements.navbar.removeClass('hide-in-mi-orden');
+        window.MobileTopNavbar.elements.cartBtnFixed.removeClass('hide-in-mi-orden');
+      }
+    } else {
+      if (window.MobileTopNavbar) {
+        window.MobileTopNavbar.disableScrollController();
+      }
+      $sectionTitle.addClass('section-header-sticky');
+    }
+
     $(`#${targetSection}-section`)
       .addClass('active')
       .fadeIn(300)
       .addClass('animate-fadeInUp');
 
-    // Configurar interfaz según sección
     if (sectionName === 'mi-orden' || sectionName === 'cuenta') {
-      // Ocultar navbar y cart button para ambas secciones
-      if (window.MobileTopNavbar) {
-        window.MobileTopNavbar.forceHideNavbar();
-      }
-      $('#cart-btn-fixed').hide();
-
-      // Actualizar carrito con lógica condicional
       CartManager.updateCartSection();
-    } else {
-      // Mostrar navbar y cart button para otras secciones
-      if (window.MobileTopNavbar) {
-        window.MobileTopNavbar.forceShowNavbar();
-      }
-      $('#cart-btn-fixed').show();
     }
 
-    // Actualizar navegación
     this.updateNavigation(sectionName);
 
-    // Scroll al top
     $('html, body').animate({ scrollTop: 0 }, 300);
 
     SanbornsUtils.log(`Navegando a sección: ${sectionName}`);

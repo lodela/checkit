@@ -708,15 +708,9 @@ const CartManager = {
                     <strong>¡Orden enviada a cocina!</strong>
                     <br><small>En breve le llevamos el servicio a su mesa</small>
                 </div>
-                // <button class="btn btn-warning btn-lg mb-2" id="pagar-btn">
-                //     <i class="fas fa-credit-card me-2"></i>Solicitar Cuenta
-                // </button>
                 <button class="btn btn-outline-danger btn-lg" onclick="showSection('menu')">
                     <span class="menu-icon-mask me-2"></span>Continuar Ordenando
                 </button>
-                // <button class="btn btn-outline-secondary btn-lg mt-2" id="call-waiter-btn">
-                //     <i class="fas fa-bell me-2"></i>Llamar Mesero
-                // </button>
             `);
     } else {
       // No hay productos en cocina, pero SÍ mostrar botón de pagar si hay productos servidos
