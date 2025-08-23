@@ -544,7 +544,7 @@ body {
   border-radius: 10px;
   box-shadow: var(--shadow-soft);
   margin-bottom: 1rem;
-  padding: 1rem;
+  padding: 0;
 }
 
 .cart-item-image {
@@ -1173,7 +1173,9 @@ body {
 .hamburger-btn.active {
   transform: rotate(90deg);
 }
-
+.d-none {
+  display: none !important;
+}
 /* Forzar ocultamiento del hamburger cuando está configurado como false */
 .hamburger-btn.d-none {
   display: none !important;

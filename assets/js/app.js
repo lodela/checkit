@@ -417,7 +417,9 @@ const SanbornsApp = {
       if (window.MobileTopNavbar) {
         window.MobileTopNavbar.enableScrollController();
         window.MobileTopNavbar.elements.navbar.removeClass('hide-in-mi-orden');
-        window.MobileTopNavbar.elements.cartBtnFixed.removeClass('hide-in-mi-orden');
+        window.MobileTopNavbar.elements.cartBtnFixed.removeClass(
+          'hide-in-mi-orden'
+        );
       }
     } else {
       if (window.MobileTopNavbar) {
@@ -431,7 +433,11 @@ const SanbornsApp = {
       .fadeIn(300)
       .addClass('animate-fadeInUp');
 
-    if (sectionName === 'mi-orden' || sectionName === 'cuenta') {
+    if (sectionName === 'mi-orden') {
+      CartManager.setView('cards');
+      CartManager.updateCartSection();
+    } else if (sectionName === 'cuenta') {
+      CartManager.setView('list');
       CartManager.updateCartSection();
     }
 

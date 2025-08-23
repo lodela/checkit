@@ -73,9 +73,9 @@ const CartManager = {
     SanbornsUtils.saveToStorage('sanborns-view-preference', viewType);
 
     // Mostrar/ocultar toggle container según si hay items
-    if (this.cart.items.length > 0) {
-      $toggleContainer.removeClass('d-none');
-    }
+    // if (this.cart.items.length > 0) {
+    //   $toggleContainer.removeClass('d-none');
+    // }
 
     // Re-renderizar según la vista
     this.updateUI();
@@ -260,6 +260,22 @@ const CartManager = {
   },
 
   /**
+   * Calcula los totales basándose únicamente en los productos facturados (en cocina o servidos)
+   * @returns {Object} - Objeto con subtotal, tax y total de la cuenta
+   */
+  getBilledTotals() {
+    const billedItems = this.cart.items.filter(
+      item => item.estado === 'enviado_cocina' || item.estado === 'servido'
+    );
+
+    const subtotal = billedItems.reduce((sum, item) => sum + item.total, 0);
+    const tax = subtotal * SanbornsUtils.config.taxRate;
+    const total = subtotal + tax;
+
+    return { subtotal, tax, total, billedItems };
+  },
+
+  /**
    * Obtiene cantidad total de items
    * @returns {number} - Total de items
    */
@@ -358,7 +374,7 @@ const CartManager = {
     // Configurar título e interfaz según sección
     if (isInCuenta) {
       $title.html('<i class="fas fa-receipt text-danger me-2"></i>Cuenta');
-      $toggleContainer.addClass('d-none');
+      // $toggleContainer.addClass('d-none');
       $actionButtons.addClass('d-none');
       $readonlyInfo.removeClass('d-none');
       // Forzar vista lista en Cuenta
@@ -380,14 +396,10 @@ const CartManager = {
       $cartItems.addClass('d-none').empty();
       $cartListView.addClass('d-none').empty();
       $cartSummary.addClass('d-none');
-      $toggleContainer.addClass('d-none');
+      // $toggleContainer.addClass('d-none');
     } else {
       $emptyCart.addClass('d-none');
       $cartSummary.removeClass('d-none');
-
-      if (!isInCuenta) {
-        $toggleContainer.removeClass('d-none');
-      }
 
       // Renderizar según vista activa
       const currentView = $('body').hasClass('view-list') ? 'list' : 'cards';
@@ -429,40 +441,42 @@ const CartManager = {
       }
 
       const itemHtml = `
-                <div class="cart-item ${stateClasses}" data-sku="${item.sku}">
-                    <div class="row align-items-center">
-                        <div class="col-3">
-                            <img src="${item.image}" alt="${item.name}" class="cart-item-image">
-                        </div>
-                        <div class="col-6">
-                            <div class="cart-item-info">
-                                <h6>${item.name}</h6>
-                                <p class="text-muted small mb-1">${item.description}</p>
-                                <div class="cart-item-price">${SanbornsUtils.formatPrice(item.price)} c/u</div>
-                                ${!isEditable ? '<small class="text-warning"><i class="fas fa-lock"></i> ' + this.getEstadoLabel(item.estado) + '</small>' : ''}
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="quantity-controls">
-                                <button class="quantity-btn ${buttonClass}" style="${buttonStyle}" ${isEditable ? `onclick="CartManager.updateQuantity('${item.sku}', ${item.quantity - 1})"` : ''}>
-                                    <i class="fas fa-minus"></i>
-                                </button>
-                                <span class="quantity-display">${item.quantity}</span>
-                                <button class="quantity-btn ${buttonClass}" style="${buttonStyle}" ${isEditable ? `onclick="CartManager.updateQuantity('${item.sku}', ${item.quantity + 1})"` : ''}>
-                                    <i class="fas fa-plus"></i>
-                                </button>
-                            </div>
-                            <div class="text-center mt-2">
-                                <strong>${SanbornsUtils.formatPrice(item.total)}</strong>
-                            </div>
-                            <div class="text-center mt-1">
-                                <button class="btn btn-sm btn-outline-danger ${buttonClass}" style="${buttonStyle}" ${isEditable ? `onclick="CartManager.removeProduct('${item.sku}')"` : ''}>
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
+        <div class="card cart-item mb-3 ${stateClasses}" data-sku="${item.sku}">
+            <div class="card-header bg-danger text-white d-flex justify-content-between align-items-center">
+                <h6 class="mb-0">${item.name}</h6>
+                <button class="btn btn-sm btn-link text-white delete-item ${buttonClass}" style="text-decoration: none; ${buttonStyle}" ${isEditable ? `onclick="CartManager.removeProduct('${item.sku}')"` : ''}>
+                    <i class="fas fa-trash fa-lg"></i>
+                </button>
+            </div>
+            <div class="card-body">
+                <div class="row g-3 align-items-center">
+                    <div class="col-4">
+                        <img src="${item.image}" alt="${item.name}" class="img-fluid rounded">
+                    </div>
+                    <div class="col-8">
+                        <p class="small mb-2">${item.description}</p>
+                        <p class="text-danger fw-bold text-end mb-0">${SanbornsUtils.formatPrice(item.price)} c/u</p>
+                        ${!isEditable ? `<small class="text-warning d-block text-end"><i class="fas fa-lock"></i> ${this.getEstadoLabel(item.estado)}</small>` : ''}
                     </div>
                 </div>
+            </div>
+            <div class="card-footer bg-white">
+                <div class="d-flex justify-content-end align-items-center">
+                    <div class="quantity-controls">
+                        <button class="btn btn-outline-secondary btn-sm quantity-btn ${buttonClass}" style="${buttonStyle}" ${isEditable ? `onclick="CartManager.updateQuantity('${item.sku}', ${item.quantity - 1})"` : ''}>
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <span class="quantity-display mx-2">${item.quantity}</span>
+                        <button class="btn btn-outline-secondary btn-sm quantity-btn ${buttonClass}" style="${buttonStyle}" ${isEditable ? `onclick="CartManager.updateQuantity('${item.sku}', ${item.quantity + 1})"` : ''}>
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                    <div class="ms-4 text-end" style="width: 100px;">
+                        <strong class="fs-5">${SanbornsUtils.formatPrice(item.total)}</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
             `;
       $container.append(itemHtml);
     });
@@ -477,6 +491,8 @@ const CartManager = {
   renderCartList() {
     const $container = $('#ticket-products');
     const $ticketInfo = $('.ticket-info');
+    const isInCuenta =
+      window.SanbornsApp && window.SanbornsApp.currentSection === 'cuenta';
 
     // Actualizar información del ticket
     const now = new Date();
@@ -489,8 +505,26 @@ const CartManager = {
     // Limpiar contenedor
     $container.empty();
 
+    const {
+      subtotal: billedSubtotal,
+      tax: billedTax,
+      total: billedTotal,
+      billedItems,
+    } = this.getBilledTotals();
+    const itemsToRender = isInCuenta ? billedItems : this.cart.items;
+
+    if (itemsToRender.length === 0) {
+      $container.html(
+        '<p class="text-center text-muted my-3">No hay productos en esta vista.</p>'
+      );
+      // Ocultar totales si no hay items
+      $('#ticket-totals').hide();
+      return;
+    }
+    $('#ticket-totals').show();
+
     // Renderizar productos
-    this.cart.items.forEach(item => {
+    itemsToRender.forEach(item => {
       // Determinar si los botones deben estar habilitados
       const isEditable = item.estado === 'nuevo';
       const buttonClass = isEditable ? '' : 'disabled opacity-50';
@@ -514,14 +548,26 @@ const CartManager = {
                     <div class="col-1 small">${item.quantity}</div>
                     <div class="col-6 small">
                         ${item.name}
-                        ${!isEditable ? '<br><small class="text-warning"><i class="fas fa-lock"></i> ' + this.getEstadoLabel(item.estado) + '</small>' : ''}
+                        ${
+                          !isEditable
+                            ? '<br><small class="text-warning"><i class="fas fa-lock"></i> ' +
+                              this.getEstadoLabel(item.estado) +
+                              '</small>'
+                            : ''
+                        }
                     </div>
-                    <div class="col-3 text-end small">$${item.total.toFixed(2)}</div>
+                    <div class="col-3 text-end small">${item.total.toFixed(
+                      2
+                    )}</div>
                     <div class="col-2 text-center">
-                        <button class="ticket-action-btn btn-add-more ${buttonClass}" style="${buttonStyle}" data-sku="${item.sku}" title="Agregar más" ${!isEditable ? 'disabled' : ''}>
+                        <button class="ticket-action-btn btn-add-more ${buttonClass}" style="${buttonStyle}" data-sku="${item.sku}" title="Agregar más" ${
+        !isEditable ? 'disabled' : ''
+      }>
                             <i class="fas fa-plus"></i>
                         </button>
-                        <button class="ticket-action-btn btn-remove ${buttonClass}" style="${buttonStyle}" data-sku="${item.sku}" title="Quitar/Eliminar" ${!isEditable ? 'disabled' : ''}>
+                        <button class="ticket-action-btn btn-remove ${buttonClass}" style="${buttonStyle}" data-sku="${item.sku}" title="Quitar/Eliminar" ${
+        !isEditable ? 'disabled' : ''
+      }>
                             <i class="fas fa-trash"></i>
                         </button>
                     </div>
@@ -531,9 +577,13 @@ const CartManager = {
     });
 
     // Actualizar totales del ticket
-    $('#ticket-subtotal').text(this.cart.subtotal.toFixed(2));
-    $('#ticket-impuestos').text(this.cart.tax.toFixed(2));
-    $('#ticket-total').text(this.cart.total.toFixed(2));
+    const subtotalToShow = isInCuenta ? billedSubtotal : this.cart.subtotal;
+    const taxToShow = isInCuenta ? billedTax : this.cart.tax;
+    const totalToShow = isInCuenta ? billedTotal : this.cart.total;
+
+    $('#ticket-subtotal').text(subtotalToShow.toFixed(2));
+    $('#ticket-impuestos').text(taxToShow.toFixed(2));
+    $('#ticket-total').text(totalToShow.toFixed(2));
 
     // Bind eventos para botones del ticket
     this.bindTicketEvents();
@@ -638,6 +688,26 @@ const CartManager = {
        ========================================================================== */
 
   /**
+   * Muestra un mensaje de estado de la orden encima de los botones de acción
+   */
+  showOrderStatusMessage() {
+    const $container = $('#action-buttons').parent(); // El contenedor de los botones
+    // Eliminar cualquier mensaje anterior para evitar duplicados
+    $container.find('#order-status-alert').remove();
+
+    const messageHtml = `
+      <div class="alert alert-success text-center mb-3 animate-fadeIn" id="order-status-alert">
+          <i class="fas fa-utensils me-2"></i>
+          <strong>¡Orden enviada a cocina!</strong>
+          <br><small>En breve le llevamos el servicio a su mesa</small>
+      </div>
+    `;
+
+    // Agregar el mensaje antes de los botones de acción
+    $container.prepend(messageHtml);
+  },
+
+  /**
    * Procesa la orden
    */
   async processOrder() {
@@ -665,11 +735,14 @@ const CartManager = {
       // Marcar productos como enviados a cocina
       this.markProductsAsSent();
 
+      // Mostrar el mensaje de confirmación de orden enviada
+      this.showOrderStatusMessage();
+
       SanbornsUtils.showToast('¡Orden enviada a cocina!', 'success');
       SanbornsUtils.hideLoading($ordenBtn);
 
-      // Cambiar botones a estado "servida"
-      this.showServedState();
+      // La UI se actualiza a través de markProductsAsSent -> updateUI()
+      // por lo que no es necesario llamar a showServedState()
     } catch (error) {
       SanbornsUtils.showToast('Error al enviar orden', 'error');
       SanbornsUtils.hideLoading($ordenBtn);
@@ -1012,8 +1085,25 @@ const CartManager = {
     this.saveCart();
     this.updateUI();
 
-    // Verificar si debe ocultar el mensaje de cocina
-    this.checkAndHideKitchenMessage();
+    // Si ya no hay productos en la cocina, ocultar el mensaje de estado
+    const hasProductsInKitchen = this.cart.items.some(
+      item => item.estado === 'enviado_cocina'
+    );
+    if (!hasProductsInKitchen) {
+      this.hideOrderStatusMessage();
+    }
+  },
+
+  /**
+   * Oculta el mensaje de estado de la orden con un fadeOut
+   */
+  hideOrderStatusMessage() {
+    const $alert = $('#order-status-alert');
+    if ($alert.length) {
+      $alert.fadeOut(1000, function () {
+        $(this).remove();
+      });
+    }
   },
 
   /**
@@ -1107,29 +1197,9 @@ const CartManager = {
   },
 
   /**
-   * Verifica si debe ocultar el mensaje de "orden enviada a cocina"
+   * [REMOVED] La lógica de esta función fue refactorizada y ahora es manejada
+   * por hideOrderStatusMessage() y llamada directamente desde markProductsAsServed().
    */
-  checkAndHideKitchenMessage() {
-    const hasProductsInKitchen = this.cart.items.some(
-      item => item.estado === 'enviado_cocina'
-    );
-    const $orderAlert = $('#order-sent-alert');
-
-    if (!hasProductsInKitchen && $orderAlert.length) {
-      // Fadeout muy lento (3 segundos)
-      $orderAlert.fadeOut(3000, function () {
-        $(this).remove();
-        // Después del fadeout, asegurar que el botón de pagar siga visible
-        const hasServedProducts = CartManager.cart.items.some(
-          item => item.estado === 'servido'
-        );
-        if (hasServedProducts && !$('#pagar-btn').length) {
-          // Re-mostrar solo los botones sin el mensaje
-          CartManager.showServedState();
-        }
-      });
-    }
-  },
 
   // Hacer estas funciones disponibles en consola para debug
   debug: {

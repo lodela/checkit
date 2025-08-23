@@ -236,13 +236,3 @@
 .cartButton.hide-in-mi-orden {
   display: none !important;
 }
-
-/* Clase para hacer el header de la sección pegajoso */
-.section-header-sticky {
-  position: -webkit-sticky; /* Para compatibilidad con Safari */
-  position: sticky;
-  top: 60px; /* Altura del TopNavbar */
-  background-color: #fff; /* Fondo para que el contenido no se traslape */
-  z-index: 1020; /* Debe estar por encima del contenido pero debajo del navbar si es necesario */
-  padding-bottom: 1rem; /* Un poco de espacio extra */
-}
