@@ -846,7 +846,7 @@ body {
 @media (max-width: 576px) {
   .ticket-container {
     max-width: 100%;
-    margin: 0 10px;
+    margin: 0 10px 16px 0;
     padding: 15px;
   }
 

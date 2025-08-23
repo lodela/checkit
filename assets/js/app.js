@@ -89,9 +89,6 @@ const SanbornsApp = {
       // ESPERAR a que el menú esté completamente cargado
       await MenuManager.loadMenuData();
 
-      console.log('🎉 Menú completamente cargado, verificando datos...');
-      console.log('📊 MenuManager.menuData:', MenuManager.menuData);
-
       // Una vez cargado el menú general, mostrar su botón
       this.showMenuGeneralButton();
 
@@ -134,21 +131,11 @@ const SanbornsApp = {
    * Muestra botones de menús contextuales según horario y disponibilidad
    */
   showContextualMenuButtons() {
-    console.log('🔥 INICIANDO showContextualMenuButtons()');
-
     const menuData = window.MenuManager ? window.MenuManager.menuData : null;
 
-    console.log('🔍 Verificando MenuManager:', window.MenuManager);
-    console.log('🔍 Verificando menuData:', menuData);
-
     if (!menuData) {
-      console.log('❌ No hay menuData disponible');
       return;
     }
-
-    console.log('📋 MenuData disponible:', Object.keys(menuData));
-    console.log('📋 MenuData completo:', menuData);
-
     // Generar botones contextuales (desayunos, comidas, cenas)
     const contextualButtons = SanbornsUtils.generateScheduleButtons(menuData);
 
@@ -169,8 +156,6 @@ const SanbornsApp = {
         $('#schedule-buttons-container').prepend(buttonHtml);
       }
     });
-
-    console.log('🔥 FINALIZANDO showContextualMenuButtons()');
   },
 
   /**
@@ -275,8 +260,6 @@ const SanbornsApp = {
    * @param {string} menuNode - Nodo del menú al que navegar
    */
   handleScheduleButtonClick(menuNode) {
-    console.log('🎯 Click en botón de horario:', menuNode);
-
     // Ocultar loading screen
     this.hideLoadingScreen();
 
@@ -285,7 +268,6 @@ const SanbornsApp = {
 
     // Navegar a la sección específica
     setTimeout(() => {
-      console.log('🚀 Navegando a:', menuNode);
       if (menuNode === 'Paquetes desayunos') {
         // Para desayunos, ir al menú y hacer scroll a la sección
         this.showSection('menu');
@@ -428,18 +410,19 @@ const SanbornsApp = {
       $sectionTitle.addClass('section-header-sticky');
     }
 
-    $(`#${targetSection}-section`)
-      .addClass('active')
-      .fadeIn(300)
-      .addClass('animate-fadeInUp');
+    const $targetSectionEl = $(`#${targetSection}-section`);
 
-    if (sectionName === 'mi-orden') {
-      CartManager.setView('cards');
-      CartManager.updateCartSection();
-    } else if (sectionName === 'cuenta') {
-      CartManager.setView('list');
-      CartManager.updateCartSection();
-    }
+    $targetSectionEl
+      .addClass('active')
+      .fadeIn(300, function () {
+        // LA LÓGICA DE ACTUALIZACIÓN DE LA VISTA DEBE EJECUTARSE DESPUÉS DE QUE EL CONTENEDOR ES VISIBLE
+        if (sectionName === 'mi-orden') {
+          CartManager.setView('cards');
+        } else if (sectionName === 'cuenta') {
+          CartManager.setView('list');
+        }
+      })
+      .addClass('animate-fadeInUp');
 
     this.updateNavigation(sectionName);
 

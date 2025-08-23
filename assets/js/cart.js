@@ -394,7 +394,7 @@ const CartManager = {
     if (this.cart.items.length === 0) {
       $emptyCart.removeClass('d-none');
       $cartItems.addClass('d-none').empty();
-      $cartListView.addClass('d-none').empty();
+      $cartListView.addClass('d-none');
       $cartSummary.addClass('d-none');
       // $toggleContainer.addClass('d-none');
     } else {
@@ -501,8 +501,6 @@ const CartManager = {
       ' ' +
       now.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' });
     $('#ticket-fecha').text(fecha);
-
-    // Limpiar contenedor
     $container.empty();
 
     const {
@@ -561,13 +559,13 @@ const CartManager = {
                     )}</div>
                     <div class="col-2 text-center">
                         <button class="ticket-action-btn btn-add-more ${buttonClass}" style="${buttonStyle}" data-sku="${item.sku}" title="Agregar más" ${
-        !isEditable ? 'disabled' : ''
-      }>
+                          !isEditable ? 'disabled' : ''
+                        }>
                             <i class="fas fa-plus"></i>
                         </button>
                         <button class="ticket-action-btn btn-remove ${buttonClass}" style="${buttonStyle}" data-sku="${item.sku}" title="Quitar/Eliminar" ${
-        !isEditable ? 'disabled' : ''
-      }>
+                          !isEditable ? 'disabled' : ''
+                        }>
                             <i class="fas fa-trash"></i>
                         </button>
                     </div>
@@ -1179,7 +1177,6 @@ const CartManager = {
     this.checkAndHideKitchenMessage();
 
     SanbornsUtils.showToast('Estados simulados para testing', 'info');
-    console.log('Estados actuales:', this.getStatusCounts());
   },
 
   /**
