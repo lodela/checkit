@@ -1,0 +1,1592 @@
+/* ==========================================================================
+   Sanborns WebApp - Main Styles
+   Estilo 90's con Bootstrap 5
+   ========================================================================== */
+
+:root {
+  /* Colores Sanborns */
+  --sanborns-red: #dc3545;
+  --sanborns-gold: #ffd700;
+  --sanborns-dark: #212529;
+  --sanborns-light: #f8f9fa;
+
+  /* Sombras retro */
+  --shadow-soft: 0 2px 10px rgba(0, 0, 0, 0.1);
+  --shadow-strong: 0 4px 20px rgba(220, 53, 69, 0.3);
+
+  /* Transiciones */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}
+
+/* ==========================================================================
+   Layout Global
+   ========================================================================== */
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--sanborns-light);
+  padding-bottom: 80px; /* Espacio para mobile nav */
+}
+
+@media (min-width: 768px) {
+  body {
+    padding-bottom: 0; /* No padding en desktop */
+  }
+}
+
+/* ==========================================================================
+   Loading Screen
+   ========================================================================== */
+
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--sanborns-red), #e74c3c);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity var(--transition-slow);
+}
+
+.loading-spinner {
+  text-align: center;
+  color: white;
+}
+
+.loading-screen.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Botones dinámicos del loading screen */
+.schedule-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  animation: fadeInUp 0.6s ease 0.8s both;
+}
+
+.schedule-buttons .btn {
+  min-width: 250px;
+  padding: 12px 20px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 25px;
+  border: 2px solid transparent;
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+  background: white;
+  color: var(--sanborns-red);
+  display: flex;
+  gap: 0.5rem;
+  flex-direction: row;
+  align-content: center;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.schedule-buttons .btn-success {
+  background: linear-gradient(45deg, #28a745, #20c997);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
+}
+
+.schedule-buttons .btn-success:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(40, 167, 69, 0.6);
+  background: linear-gradient(45deg, #218838, #1e7e34);
+}
+
+.schedule-buttons .btn-outline-light {
+  border-color: rgba(255, 255, 255, 0.6);
+  color: white;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.schedule-buttons .btn-outline-light:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: white;
+  transform: translateY(-1px);
+}
+
+.schedule-buttons .btn-primary {
+  background: linear-gradient(45deg, #007bff, #0056b3);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
+}
+
+.schedule-buttons .btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 123, 255, 0.6);
+}
+
+.schedule-buttons .btn i {
+  border: solid 1px transparent;
+  margin-right: 0.5rem;
+}
+
+/* Efectos de animación para botones */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================================================
+   Loading Screen Buttons - Botones dinámicos del loading
+   ========================================================================== */
+
+.loading-menu-btn {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUpButton 0.5s ease-out forwards;
+  margin: 0.5rem;
+  min-width: 180px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  border-radius: 25px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.loading-menu-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.loading-menu-btn span {
+  font-size: 1.2em;
+  margin-right: 0.5rem;
+}
+
+@keyframes fadeInUpButton {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Estilos específicos por tipo de botón */
+.loading-menu-btn.btn-warning {
+  background: linear-gradient(45deg, #ffc107, #ffb300);
+  border: none;
+  color: #212529;
+}
+
+.loading-menu-btn.btn-primary {
+  background: linear-gradient(45deg, #007bff, #0056b3);
+  border: none;
+}
+
+.loading-menu-btn.btn-success {
+  background: linear-gradient(45deg, #28a745, #1e7e34);
+  border: none;
+}
+
+.loading-menu-btn.btn-info {
+  background: linear-gradient(45deg, #17a2b8, #117a8b);
+  border: none;
+}
+
+/* ==========================================================================
+   Header Desktop
+   ========================================================================== */
+
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  color: rgba(255, 255, 255, 0.9);
+  transition: color var(--transition-fast);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  margin: 0 0.25rem;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover,
+.navbar-dark .navbar-nav .nav-link.active {
+  color: white;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ==========================================================================
+   Sections
+   ========================================================================== */
+
+.section {
+  display: none;
+  min-height: calc(100vh - 120px);
+}
+
+.section.active {
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .section {
+    min-height: calc(100vh - 76px);
+  }
+}
+
+/* ==========================================================================
+   Search Bar
+   ========================================================================== */
+
+.search-container {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.search-container input {
+  padding-left: 3rem;
+  border: 2px solid #e9ecef;
+  box-shadow: var(--shadow-soft);
+}
+
+.search-container input:focus {
+  border-color: var(--sanborns-red);
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6c757d;
+  z-index: 5;
+}
+
+.search-clear-btn {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #6c757d;
+  font-size: 1.2rem;
+  cursor: pointer;
+  z-index: 5;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.search-clear-btn:hover {
+  background-color: #f8f9fa;
+  color: var(--sanborns-red);
+}
+
+.search-clear-btn:active {
+  background-color: #e9ecef;
+}
+
+/* ==========================================================================
+   Menu Categories
+   ========================================================================== */
+
+.category-section {
+  margin-bottom: 3rem;
+}
+
+.category-title {
+  color: var(--sanborns-red);
+  font-weight: bold;
+  border-bottom: 3px solid var(--sanborns-gold);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.category-title::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background: var(--sanborns-red);
+}
+
+/* ==========================================================================
+   Product Cards
+   ========================================================================== */
+
+.product-card {
+  background: white;
+  border-radius: 15px;
+  box-shadow: var(--shadow-soft);
+  transition: all var(--transition-normal);
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-strong);
+}
+
+.product-card-image-container {
+  width: 42%;
+  display: flex;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.product-image {
+  height: 166px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.product-info {
+  flex: 1;
+  padding: 1rem;
+}
+
+.product-name {
+  font-weight: bold;
+  color: var(--sanborns-dark);
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.product-description {
+  color: #6c757d;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.product-price {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.price-current {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: var(--sanborns-red);
+}
+
+.price-original {
+  font-size: 1rem;
+  color: #6c757d;
+  text-decoration: line-through;
+}
+
+.discount-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: var(--sanborns-red);
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.add-to-cart-btn {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: var(--sanborns-red);
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  transition: all var(--transition-fast);
+  position: absolute !important;
+  bottom: 15px;
+  right: 15px;
+}
+
+.add-to-cart-btn:hover {
+  background: #c82333;
+  transform: scale(1.1);
+}
+
+/* ==========================================================================
+   Mobile Navigation
+   ========================================================================== */
+
+.mobile-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  border-top: 2px solid var(--sanborns-red);
+  display: flex;
+  justify-content: space-around;
+  padding: 0.5rem 0;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.mobile-nav .nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  color: #6c757d;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+  cursor: pointer;
+  position: relative;
+}
+
+.mobile-nav .nav-item.active {
+  color: var(--sanborns-red);
+}
+
+.mobile-nav .nav-item i {
+  font-size: 1.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.mobile-nav .nav-item span {
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+/* Mobile navigation menu icon adjustments */
+.mobile-nav .nav-item .menu-icon-mask {
+  font-size: 1.5rem;
+  width: 1em;
+  height: 1.3em;
+  margin-bottom: 0.25rem;
+}
+
+/* Custom Waiter Icon */
+.waiter-icon-mask {
+  display: inline-block;
+  width: 1em;
+  height: 1.3em;
+  vertical-align: -0.15em;
+  background-color: currentColor;
+  mask: url('../images/waiter.svg') no-repeat center / contain;
+  -webkit-mask: url('../images/waiter.svg') no-repeat center / contain;
+}
+
+/* Mobile navigation waiter icon adjustments */
+.mobile-nav .nav-item .waiter-icon-mask {
+  font-size: 1.5rem;
+  width: 1em;
+  height: 1.3em;
+  margin-bottom: 0.25rem;
+}
+
+/* Mobile navigation check icon adjustments */
+.mobile-nav .nav-item .check-icon-mask {
+  font-size: 1.5rem;
+  width: 1em;
+  height: 1.3em;
+  margin-bottom: 0.25rem;
+}
+
+/* Mobile navigation cuenta icon adjustments */
+.mobile-nav .nav-item .cuenta-icon-mask {
+  font-size: 1.5rem;
+  width: 1em;
+  height: 1.3em;
+  margin-bottom: 0.25rem;
+}
+
+/* Disabled nav item styles */
+.mobile-nav .nav-item.disabled {
+  opacity: 0.4;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+/* ==========================================================================
+   Cart Styles
+   ========================================================================== */
+
+.cart-item {
+  background: white;
+  border-radius: 10px;
+  box-shadow: var(--shadow-soft);
+  margin-bottom: 1rem;
+  padding: 0;
+}
+
+.cart-item-image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.cart-item-info h6 {
+  color: var(--sanborns-dark);
+  margin-bottom: 0.5rem;
+}
+
+.cart-item-price {
+  color: var(--sanborns-red);
+  font-weight: bold;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.quantity-btn {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #dee2e6;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.quantity-btn:hover {
+  background: var(--sanborns-red);
+  color: white;
+  border-color: var(--sanborns-red);
+}
+
+.quantity-display {
+  font-weight: bold;
+  min-width: 30px;
+  text-align: center;
+}
+
+/* ==========================================================================
+   Badges
+   ========================================================================== */
+
+.badge {
+  font-size: 0.7rem;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 12px !important;
+  right: 0 !important;
+  left: 78% !important;
+}
+
+/* ==========================================================================
+   Modal Styles
+   ========================================================================== */
+
+.modal-content {
+  border-radius: 15px;
+  border: none;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+  background: linear-gradient(135deg, var(--sanborns-red), #e74c3c);
+  color: white;
+  border-radius: 15px 15px 0 0;
+}
+
+.modal-header .btn-close {
+  filter: invert(1);
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+
+.btn-danger {
+  background: var(--sanborns-red);
+  border-color: var(--sanborns-red);
+  transition: all var(--transition-fast);
+}
+
+.btn-danger:hover {
+  background: #c82333;
+  border-color: #c82333;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-strong);
+}
+
+.btn-outline-danger {
+  color: var(--sanborns-red);
+  border-color: var(--sanborns-red);
+}
+
+.btn-outline-danger:hover {
+  background: var(--sanborns-red);
+  border-color: var(--sanborns-red);
+}
+
+/* ==========================================================================
+   Utilities
+   ========================================================================== */
+
+.text-sanborns {
+  color: var(--sanborns-red) !important;
+}
+
+.bg-sanborns {
+  background-color: var(--sanborns-red) !important;
+}
+
+.border-sanborns {
+  border-color: var(--sanborns-red) !important;
+}
+
+/* ==========================================================================
+   Utility Classes
+   ========================================================================== */
+
+.overflow-hidden {
+  overflow: hidden !important;
+}
+
+/* ==========================================================================
+   Responsive Adjustments
+   ========================================================================== */
+
+@media (max-width: 576px) {
+  .product-card {
+    margin-bottom: 1rem;
+  }
+
+  .product-image {
+    height: 166px;
+  }
+
+  .product-info {
+    padding: 0.75rem;
+  }
+
+  .product-name {
+    font-size: 1rem;
+  }
+
+  .add-to-cart-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
+  }
+
+  .category-title {
+    font-size: 1.3rem;
+  }
+}
+
+/* ==========================================================================
+   Print Styles
+   ========================================================================== */
+
+@media print {
+  .mobile-nav,
+  .navbar,
+  .add-to-cart-btn,
+  .btn {
+    display: none !important;
+  }
+}
+
+/* ==========================================================================
+   Ticket View Styles
+   ========================================================================== */
+
+.ticket-container {
+  max-width: 508px;
+  background: white;
+  border: 2px dashed #ccc;
+  border-radius: 0;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 1.2;
+  padding: 20px;
+  margin: 0 auto;
+  box-shadow: var(--shadow-soft);
+}
+
+.ticket-header .sanborns-logo {
+  margin-bottom: 10px;
+}
+
+.ticket-header .establishment-info {
+  font-size: 12px;
+  line-height: 1.3;
+}
+
+.ticket-info {
+  font-size: 11px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.ticket-separator {
+  border-bottom: 1px dashed #666;
+  margin: 10px 0;
+}
+
+.ticket-products .product-row {
+  padding: 2px 0;
+  font-size: 12px;
+  border-bottom: 1px dotted #eee;
+}
+
+.ticket-products .product-row:last-child {
+  border-bottom: none;
+}
+
+.ticket-action-btn {
+  background: none;
+  border: none;
+  padding: 2px 5px;
+  font-size: 12px;
+  color: var(--sanborns-red);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.ticket-action-btn:hover {
+  background-color: var(--sanborns-red);
+  color: white;
+  border-radius: 3px;
+}
+
+.ticket-action-btn:disabled {
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.ticket-totals {
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+/* View Toggle */
+.view-toggle-container .btn-group {
+  box-shadow: var(--shadow-soft);
+}
+
+.view-toggle-container .btn-check:checked + .btn {
+  background-color: var(--sanborns-red);
+  border-color: var(--sanborns-red);
+  color: white;
+}
+
+/* Vista Cards (por defecto) */
+.view-cards #cart-list-view {
+  display: none !important;
+}
+
+.view-cards #cart-items {
+  display: block !important;
+}
+
+/* Vista Lista (ticket) */
+.view-list #cart-items {
+  display: none !important;
+}
+
+.view-list #cart-list-view {
+  display: block !important;
+}
+
+/* Transiciones suaves entre vistas */
+#cart-items,
+#cart-list-view {
+  transition: opacity var(--transition-normal);
+}
+
+/* Responsive para ticket */
+@media (max-width: 576px) {
+  .ticket-container {
+    max-width: 100%;
+    margin: 0 10px 16px 0;
+    padding: 15px;
+  }
+
+  .ticket-header .establishment-info {
+    font-size: 10px;
+  }
+
+  .ticket-info {
+    font-size: 10px;
+  }
+
+  .ticket-products .product-row {
+    font-size: 11px;
+  }
+}
+
+/* Estado de orden enviada a cocina */
+.order-sent .ticket-action-btn {
+  display: none;
+}
+
+.order-sent-notice {
+  background-color: #fff3cd;
+  border: 1px solid #ffeaa7;
+  color: #856404;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.order-sent-notice i {
+  color: #f39c12;
+  margin-right: 8px;
+}
+
+/* ==========================================================================
+   Estados de Productos (Locked Items)
+   ========================================================================== */
+
+.item-locked {
+  opacity: 0.7;
+  background-color: #f8f9fa !important;
+  border-left: 3px solid #ffc107 !important;
+}
+
+/* Estados específicos de productos */
+.enCocina {
+  border-left: 3px solid #ffc107 !important; /* Amarillo */
+}
+
+.enCocina .text-warning {
+  color: #ffc107 !important;
+}
+
+.servido {
+  border-left: 3px solid #28a745 !important; /* Verde */
+}
+
+.servido .text-warning {
+  color: #28a745 !important;
+}
+
+.item-locked .cart-item-info h6,
+.item-locked .product-row {
+  color: #6c757d;
+}
+
+.item-locked .quantity-controls .quantity-btn.disabled,
+.item-locked .btn.disabled,
+.item-locked .ticket-action-btn.disabled {
+  background-color: #e9ecef !important;
+  border-color: #dee2e6 !important;
+  color: #6c757d !important;
+  cursor: not-allowed !important;
+  opacity: 0.6 !important;
+}
+
+.item-locked .quantity-controls .quantity-btn.disabled:hover,
+.item-locked .btn.disabled:hover,
+.item-locked .ticket-action-btn.disabled:hover {
+  background-color: #e9ecef !important;
+  border-color: #dee2e6 !important;
+  color: #6c757d !important;
+}
+
+/* Indicador de estado bloqueado */
+.text-warning i.fa-lock {
+  margin-right: 3px;
+}
+
+/* ==========================================================================
+   Botón Ordenar Responsivo
+   ========================================================================== */
+
+#ordenar-btn {
+  transition: all var(--transition-normal);
+}
+
+#ordenar-btn:hidden {
+  display: none !important;
+}
+
+/* ==========================================================================
+   Custom Menu Icon
+   ========================================================================== */
+
+.menu-icon {
+  display: inline-block;
+  width: 1em;
+  height: 1.3em;
+  vertical-align: -0.15em;
+  background-image: url('../images/menuIcon.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* Para elementos que usan color del texto */
+.menu-icon svg {
+  width: 1em;
+  height: 1.3em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+}
+
+/* Alternativa usando mask para mejor compatibilidad de colores */
+.menu-icon-mask {
+  display: inline-block;
+  width: 1em;
+  height: 1.3em;
+  vertical-align: -0.15em;
+  background-color: currentColor;
+  mask: url('../images/menuIcon.svg') no-repeat center / contain;
+  -webkit-mask: url('../images/menuIcon.svg') no-repeat center / contain;
+}
+
+/* Custom Check Icon */
+.check-icon-mask {
+  display: inline-block;
+  width: 1em;
+  height: 1.3em;
+  vertical-align: -0.15em;
+  background-color: currentColor;
+  mask: url('../images/check.svg') no-repeat center / contain;
+  -webkit-mask: url('../images/check.svg') no-repeat center / contain;
+}
+
+/* Custom Cuenta Icon */
+.cuenta-icon-mask {
+  display: inline-block;
+  width: 1em;
+  height: 1.3em;
+  vertical-align: -0.15em;
+  background-color: currentColor;
+  mask: url('../images/cuenta.svg') no-repeat center / contain;
+  -webkit-mask: url('../images/cuenta.svg') no-repeat center / contain;
+}
+
+/* Custom Breakfast Icon */
+.breakfast-icon-mask {
+  display: inline-block;
+  width: 1em;
+  height: 1.3em;
+  vertical-align: -0.15em;
+  background-color: currentColor;
+  mask: url('../images/breakfast.svg') no-repeat center / contain;
+  -webkit-mask: url('../images/breakfast.svg') no-repeat center / contain;
+}
+
+/* Custom Lunch Icon */
+.lunch-icon-mask {
+  display: inline-block;
+  width: 1em;
+  height: 1.3em;
+  vertical-align: -0.15em;
+  background-color: currentColor;
+  mask: url('../images/lunch.svg') no-repeat center / contain;
+  -webkit-mask: url('../images/lunch.svg') no-repeat center / contain;
+}
+
+/* ==========================================================================
+   Mobile Top Navbar
+   ========================================================================== */
+
+.mobile-top-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background-color: var(--sanborns-red);
+  z-index: 1000;
+  transition:
+    transform var(--transition-normal),
+    opacity var(--transition-normal);
+  box-shadow: var(--shadow-soft);
+}
+
+.mobile-top-navbar.hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+.mobile-top-navbar .container-fluid {
+  height: 100%;
+}
+
+.mobile-top-navbar .row {
+  height: 100%;
+  margin: 0;
+}
+
+/* Cliente Logo Container */
+.client-logo-container {
+  width: 5.5rem;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 8px 0;
+}
+
+.client-logo {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  filter: brightness(0) invert(1); /* Logo blanco */
+}
+
+/* Mesa Info */
+.mesa-info {
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: background-color var(--transition-fast);
+}
+
+.mesa-info:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.mesa-text,
+.personas-text {
+  display: block;
+}
+
+/* Navbar Actions */
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 100%;
+}
+
+/* Cart Button Mobile */
+.cart-btn-mobile {
+  position: relative;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  transition: all var(--transition-fast);
+}
+
+.cart-btn-mobile:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+.cart-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: var(--sanborns-gold);
+  color: var(--sanborns-dark);
+  font-size: 10px;
+  font-weight: bold;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: bounceIn 0.5s ease;
+}
+
+/* Hamburger Button - SIEMPRE EN EXTREMA DERECHA */
+.hamburger-btn {
+  position: fixed;
+  top: 10px;
+  right: 15px; /* SIEMPRE en la extrema derecha */
+  background: var(--sanborns-red);
+  border: none;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1001;
+  border-radius: 6px;
+  box-shadow: var(--shadow-soft);
+  transition: all var(--transition-fast);
+  color: white;
+  font-size: 16px;
+}
+
+.hamburger-btn:hover {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-strong);
+}
+
+.hamburger-btn.active {
+  transform: rotate(90deg);
+}
+.d-none {
+  display: none !important;
+}
+/* Forzar ocultamiento del hamburger cuando está configurado como false */
+.hamburger-btn.d-none {
+  display: none !important;
+}
+
+/* Cart Button Fixed - A LA IZQUIERDA DEL HAMBURGER */
+.cart-btn-fixed {
+  position: fixed;
+  top: 10px;
+  right: 65px; /* A la izquierda del hamburger (15px + 40px + 10px gap) */
+  background: var(--sanborns-red);
+  border: none;
+  width: 40px;
+  height: 40px;
+  display: flex; /* Remover !important para permitir hide() de JavaScript */
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1002; /* Z-index mayor que hamburger */
+  border-radius: 6px;
+  box-shadow: var(--shadow-soft);
+  transition: all var(--transition-fast);
+  color: white;
+  font-size: 16px;
+}
+
+.cart-btn-fixed:hover {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-strong);
+  color: white;
+}
+
+.cart-btn-fixed:focus {
+  outline: none;
+  color: white;
+}
+
+/* Badge del carrito fijo */
+.cart-badge-fixed {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: var(--sanborns-gold);
+  color: var(--sanborns-dark);
+  font-size: 10px;
+  font-weight: bold;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: bounceIn 0.5s ease;
+}
+
+/* ==========================================================================
+   Mobile Drawer Menu
+   ========================================================================== */
+
+.mobile-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2000;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.mobile-drawer.open {
+  pointer-events: auto;
+  opacity: 1;
+}
+
+.drawer-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.drawer-content {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 320px;
+  max-width: 85vw;
+  height: 100%;
+  background: white;
+  transform: translateX(100%);
+  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: -8px 0 32px rgba(0, 0, 0, 0.2);
+  border-radius: 20px 0 0 20px;
+}
+
+.mobile-drawer.open .drawer-content {
+  transform: translateX(0);
+}
+
+.drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+  background: var(--sanborns-red);
+  color: white;
+}
+
+.drawer-header h5 {
+  margin: 0;
+  font-weight: 600;
+}
+
+.drawer-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 18px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color var(--transition-fast);
+}
+
+.drawer-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Drawer Footer */
+.drawer-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  border-top: 1px solid #eee;
+  background: #f8f9fa;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Reset Button */
+.reset-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.reset-btn:hover {
+  background: #c82333;
+  transform: translateY(-1px);
+}
+
+.reset-btn:active {
+  transform: translateY(0);
+}
+
+/* App Version */
+.app-version {
+  text-align: center;
+  font-size: 11px;
+  color: #6c757d;
+  font-family: 'Courier New', monospace;
+}
+
+.app-version span {
+  background: rgba(220, 53, 69, 0.1);
+  padding: 2px 6px;
+  border-radius: 3px;
+  border: 1px solid rgba(220, 53, 69, 0.2);
+}
+
+/* Ajustar body del drawer para dejar espacio al footer */
+.drawer-body {
+  padding-bottom: 102px; /* Espacio para el footer */
+  overflow-y: auto;
+}
+
+/* Drawer Body */
+.drawer-body {
+  overflow-y: auto;
+}
+
+.drawer-menu-links {
+  padding: 0;
+}
+
+.drawer-menu-link {
+  display: flex;
+  align-items: center;
+  padding: 16px 20px;
+  text-decoration: none;
+  color: #333;
+  border-bottom: 1px solid #eee;
+  transition: all var(--transition-fast);
+  position: relative;
+}
+
+.drawer-menu-link:hover {
+  background: rgba(226, 39, 38, 0.05);
+  color: var(--sanborns-red);
+  text-decoration: none;
+  padding-left: 24px;
+}
+
+.drawer-menu-link:active {
+  background: rgba(226, 39, 38, 0.1);
+  transform: scale(0.98);
+}
+
+.drawer-menu-link i {
+  font-size: 18px;
+  margin-right: 12px;
+  min-width: 24px;
+  text-align: center;
+  color: var(--sanborns-red);
+  transition: transform var(--transition-fast);
+}
+
+.drawer-menu-link:hover i {
+  transform: scale(1.1);
+}
+
+.drawer-menu-link-text {
+  font-weight: 500;
+  font-size: 15px;
+  flex: 1;
+}
+
+.drawer-menu-link-arrow {
+  font-size: 14px;
+  opacity: 0.6;
+  transition: all var(--transition-fast);
+}
+
+.drawer-menu-link:hover .drawer-menu-link-arrow {
+  opacity: 1;
+  transform: translateX(4px);
+}
+
+/* Loading state en drawer */
+.drawer-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  color: #666;
+}
+
+.drawer-loading .spinner-border {
+  color: var(--sanborns-red);
+}
+
+/* ==========================================================================
+   Category Highlight Effect - Efecto de resaltado al navegar
+   ========================================================================== */
+
+.category-highlight {
+  position: relative;
+  animation: categoryPulse 2s ease-out;
+}
+
+@keyframes categoryPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(226, 39, 38, 0.4);
+  }
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 0 0 10px rgba(226, 39, 38, 0.1);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(226, 39, 38, 0);
+  }
+}
+
+/* ==========================================================================
+   Category Filter Banner - Banner de filtro de categoría
+   ========================================================================== */
+
+.category-filter-banner {
+  animation: slideDownFilter 0.3s ease-out;
+}
+
+.filter-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, var(--sanborns-red), #d32f2f);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(226, 39, 38, 0.3);
+  font-weight: 500;
+  position: relative;
+  overflow: hidden;
+}
+
+.filter-content::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  animation: shimmer 2s infinite;
+}
+
+.filter-content i {
+  font-size: 16px;
+  opacity: 0.9;
+}
+
+.btn-clear-filter {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  font-size: 12px;
+}
+
+.btn-clear-filter:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
+.btn-clear-filter:active {
+  transform: scale(0.95);
+}
+
+@keyframes slideDownFilter {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Cuenta icon en diferentes contextos */
+#empty-cart .cuenta-icon-mask {
+  font-size: 4rem;
+  width: 1em;
+  height: 1.3em;
+  color: #6c757d; /* text-muted */
+}
+
+/* Custom Breakfast Icon */
+.breakfast-icon-mask {
+  display: inline-block;
+  width: 1em;
+  height: 1.3em;
+  vertical-align: -0.15em;
+  background-color: currentColor;
+  mask: url('../images/breakfast.svg') no-repeat center / contain;
+  -webkit-mask: url('../images/breakfast.svg') no-repeat center / contain;
+}
+
+/* Custom Lunch Icon */
+.lunch-icon-mask {
+  display: inline-block;
+  width: 1em;
+  height: 1.3em;
+  vertical-align: -0.15em;
+  background-color: currentColor;
+  mask: url('../images/lunch.svg') no-repeat center / contain;
+  -webkit-mask: url('../images/lunch.svg') no-repeat center / contain;
+}

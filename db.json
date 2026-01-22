@@ -1,0 +1,74 @@
+{
+  "configuraciones": {
+    "app": {
+      "version": "1.2.3-beta",
+      "nombre": "CheckIt"
+    },
+    "topNavbar": {
+      "colorFondo": "#dc3545",
+      "logoImagen": "sanbornsWhite.svg",
+      "scrollPixeles": 5,
+      "animacionMs": 300,
+      "alturaNavbar": 60,
+      "mostrarHamburger": true
+    }
+  },
+  "mesas": [
+    {
+      "id": 201,
+      "numero": 201,
+      "estado": "ocupada",
+      "mesero": "JOSE LUIS BAENA LOPEZ",
+      "personas": 2,
+      "adultos": 2,
+      "ninos": 0,
+      "cuentaAbierta": true,
+      "subtotal": 580.0,
+      "impuestos": 92.8,
+      "total": 672.8,
+      "propina": 0,
+      "totalConPropina": 672.8,
+      "timestamp": "2025-07-02T10:47:00Z",
+      "orden": null
+    }
+  ],
+  "ordenes": [
+    {
+      "id": 1,
+      "mesaId": 201,
+      "items": [],
+      "subtotal": 0,
+      "impuestos": 0,
+      "total": 0,
+      "estado": "pendiente",
+      "timestamp": "2025-07-02T10:47:00Z"
+    }
+  ],
+  "estados": [
+    {
+      "id": "pendiente",
+      "nombre": "Pendiente",
+      "descripcion": "Orden creada, esperando confirmación"
+    },
+    {
+      "id": "enviada",
+      "nombre": "Enviada a Cocina",
+      "descripcion": "Orden confirmada y enviada a cocina"
+    },
+    {
+      "id": "preparando",
+      "nombre": "Preparando",
+      "descripcion": "Cocinando los platillos"
+    },
+    {
+      "id": "servida",
+      "nombre": "Servida",
+      "descripcion": "Platillos entregados en la mesa"
+    },
+    {
+      "id": "pagada",
+      "nombre": "Pagada",
+      "descripcion": "Cuenta pagada, mesa libre"
+    }
+  ]
+}

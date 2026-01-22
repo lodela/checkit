@@ -1,0 +1,71 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Production builds (keep for local development)
+dist/
+build/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# GitHub Pages - Allow all static files
+# (GitHub Pages needs access to index.html, assets/, etc.)
+!index.html
+!manifest.json
+!mock.json
+!assets/
+!docs/
+
+# Temporary files
+tmp/
+temp/
+screenshots/
+
+# Cache
+.cache/
+.parcel-cache/
+
+logs
+dev-debug.log
+# Dependency directories
+# Editor directories and files
+.idea
+.vscode
+.claude
+.clinerules
+.cursor
+.GitHub
+.roo
+.taskmaster
+.trae
+.windsurf
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+# OS specific
+
+# Task files
+tasks.json
+tasks/ 

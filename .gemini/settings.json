@@ -1,0 +1,210 @@
+{
+  "geminicodeassist.updateChannel": "Insiders",
+  "schemaVersion": "1.1.0",
+  "description": "Supreme AI configuration for a 10X software developer. Manages models, tasks, and integrations for the 'allegretto' project.",
+  "projectContext": {
+    "description": "This context is injected into prompts to provide the AI with crucial information about the project's technical environment.",
+    "projectName": "SACnet3",
+    "techStack": [
+      {
+        "area": "frontend",
+        "language": "JavaScript (ES6+)",
+        "framework": "React.js",
+        "version": "19.0.1",
+        "routing": "React Router DOM v7.3.0",
+        "ui": ["Bootstrap 5", "Reactstrap 9.2"],
+        "stateManagement": "React Context API",
+        "forms": "react-hook-form"
+      },
+      {
+        "area": "database",
+        "type": "Relational",
+        "name": "Microsoft SQL Server 2022"
+      }
+    ],
+    "developmentEnvironment": "Developed on Ubuntu WSL, Node.js LTS, Docker.",
+    "deploymentEnvironment": "Deployed on Windows Server.",
+    "versionControl": "Git",
+    "hosting": "GitHub"
+  },
+  "globalSettings": {
+    "description": "Default settings applied to all tasks unless overridden by a specific profile.",
+    "language": "es-MX",
+    "safetySettings": {
+      "harmCategories": {
+        "HARM_CATEGORY_HARASSMENT": "BLOCK_NONE",
+        "HARM_CATEGORY_HATE_SPEECH": "BLOCK_NONE",
+        "HARM_CATEGORY_SEXUALLY_EXPLICIT": "BLOCK_NONE",
+        "HARM_CATEGORY_DANGEROUS_CONTENT": "BLOCK_NONE"
+      }
+    },
+    "generationConfig": {
+      "temperature": 0.2,
+      "topP": 0.9,
+      "topK": 5,
+      "maxOutputTokens": 2048
+    },
+    "contextManagement": {
+      "history": {
+        "maxTokens": 1000000,
+        "strategy": "truncate"
+      }
+    }
+  },
+  "platformIntegrations": {
+    "description": "Configuration for integrating with external platforms like Google Cloud.",
+    "googleCloud": {
+      "projectId": "env:GOOGLE_CLOUD_PROJECT_ID",
+      "region": "env:GOOGLE_CLOUD_REGION",
+      "serviceAccountKeyPath": "env:GOOGLE_APPLICATION_CREDENTIALS"
+    }
+  },
+  "modelProfiles": {
+    "description": "Specific model configurations tailored for different types of tasks, using the latest generation of stable models.",
+    "default-pro": {
+      "description": "The most powerful and balanced profile for complex reasoning and generation.",
+      "modelName": "gemini-2.0-flash",
+      "thinkingConfig": {
+        "thinkingBudget": 8192
+      }
+    },
+    "fast-and-efficient": {
+      "description": "The quickest and most cost-effective profile for simple, high-frequency tasks.",
+      "modelName": "gemini-2.0-flash",
+      "generationConfig": {
+        "temperature": 0.2,
+        "maxOutputTokens": 2048
+      },
+      "thinkingConfig": {
+        "thinkingBudget": 4096
+      }
+    },
+    "code-master": {
+      "description": "High-precision profile for generating production-quality, deterministic code. Uses the most powerful model with a very low temperature.",
+      "modelName": "gemini-2.0-flash",
+      "generationConfig": {
+        "temperature": 0.1,
+        "topP": 0.9,
+        "topK": 5
+      },
+      "thinkingConfig": {
+        "thinkingBudget": 16384
+      }
+    },
+    "creative-architect": {
+      "description": "Profile for brainstorming, architectural design, and exploring multiple solutions. Higher temperature for creativity.",
+      "modelName": "gemini-2.0-flash",
+      "generationConfig": {
+        "temperature": 0.5,
+        "topP": 0.95,
+        "topK": 10
+      },
+      "thinkingConfig": {
+        "thinkingBudget": 8192
+      }
+    },
+    "test-generator": {
+      "description": "Optimized for generating accurate and thorough tests using a powerful model.",
+      "modelName": "gemini-2.0-flash",
+      "generationConfig": {
+        "temperature": 0.1,
+        "topP": 0.9,
+        "topK": 5
+      },
+      "thinkingConfig": {
+        "thinkingBudget": 16384
+      }
+    },
+    "commit-message-crafter": {
+      "description": "Lightweight profile for generating concise and conventional commit messages.",
+      "modelName": "gemini-2.0-flash",
+      "generationConfig": {
+        "maxOutputTokens": 256,
+        "temperature": 0.1
+      },
+      "thinkingConfig": {
+        "thinkingBudget": 1024
+      }
+    },
+    "memory-synthesizer": {
+      "description": "Specialized profile for summarizing conversations and synthesizing information for long-term memory.",
+      "modelName": "gemini-2.0-flash",
+      "generationConfig": {
+        "temperature": 0.2
+      },
+      "thinkingConfig": {
+        "thinkingBudget": 8192
+      }
+    },
+    "text-embedding": {
+      "description": "Specialized model for creating vector embeddings for RAG or semantic search.",
+      "modelName": "gemini-embedding-001"
+    }
+  },
+  "taskMappings": {
+    "description": "Maps specific development tasks to the most appropriate model profile.",
+    "default": "default-pro",
+    "codeGeneration": "code-master",
+    "codeCompletion": "fast-and-efficient",
+    "codeRefactoring": "code-master",
+    "codeExplanation": "default-pro",
+    "bugFixing": "code-master",
+    "testGeneration": "test-generator",
+    "documentationGeneration": "default-pro",
+    "commitMessageGeneration": "commit-message-crafter",
+    "databaseQueryGeneration": "code-master",
+    "apiDesign": "creative-architect",
+    "architecturalDesign": "creative-architect",
+    "dependencyAnalysis": "default-pro",
+    "regexGeneration": "fast-and-efficient",
+    "scripting": "code-master",
+    "summarization": "fast-and-efficient",
+    "reportGeneration": "default-pro",
+    "emailDrafting": "fast-and-efficient",
+    "memoryManagement": "memory-synthesizer",
+    "vectorDbManagement": "text-embedding"
+  },
+  "mcpServers": {
+    "persistent-context-server": {
+      "description": "Unico MCP server para gestionar la memoria a corto y largo plazo, el contexto del proyecto y el historial de Git.",
+      "command": "python",
+      "args": [
+        "/home/lodela/www/allegreto/.gemini/mcp_tools/server_persistent_context.py"
+      ],
+      "env": {
+        "CHROMA_DB_PATH": "/home/lodela/www/allegreto/.gemini/chroma_db",
+        "PROJECT_ROOT": "/home/lodela/www/allegreto",
+        "OLLAMA_EMBEDDING_MODEL": "gemini-embedding-001"
+      },
+      "auto_start": true,
+      "tools": [
+        {
+          "name": "save_session_summary",
+          "description": "Guarda un resumen de la sesión actual en la memoria a largo plazo.",
+          "function_name": "save-summary",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": "string",
+                "description": "El texto del resumen a guardar."
+              }
+            },
+            "required": ["text"]
+          }
+        },
+        {
+          "name": "get_last_session_summary",
+          "description": "Recupera el resumen de la sesión más reciente de la memoria a largo plazo.",
+          "function_name": "load-summary",
+          "parameters": {
+            "type": "object",
+            "properties": {}
+          }
+        }
+      ]
+    }
+  },
+  "selectedAuthType": "oauth-personal",
+  "showMemoryUsage": true
+}

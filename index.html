@@ -1,0 +1,676 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CheckIt - Menú Digital</title>
+
+    <!-- Manifest PWA -->
+    <link rel="manifest" href="manifest.json" />
+
+    <!-- Bootstrap 5 CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!-- SweetAlert2 CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
+    />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/retro-animations.css" />
+    <link rel="stylesheet" href="assets/css/mobile-navbar.css" />
+    <link rel="stylesheet" href="assets/css/drawer-menu.css" />
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/png"
+      href="assets/images/gRCojSDm5qpsr9nbc-App-restaurante--512x512.png"
+    />
+  </head>
+  <body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+      <div class="sanborns-logo mb-2">
+        <img
+          src="assets/images/sanbornsWhite.svg"
+          alt="Sanborns"
+          style="height: 97px"
+        />
+      </div>
+
+      <div class="loading-spinner">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Cargando...</span>
+        </div>
+        <h3 class="mt-3">Cargando Menús...</h3>
+      </div>
+
+      <!-- Contenedor de botones dinámicos (se llena via JavaScript) -->
+      <div id="schedule-buttons-container" class="schedule-buttons mt-4 d-none">
+        <!-- Los botones se generan dinámicamente según el horario -->
+      </div>
+    </div>
+
+    <!-- Mobile Top Navbar -->
+    <header id="mobile-top-navbar" class="mobile-top-navbar d-block d-md-none">
+      <div class="container-fluid">
+        <div class="row align-items-center">
+          <!-- Logo Cliente -->
+          <div class="col-3">
+            <div class="client-logo-container">
+              <img
+                src="assets/images/sanbornsWhite.svg"
+                alt="Sanborns"
+                class="client-logo"
+              />
+            </div>
+          </div>
+
+          <!-- Mesa Info -->
+          <div class="col-6 text-center">
+            <div class="mesa-info" id="mesa-info-mobile">
+              <span class="mesa-text"
+                >Mesa: <span id="mesa-numero-mobile">201</span></span
+              >
+              <span class="personas-text"
+                >Pers: <span id="personas-numero-mobile">2</span></span
+              >
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="col-3 text-end">
+            <div class="navbar-actions">
+              <!-- Sin botón carrito - solo el fijo -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hamburger Menu - FIJO Y SIEMPRE VISIBLE -->
+    <button id="hamburger-btn" class="hamburger-btn d-block d-md-none">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <!-- Cart Button - FIJO Y SIEMPRE VISIBLE -->
+    <button id="cart-btn-fixed" class="cart-btn-fixed d-block d-md-none">
+      <i class="fas fa-shopping-cart"></i>
+      <span id="cart-badge-fixed" class="cart-badge-fixed d-none">0</span>
+    </button>
+
+    <!-- Mobile Drawer Menu -->
+    <div id="mobile-drawer" class="mobile-drawer">
+      <div class="drawer-overlay" id="drawer-overlay"></div>
+      <div class="drawer-content">
+        <div class="drawer-header">
+          <h5><i class="fas fa-utensils me-2"></i>Categorías</h5>
+          <button id="drawer-close" class="drawer-close">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+        <!-- Filtro y Sorting de Categorías -->
+        <div class="drawer-filters">
+          <div class="category-search-container">
+            <div class="search-input-wrapper">
+              <input
+                type="text"
+                id="category-filter-input"
+                class="category-filter-input"
+                placeholder="Filtrar categorías..."
+                autocomplete="off"
+              />
+              <button
+                id="category-filter-clear"
+                class="category-filter-clear d-none"
+              >
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+            <button
+              id="category-sort-btn"
+              class="category-sort-btn"
+              title="Ordenar categorías"
+            >
+              <i class="fas fa-sort-alpha-up"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="drawer-body">
+          <div id="drawer-menu-links" class="drawer-menu-links">
+            <!-- Los links se cargarán dinámicamente -->
+            <div class="text-center p-3">
+              <div class="spinner-border spinner-border-sm" role="status">
+                <span class="visually-hidden">Cargando categorías...</span>
+              </div>
+              <p class="text-muted mt-2 mb-0">Cargando categorías...</p>
+            </div>
+          </div>
+        </div>
+        <div class="drawer-footer">
+          <button id="reset-btn" class="reset-btn">
+            <i class="fas fa-refresh"></i>
+            Reset
+          </button>
+          <div class="app-version">
+            <span id="app-version-text">v1.2.4-beta</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Desktop/Tablet Header -->
+    <header id="desktop-header" class="d-none d-md-block">
+      <nav class="navbar navbar-expand-md navbar-dark bg-danger">
+        <div class="container-fluid">
+          <!-- Logo Sanborns -->
+          <a class="navbar-brand" href="#menu">
+            <span class="menu-icon-mask me-2"></span>
+            <strong>Sanborns</strong>
+          </a>
+
+          <!-- Mesa Info -->
+          <div class="navbar-text text-white">
+            <i class="fas fa-table me-1"></i>
+            Mesa <span id="mesa-numero">201</span>
+          </div>
+
+          <!-- Navigation -->
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link active" href="#menu" data-section="menu">
+                <span class="menu-icon-mask me-1"></span>Menú
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link position-relative"
+                href="#cuenta"
+                data-section="cuenta"
+              >
+                <span class="check-icon-mask me-1"></span>Cuenta
+                <span
+                  id="cart-badge-desktop"
+                  class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark d-none"
+                >
+                  0
+                </span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#mesero" data-section="mesero">
+                <span class="waiter-icon-mask me-1"></span>Mesero
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" class="container-fluid px-0">
+      <!-- Menu Section -->
+      <section id="menu-section" class="section active">
+        <div class="container py-4">
+          <!-- Search Bar -->
+          <div class="row mb-4">
+            <div class="col-12">
+              <div class="search-container position-relative">
+                <input
+                  type="text"
+                  id="search-input"
+                  class="form-control form-control-lg rounded-pill"
+                  placeholder="Buscar platillo..."
+                />
+                <i class="fas fa-search search-icon"></i>
+                <button
+                  type="button"
+                  id="clear-search-btn"
+                  class="search-clear-btn d-none"
+                  title="Limpiar búsqueda"
+                >
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Menu Categories -->
+          <div id="menu-container">
+            <!-- Categories will be loaded here by JavaScript -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Cart Section (Compartida: Mi Orden y Cuenta) -->
+      <section id="cuenta-section" class="section">
+        <div class="container py-4">
+          <!-- Header with Title (dinámico) -->
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="mb-0" id="cart-section-title">
+              <span class="cuenta-icon-mask text-danger me-2"></span>
+              Mi Orden
+            </h2>
+            <!-- Toggle View (solo en Mi Orden) 
+            <div id="view-toggle-container">
+              <div class="btn-group d-none" role="group">
+                <input
+                  type="radio"
+                  class="btn-check"
+                  name="view-toggle"
+                  id="view-cards"
+                  autocomplete="off"
+                  checked
+                />
+                <label class="btn btn-outline-danger btn-sm" for="view-cards">
+                  <i class="fas fa-th-large"></i> Cards
+                </label>
+                <input
+                  type="radio"
+                  class="btn-check"
+                  name="view-toggle"
+                  id="view-list"
+                  autocomplete="off"
+                />
+                <label class="btn btn-outline-danger btn-sm" for="view-list">
+                  <i class="fas fa-list"></i> Lista
+                </label>
+              </div>
+            </div> -->
+          </div>
+
+          <!-- Empty Cart State -->
+          <div id="empty-cart" class="text-center py-5">
+            <span
+              class="cuenta-icon-mask text-muted"
+              style="
+                font-size: 4rem;
+                display: inline-block;
+                width: 4rem;
+                height: 4rem;
+              "
+            ></span>
+            <h4 class="mt-3 text-muted">Tu orden está vacía</h4>
+            <p class="text-muted">Agrega productos del menú para comenzar</p>
+            <button
+              class="btn btn-danger btn-lg rounded-pill"
+              onclick="showSection('menu')"
+            >
+              <span class="menu-icon-mask me-2"></span>Ver Menú
+            </button>
+          </div>
+
+          <!-- Cart Items (cards view) -->
+          <div id="cart-items" class="d-none">
+            <!-- Cart items will be loaded here -->
+          </div>
+
+          <!-- Cart List View (Ticket Style) -->
+          <div id="cart-list-view" class="d-none">
+            <div class="ticket-container mx-auto">
+              <!-- Ticket Header -->
+              <div class="ticket-header text-center mb-3">
+                <div class="sanborns-logo mb-2">
+                  <img
+                    src="assets/images/sanborns.svg"
+                    alt="Sanborns"
+                    style="height: 97px"
+                  />
+                </div>
+                <div class="establishment-info">
+                  <strong>Plaza Carso</strong><br />
+                  <small
+                    >Lago Zurich # 245<br />
+                    Col. Ampliación Granada, Del. Miguel Hidalgo<br />
+                    C.P. 11529 México, D.F.</small
+                  >
+                </div>
+              </div>
+
+              <!-- Ticket Info -->
+              <div class="ticket-info mb-3">
+                <div class="row small">
+                  <div class="col-4">
+                    MESA: <span id="ticket-mesa">205</span>
+                  </div>
+                  <div class="col-4">
+                    #EST: <span id="ticket-est">231</span>
+                  </div>
+                  <div class="col-4">
+                    Folio: <span id="ticket-folio">181</span>
+                  </div>
+                </div>
+                <div class="row small">
+                  <div class="col-4">
+                    # PER: <span id="ticket-personas">2</span>
+                  </div>
+                  <div class="col-8 text-end">
+                    <span id="ticket-mesero">JOSE LUIS BAENA LOPEZ</span>
+                  </div>
+                </div>
+                <div class="text-center small">
+                  <span id="ticket-fecha">26/06/2025 10:47</span>
+                </div>
+              </div>
+
+              <!-- Separator -->
+              <div class="ticket-separator mb-2"></div>
+
+              <!-- Products Header -->
+              <div class="row small fw-bold mb-1">
+                <div class="col-1">CANT</div>
+                <div class="col-7">DESCRIPCION</div>
+                <div class="col-4 text-end">IMPORTE</div>
+              </div>
+
+              <!-- Products List -->
+              <div id="ticket-products">
+                <!-- Products will be loaded here -->
+              </div>
+
+              <!-- Separator -->
+              <div class="ticket-separator my-3"></div>
+
+              <!-- Totals -->
+              <div class="ticket-totals">
+                <div class="row small">
+                  <div class="col-6">Subtotal:</div>
+                  <div class="col-6 text-end">
+                    $<span id="ticket-subtotal">0.00</span>
+                  </div>
+                </div>
+                <div class="row small">
+                  <div class="col-6">Impuestos (16%):</div>
+                  <div class="col-6 text-end">
+                    $<span id="ticket-impuestos">0.00</span>
+                  </div>
+                </div>
+                <div class="row fw-bold">
+                  <div class="col-6">Total:</div>
+                  <div class="col-6 text-end">
+                    $<span id="ticket-total">0.00</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Info de solo lectura (solo en Cuenta) -->
+              <div
+                id="readonly-info"
+                class="alert alert-info text-center mt-3 d-none"
+              >
+                <small
+                  ><i class="fas fa-info-circle me-2"></i>Vista de solo lectura
+                  - Para modificar ve a "Mi Orden"</small
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Cart Summary -->
+          <div id="cart-summary" class="d-none">
+            <div class="card">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-6">
+                    <strong>Subtotal:</strong>
+                  </div>
+                  <div class="col-6 text-end">
+                    $<span id="subtotal">0.00</span>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6">Impuestos (16%):</div>
+                  <div class="col-6 text-end">
+                    $<span id="impuestos">0.00</span>
+                  </div>
+                </div>
+                <hr />
+                <div class="row">
+                  <div class="col-6">
+                    <h5><strong>Total:</strong></h5>
+                  </div>
+                  <div class="col-6 text-end">
+                    <h5>
+                      <strong>$<span id="total">0.00</span></strong>
+                    </h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Action Buttons (solo en Mi Orden) -->
+            <div id="action-buttons" class="d-grid gap-2 mt-4">
+              <button id="ordenar-btn" class="btn btn-danger btn-lg">
+                <i class="fas fa-paper-plane me-2"></i>Ordenar Ahora
+              </button>
+              <button
+                class="btn btn-outline-danger btn-lg"
+                onclick="showSection('menu')"
+              >
+                <span class="menu-icon-mask me-2"></span>Ver Menú
+              </button>
+            </div>
+
+            <!-- Pay Button (solo en Cuenta) -->
+            <div id="pay-button-container" class="d-grid gap-2 mt-4 d-none">
+              <button id="pagar-btn" class="btn btn-success btn-lg">
+                <i class="fas fa-credit-card me-2"></i>Pagar
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Alias section para Mi Orden -->
+      <section id="mi-orden-section" class="section"></section>
+
+      <!-- Mesero Section -->
+      <section id="mesero-section" class="section">
+        <div class="container py-4">
+          <h2 class="text-center mb-4">
+            <span class="waiter-icon-mask text-danger me-2"></span>
+            Llamar Mesero
+          </h2>
+
+          <div class="text-center">
+            <div class="card">
+              <div class="card-body">
+                <h5>Mesa 205</h5>
+                <p class="text-muted">Mesero asignado: JOSE LUIS BAENA LOPEZ</p>
+
+                <div class="d-grid gap-2">
+                  <button class="btn btn-warning btn-lg" id="llamar-mesero-btn">
+                    <span class="waiter-icon-mask me-2"></span>Llamar Mesero
+                  </button>
+                  <button class="btn btn-info btn-lg" id="pedir-cuenta-btn">
+                    <i class="fas fa-receipt me-2"></i>Pedir la Cuenta
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Mobile Tab Bar -->
+    <nav id="mobile-nav" class="mobile-nav d-md-none">
+      <div class="nav-item" data-section="menu">
+        <span class="menu-icon-mask"></span>
+        <span>Menú</span>
+      </div>
+      <div class="nav-item position-relative" data-section="mi-orden">
+        <span class="cuenta-icon-mask"></span>
+        <span>Mi Orden</span>
+        <span
+          id="cart-badge-mobile"
+          class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark d-none"
+        >
+          0
+        </span>
+      </div>
+      <div class="nav-item position-relative disabled" data-section="cuenta">
+        <span class="check-icon-mask"></span>
+        <span>Cuenta</span>
+      </div>
+      <div class="nav-item" data-section="mesero">
+        <span class="waiter-icon-mask"></span>
+        <span>Mesero</span>
+      </div>
+    </nav>
+
+    <!-- Product Modal -->
+    <div class="modal fade" id="productModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="productModalTitle">Producto</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="text-center mb-3">
+              <img
+                id="productModalImage"
+                src=""
+                alt=""
+                class="img-fluid rounded"
+                style="max-height: 200px"
+              />
+            </div>
+            <p id="productModalDescription" class="text-muted"></p>
+
+            <!-- Quantity Selector -->
+            <div class="row align-items-center mt-4">
+              <div class="col-4">
+                <label class="form-label">Cantidad:</label>
+              </div>
+              <div class="col-8">
+                <div class="input-group">
+                  <button
+                    class="btn btn-outline-secondary"
+                    type="button"
+                    id="decreaseQuantity"
+                  >
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <input
+                    type="number"
+                    class="form-control text-center"
+                    id="productQuantity"
+                    value="1"
+                    min="1"
+                    max="10"
+                  />
+                  <button
+                    class="btn btn-outline-secondary"
+                    type="button"
+                    id="increaseQuantity"
+                  >
+                    <i class="fas fa-plus"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Price -->
+            <div class="row mt-3">
+              <div class="col-6">
+                <h5>Precio:</h5>
+              </div>
+              <div class="col-6 text-end">
+                <h5 class="text-danger">
+                  $<span id="productPrice">0.00</span>
+                </h5>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancelar
+            </button>
+            <button type="button" class="btn btn-danger" id="addToCartBtn">
+              <i class="fas fa-plus me-2"></i>Agregar $<span id="addToCartPrice"
+                >0.00</span
+              >
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteConfirmModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Eliminar Producto</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p>
+              ¿Estás seguro de que quieres eliminar
+              <strong id="deleteProductName"></strong> de tu cuenta?
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancelar
+            </button>
+            <button type="button" class="btn btn-danger" id="confirmDeleteBtn">
+              <i class="fas fa-trash me-2"></i>Sí, eliminar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Custom JS -->
+    <script src="assets/js/utils.js"></script>
+    <script src="assets/js/constants.js"></script>
+    <script src="assets/js/services/data-service.js"></script>
+    <script src="assets/js/drawer-menu.js"></script>
+    <script src="assets/js/mobile-navbar.js"></script>
+    <script src="assets/js/cart.js"></script>
+    <script src="assets/js/menu.js"></script>
+    <script src="assets/js/app.js"></script>
+  </body>
+</html>
