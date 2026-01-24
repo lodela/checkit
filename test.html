@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Test CheckIt</title>
+  </head>
+  <body>
+    <h1>TEST - Abrir Consola</h1>
+    <div
+      id="loading-screen"
+      class="loading-screen"
+      style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: red;
+        z-index: 9999;
+      "
+    >
+      <div id="promo-carousel">
+        <div id="carousel-content"></div>
+      </div>
+      <div id="continuar-btn-container" style="opacity: 0">
+        <a href="#" id="btn-continuar">Continuar</a>
+      </div>
+    </div>
+
+    <div id="dashboard-section" style="display: none">
+      <h2>Dashboard</h2>
+      <span id="dashboard-mesa">-</span>
+      <span id="dashboard-personas">-</span>
+      <span id="dashboard-mesero">-</span>
+      <span id="dashboard-subtotal">-</span>
+      <span id="dashboard-impuestos">-</span>
+      <span id="dashboard-total">-</span>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="assets/js/utils.js"></script>
+    <script src="assets/js/splash-manager.js"></script>
+    <script src="assets/js/mesa-silla-manager.js"></script>
+    <script src="assets/js/app-new.js"></script>
+  </body>
+</html>
