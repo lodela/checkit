@@ -1,13 +1,4 @@
 {
-  "ui": {
-    "showMemoryUsage": true
-  },
-  "security": {
-    "auth": {
-      "selectedType": "oauth-personal"
-    }
-  },
-  "mcpServers": {},
   "geminicodeassist.updateChannel": "Insiders",
   "schemaVersion": "1.1.0",
   "description": "Supreme AI configuration for a 10X software developer. Manages models, tasks, and integrations for the 'allegretto' project.",
@@ -21,10 +12,7 @@
         "framework": "React.js",
         "version": "19.0.1",
         "routing": "React Router DOM v7.3.0",
-        "ui": [
-          "Bootstrap 5",
-          "Reactstrap 9.2"
-        ],
+        "ui": ["Bootstrap 5", "Reactstrap 9.2"],
         "stateManagement": "React Context API",
         "forms": "react-hook-form"
       },
@@ -175,5 +163,8 @@
     "emailDrafting": "fast-and-efficient",
     "memoryManagement": "memory-synthesizer",
     "vectorDbManagement": "text-embedding"
-  }
+  },
+  "mcpServers": {},
+  "selectedAuthType": "oauth-personal",
+  "showMemoryUsage": true
 }
