@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+  <head>
+    <title>LIMPIEZA CACHE - CheckIt</title>
+    <style>
+      body {
+        font-family: monospace;
+        background: #000;
+        color: #0f0;
+        padding: 20px;
+        text-align: center;
+      }
+      h1 {
+        color: #f00;
+      }
+      .status {
+        margin: 20px;
+        font-size: 18px;
+      }
+      .btn {
+        background: #f00;
+        color: #fff;
+        padding: 15px 30px;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+        margin: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🧹 LIMPIEZA TOTAL DE CACHE</h1>
+    <div class="status" id="status">Preparando limpieza...</div>
+
+    <button class="btn" onclick="limpiarTodo()">🗑️ LIMPIAR TODO</button>
+    <button class="btn" onclick="location.href='index.html?t=' + Date.now()">
+      🔄 IR A APP
+    </button>
+
+    <script>
+      async function limpiarTodo() {
+        const status = document.getElementById('status');
+
+        // 1. Desregistrar Service Workers
+        status.textContent = '1/6 Eliminando Service Workers...';
+        if ('serviceWorker' in navigator) {
+          const registrations =
+            await navigator.serviceWorker.getRegistrations();
+          for (let registration of registrations) {
+            await registration.unregister();
+          }
+        }
+
+        // 2. Limpiar Cache API
+        status.textContent = '2/6 Limpiando Cache API...';
+        if ('caches' in window) {
+          const names = await caches.keys();
+          await Promise.all(names.map(name => caches.delete(name)));
+        }
+
+        // 3. Limpiar localStorage
+        status.textContent = '3/6 Limpiando localStorage...';
+        localStorage.clear();
+
+        // 4. Limpiar sessionStorage
+        status.textContent = '4/6 Limpiando sessionStorage...';
+        sessionStorage.clear();
+
+        // 5. Limpiar IndexedDB
+        status.textContent = '5/6 Limpiando IndexedDB...';
+        if ('indexedDB' in window) {
+          const dbs = await indexedDB.databases();
+          dbs.forEach(db => indexedDB.deleteDatabase(db.name));
+        }
+
+        // 6. Listo
+        status.textContent = '✅ LIMPIEZA COMPLETA - Presiona F5 para recargar';
+        status.style.color = '#0f0';
+        status.style.fontSize = '24px';
+      }
+
+      // Auto-ejecutar
+      setTimeout(limpiarTodo, 500);
+    </script>
+  </body>
+</html>

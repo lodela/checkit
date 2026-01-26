@@ -152,5 +152,94 @@
     "Codigo": 0,
     "Descripcion": "JOSE LUIS BAENA LOPEZ",
     "Errores": null
+  },
+  "consultacuenta": {
+    "Codigo": 0,
+    "Descripcion": "cuenta",
+    "Errores": null,
+    "Descuento": "0.00",
+    "Folio": 0,
+    "Impuesto": "65.52",
+    "Mesero": 0,
+    "Personas": 4,
+    "Platillos": [
+      {
+        "Comensal": "1",
+        "Descuento": 0,
+        "EsAdicional": 0,
+        "EsCombo": 0,
+        "cantidad": 1.0,
+        "codigo": 1,
+        "descripcion": "HUEVOS RANCHEROS",
+        "descuentoLinea": 0,
+        "impuesto": 1600,
+        "linea": 1,
+        "precioUnitario": "65.00",
+        "valImpuesto": 56.0344827586207
+      },
+      {
+        "Comensal": "2",
+        "Descuento": 0,
+        "EsAdicional": 0,
+        "EsCombo": 0,
+        "cantidad": 1.0,
+        "codigo": 7,
+        "descripcion": "Brakfast Bagel",
+        "descuentoLinea": 0,
+        "impuesto": 1600,
+        "linea": 2,
+        "precioUnitario": "280.00",
+        "valImpuesto": 241.379310344828
+      },
+      {
+        "Comensal": "3",
+        "Descuento": 0,
+        "EsAdicional": 0,
+        "EsCombo": 0,
+        "cantidad": 1.0,
+        "codigo": 22,
+        "descripcion": "CHILAQUILES ROJOS",
+        "descuentoLinea": 0,
+        "impuesto": 1600,
+        "linea": 3,
+        "precioUnitario": "85.00",
+        "valImpuesto": 73.2758620689655
+      },
+      {
+        "Comensal": "4",
+        "Descuento": 0,
+        "EsAdicional": 0,
+        "EsCombo": 0,
+        "cantidad": 1.0,
+        "codigo": 20,
+        "descripcion": "ENSALADA DE ATÚN",
+        "descuentoLinea": 0,
+        "impuesto": 1600,
+        "linea": 4,
+        "precioUnitario": "45.00",
+        "valImpuesto": 38.7931034482759
+      }
+    ],
+    "Subtotal": "409.48",
+    "Total": "475.00"
+  },
+  "promociones": {
+    "lstima": [
+      {
+        "mobile": "assets/images/promociones/menuSureste-800.webp",
+        "desktop": "assets/images/promociones/menuSureste-1400.webp",
+        "alt": "Menú Sureste"
+      },
+      {
+        "mobile": "assets/images/promociones/saborYsalud-800.webp",
+        "desktop": "assets/images/promociones/saborYsalud-1400.webp",
+        "alt": "Sabor y Salud"
+      },
+      {
+        "mobile": "assets/images/promociones/superTazon-800.webp",
+        "desktop": "assets/images/promociones/superTazon-1400.webp",
+        "alt": "Super Tazón"
+      }
+    ]
   }
 }

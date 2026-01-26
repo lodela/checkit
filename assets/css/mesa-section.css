@@ -1,0 +1,166 @@
+/* ==========================================================================
+   Mesa Section - Estilos del Dashboard de Mesa
+   ========================================================================== */
+
+.mesa-modal-content {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.mesa-info-section {
+  background: linear-gradient(135deg, #f5f5f5 0%, #e9ecef 100%);
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.mesa-info-section .info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.mesa-info-section .info-row:last-child {
+  border-bottom: none;
+}
+
+.mesa-info-section .label {
+  font-weight: 600;
+  color: #495057;
+  font-size: 14px;
+}
+
+.mesa-info-section .value {
+  font-weight: 700;
+  color: #212529;
+  font-size: 16px;
+}
+
+.cuenta-section {
+  background: #fff;
+  border: 2px solid var(--sanborns-red);
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.cuenta-section .section-title {
+  color: var(--sanborns-red);
+  font-weight: 700;
+  margin-bottom: 15px;
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.cuenta-details .cuenta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  color: #495057;
+}
+
+.cuenta-details .cuenta-row.total-row {
+  border-top: 2px solid var(--sanborns-red);
+  padding-top: 12px;
+  margin-top: 8px;
+  color: var(--sanborns-red);
+  font-size: 18px;
+}
+
+.propina-section {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 15px;
+}
+
+.propina-section .section-title {
+  color: var(--sanborns-dark);
+  font-weight: 600;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.propina-slider-container {
+  margin-bottom: 15px;
+  padding: 10px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.propina-slider-container label {
+  display: block;
+  margin-bottom: 12px;
+  font-weight: 600;
+  color: #495057;
+}
+
+/* Slider de propina - Track visible GRIS */
+#propina-slider {
+  width: 100%;
+  height: 10px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: #dee2e6;
+  border-radius: 5px;
+  outline: none;
+  border: 1px solid #adb5bd;
+}
+
+/* Thumb AZUL - Chrome/Safari */
+#propina-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  background: #007bff;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  border: 2px solid white;
+}
+
+/* Thumb AZUL - Firefox */
+#propina-slider::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  background: #007bff;
+  border: 2px solid white;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+/* Track - Firefox */
+#propina-slider::-moz-range-track {
+  width: 100%;
+  height: 10px;
+  background: #dee2e6;
+  border-radius: 5px;
+  border: 1px solid #adb5bd;
+}
+
+.propina-amounts .propina-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  color: #495057;
+}
+
+.propina-amounts .total-with-tip {
+  border-top: 2px solid #28a745;
+  padding-top: 10px;
+  margin-top: 8px;
+  color: #28a745;
+  font-size: 16px;
+}
+
+.no-cuenta-section {
+  padding: 40px 20px;
+  text-align: center;
+}

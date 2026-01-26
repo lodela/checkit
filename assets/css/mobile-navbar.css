@@ -119,13 +119,13 @@
   margin: 0;
 }
 
-/* Cliente Logo Container */
+/* Cliente Logo Container - Centrado */
 .client-logo-container {
   width: 5.5rem;
   height: auto;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   padding: 8px 0;
 }
 

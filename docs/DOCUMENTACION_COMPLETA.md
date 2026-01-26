@@ -950,7 +950,7 @@ small: 0.875rem (14px) - Helper text
 ```css
 /* Mask-based icons para customización de color */
 .menu-icon-mask {
-  mask: url('assets/images/menuIcon.svg') center/contain no-repeat;
+  mask: url('assets/images/mesa.svg') center/contain no-repeat;
   background-color: currentColor;
   width: 24px;
   height: 24px;

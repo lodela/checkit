@@ -3,16 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      http-equiv="Cache-Control"
-      content="no-cache, no-store, must-revalidate"
-    />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
-    <title>CheckIt - Monitor de Cuenta v2.0</title>
-
-    <!-- Manifest PWA -->
-    <link rel="manifest" href="manifest.json" />
+    <title>CheckIt - Menú Digital</title>
 
     <!-- Bootstrap 5 CSS -->
     <link
@@ -37,6 +28,7 @@
     <link rel="stylesheet" href="assets/css/retro-animations.css" />
     <link rel="stylesheet" href="assets/css/mobile-navbar.css" />
     <link rel="stylesheet" href="assets/css/drawer-menu.css" />
+    <link rel="stylesheet" href="assets/css/mesa-section.css" />
 
     <!-- Favicon -->
     <link
@@ -46,47 +38,42 @@
     />
   </head>
   <body>
-    <!-- Loading Screen / Splash con Carousel -->
+    <!-- Splash Screen con Carousel de Promociones -->
     <div id="loading-screen" class="loading-screen">
+      <div class="splash-logo">
+        <img src="assets/images/sanbornsWhite.svg" alt="Sanborns" />
+      </div>
+
       <!-- Carousel de Promociones -->
-      <div
-        id="promo-carousel"
-        class="carousel slide carousel-fade"
-        data-bs-ride="carousel"
-        data-bs-interval="5000"
-      >
-        <div class="carousel-indicators">
-          <button
-            type="button"
-            data-bs-target="#promo-carousel"
-            data-bs-slide-to="0"
-            class="active"
-          ></button>
-          <button
-            type="button"
-            data-bs-target="#promo-carousel"
-            data-bs-slide-to="1"
-          ></button>
-          <button
-            type="button"
-            data-bs-target="#promo-carousel"
-            data-bs-slide-to="2"
-          ></button>
-        </div>
+      <div id="promo-carousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner" id="carousel-content">
-          <!-- Las imágenes se cargan dinámicamente desde db.json -->
+          <!-- Slides se cargan dinámicamente -->
         </div>
       </div>
 
-      <!-- Botón Continuar (aparece después de 5 segundos) -->
-      <div
-        id="continuar-btn-container"
-        class="continuar-container"
-        style="opacity: 0"
-      >
-        <a href="#" id="btn-continuar" class="btn-continuar-link">
-          Continuar <i class="fas fa-arrow-right ms-2"></i>
-        </a>
+      <!-- Progress Bar Linear -->
+      <div class="splash-progress-container">
+        <div class="progress splash-progress-bar">
+          <div
+            id="loading-progress"
+            class="progress-bar bg-light"
+            role="progressbar"
+            aria-valuenow="0"
+            aria-valuemin="0"
+            aria-valuemax="100"
+          ></div>
+        </div>
+        <!-- Botón Continuar (visible desde inicio, disabled hasta countdown) -->
+        <button
+          id="continuar-btn"
+          class="btn btn-light btn-lg splash-btn"
+          disabled
+        >
+          <span id="btn-text">Espere <span id="countdown">5</span>s</span>
+          <span id="btn-icon" class="d-none"
+            ><i class="fas fa-arrow-right"></i
+          ></span>
+        </button>
       </div>
     </div>
 
@@ -94,24 +81,19 @@
     <header id="mobile-top-navbar" class="mobile-top-navbar d-block d-md-none">
       <div class="container-fluid">
         <div class="row align-items-center justify-content-center">
-          <!-- Logo Cliente (centrado) -->
-          <div class="col-12 text-center">
+          <!-- Logo Cliente Centrado -->
+          <div class="col-auto">
             <div class="client-logo-container">
               <img
                 src="assets/images/sanbornsWhite.svg"
                 alt="Sanborns"
                 class="client-logo"
-                id="logo-navbar"
-                style="cursor: pointer"
               />
             </div>
           </div>
         </div>
       </div>
     </header>
-
-    <!-- Hamburger Menu - ELIMINADO -->
-    <!-- Cart Button - ELIMINADO -->
 
     <!-- Mobile Drawer Menu -->
     <div id="mobile-drawer" class="mobile-drawer">
@@ -226,7 +208,7 @@
     <!-- Main Content -->
     <main id="main-content" class="container-fluid px-0">
       <!-- Menu Section -->
-      <section id="menu-section" class="section" style="display: none">
+      <section id="menu-section" class="section active">
         <div class="container py-4">
           <!-- Search Bar -->
           <div class="row mb-4">
@@ -258,14 +240,92 @@
         </div>
       </section>
 
+      <!-- Mesa Section (Vista adaptada del modal) -->
+      <section id="mesa-section" class="section">
+        <div class="container py-4">
+          <div class="mesa-modal-content">
+            <div class="mesa-info-section">
+              <div class="info-row">
+                <span class="label">Mesa:</span>
+                <span class="value" id="mesa-numero-vista">201</span>
+              </div>
+              <div class="info-row">
+                <span class="label">Personas:</span>
+                <span class="value" id="mesa-personas-vista">2</span>
+              </div>
+              <div class="info-row">
+                <span class="label">Mesero:</span>
+                <span class="value" id="mesa-mesero-vista"
+                  >JOSE LUIS BAENA LOPEZ</span
+                >
+              </div>
+              <div class="info-row">
+                <span class="label">Estado:</span>
+                <span class="value text-success" id="mesa-estado-vista"
+                  >Cuenta Abierta</span
+                >
+              </div>
+            </div>
+
+            <div class="cuenta-section" id="mesa-cuenta-actual">
+              <h6 class="section-title">Cuenta Actual</h6>
+              <div class="cuenta-details">
+                <div class="cuenta-row">
+                  <span>Subtotal:</span>
+                  <span id="mesa-subtotal">$0.00</span>
+                </div>
+                <div class="cuenta-row">
+                  <span>Impuestos (16%):</span>
+                  <span id="mesa-impuestos">$0.00</span>
+                </div>
+                <div class="cuenta-row total-row">
+                  <span><strong>Total:</strong></span>
+                  <span><strong id="mesa-total">$0.00</strong></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Calculador de Propina -->
+            <div class="propina-section">
+              <h6 class="section-title">Calculador de Propina</h6>
+              <div class="propina-calculator">
+                <div class="propina-slider-container">
+                  <label for="propina-slider"
+                    >Propina: <span id="propina-percentage">10</span>%</label
+                  >
+                  <input
+                    type="range"
+                    id="propina-slider"
+                    min="0"
+                    max="100"
+                    value="10"
+                    class="form-range"
+                  />
+                </div>
+                <div class="propina-amounts">
+                  <div class="propina-row">
+                    <span>Propina:</span>
+                    <span id="propina-amount">$0.00</span>
+                  </div>
+                  <div class="propina-row total-with-tip">
+                    <span><strong>Total + Propina:</strong></span>
+                    <span><strong id="total-with-tip">$0.00</strong></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- Cart Section (Compartida: Mi Orden y Cuenta) -->
       <section id="cuenta-section" class="section">
         <div class="container py-4">
           <!-- Header with Title (dinámico) -->
           <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="mb-0" id="cart-section-title">
-              <span class="cuenta-icon-mask text-danger me-2"></span>
-              Mi Orden
+              <i class="fas fa-receipt text-danger me-2"></i>
+              Mi Cuenta
             </h2>
             <!-- Toggle View (solo en Mi Orden) 
             <div id="view-toggle-container">
@@ -306,13 +366,13 @@
                 height: 4rem;
               "
             ></span>
-            <h4 class="mt-3 text-muted">Tu orden está vacía</h4>
-            <p class="text-muted">Agrega productos del menú para comenzar</p>
+            <h4 class="mt-3 text-muted">Sin platillos ordenados</h4>
+            <p class="text-muted">Esperando que el mesero tome su orden</p>
             <button
+              id="ordenar-ahora-btn"
               class="btn btn-danger btn-lg rounded-pill"
-              onclick="showSection('menu')"
             >
-              <span class="menu-icon-mask me-2"></span>Ver Menú
+              <i class="fas fa-utensils me-2"></i>Ordenar ahora!
             </button>
           </div>
 
@@ -511,29 +571,19 @@
 
     <!-- Mobile Tab Bar -->
     <nav id="mobile-nav" class="mobile-nav d-md-none">
-      <div class="nav-item" data-section="menu">
-        <span class="menu-icon-mask"></span>
-        <span>Menú</span>
-      </div>
-      <div class="nav-item position-relative" data-section="mi-orden">
-        <span class="cuenta-icon-mask"></span>
-        <span>Mi Orden</span>
+      <div class="nav-item" data-section="mesa">
         <span
-          id="cart-badge-mobile"
-          class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark d-none"
-        >
-          0
-        </span>
+          class="menu-icon-mask"
+          style="
+            mask-image: url('assets/images/mesa.svg');
+            -webkit-mask-image: url('assets/images/mesa.svg');
+          "
+        ></span>
+        <span>Mesa</span>
       </div>
       <div class="nav-item position-relative" data-section="cuenta">
         <span class="check-icon-mask"></span>
         <span>Cuenta</span>
-        <span
-          id="cuenta-badge-mobile"
-          class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark d-none"
-        >
-          0
-        </span>
       </div>
       <div class="nav-item" data-section="mesero">
         <span class="waiter-icon-mask"></span>
@@ -675,64 +725,7 @@
     <script src="assets/js/utils.js"></script>
     <script src="assets/js/constants.js"></script>
     <script src="assets/js/services/data-service.js"></script>
-    <script src="assets/js/drawer-menu.js"></script>
-    <script src="assets/js/mobile-navbar.js"></script>
-    <script src="assets/js/cart.js"></script>
-    <script src="assets/js/menu.js"></script>
-
-    <!-- Nueva lógica de la app -->
-    <script src="assets/js/splash-manager.js"></script>
-    <script src="assets/js/mesa-silla-manager.js"></script>
-    <script src="assets/js/app.js"></script>
-    <!-- PATCH: Inicializar nuevas funcionalidades después de que app.js cargue -->
-    <script>
-      $(document).ready(function () {
-        console.log(
-          '%c🚀 INICIALIZANDO CHECKIT 2.0',
-          'background: #dc3545; color: white; font-size: 16px; padding: 10px;'
-        );
-
-        // Inicializar Splash Manager
-        SplashManager.init();
-
-        // Inicializar Mesa/Silla Manager
-        MesaSillaManager.init();
-
-        // Setup navegación para Dashboard
-        $('#mobile-nav .nav-item[data-section="dashboard"]').on(
-          'click',
-          function () {
-            $('.section').removeClass('active').hide();
-            $('#dashboard-section').addClass('active').fadeIn(300);
-          }
-        );
-      });
-
-      // =====================================================
-      // DESACTIVAR SERVICE WORKER
-      // =====================================================
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker
-          .getRegistrations()
-          .then(function (registrations) {
-            for (let registration of registrations) {
-              console.log('🗑️ Desregistrando service worker:', registration);
-              registration.unregister();
-            }
-          });
-
-        // Limpiar TODAS las cachés
-        if ('caches' in window) {
-          caches.keys().then(function (cacheNames) {
-            cacheNames.forEach(function (cacheName) {
-              console.log('🗑️ Eliminando cache:', cacheName);
-              caches.delete(cacheName);
-            });
-          });
-        }
-
-        console.log('✅ Service Worker desactivado y cachés limpiadas');
-      }
-    </script>
+    <!-- CheckIt App v2 -->
+    <script src="assets/js/app-v2.js"></script>
   </body>
 </html>
